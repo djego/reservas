@@ -1,0 +1,7 @@
+all:
+  s_css: http://localhost/reservas/web/css/
+  s_js:  http://localhost/reservas/web/js/
+  s_img: http://localhost/reservas/web/images/
+  s_up:  http://localhost/reservas/web/uploads/
+  nro_hoteles: 7
+  nro_max_cities: 25

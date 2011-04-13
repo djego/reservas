@@ -7,4 +7,6 @@ security:  ~
 # insert your own filters here
 
 cache:     ~
+#loader:
+#  class: LoaderFilterFrontend
 execution: ~

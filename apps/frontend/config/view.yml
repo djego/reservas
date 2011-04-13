@@ -6,15 +6,15 @@ default:
     content-type: text/html
 
   metas:
-    #title:        symfony project
-    #description:  symfony project
-    #keywords:     symfony, project
-    #language:     en
+    title:        AndorraHoteles.com - La mejor forma de reservar hotel
+    description:  Reserva de hoteles online. Reserva tu hotel en todo el mundo con confirmacion inmediata
+    keywords:     hoteles, hotel, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato
+    language:     es
     #robots:       index, follow
 
-  stylesheets:    [main.css]
+  stylesheets:    []
 
-  javascripts:    []
+  javascripts:    [%app_s_js%jquery.min.js, %app_s_js%jquery.badBrowser.js, %app_s_js%jquery.tools.min.js]
 
   has_layout:     true
   layout:         layout
