@@ -4,7 +4,9 @@
 city_hotels:
   url:   /:id/:slug.html
   param: { module: home, action: city }
-
+hotel_details:
+  url:   /:id/:slug/:slugh.html
+  param: { module: home, action: hotel }
 # default rules
 homepage:
   url:   /

@@ -70,23 +70,24 @@
                     $hotel=$val["name"]; ?>
           <li><div class="modulo6001">
               <ul id="hoteles">
-                    <?php foreach ($lst_photo as $foto) {
+              <?php foreach ($lst_photo as $foto) {
                       if($val["hotel_id"]==$foto["hotel_id"]) {
                         $v_hotel=$foto["hotel_id"];
                         $detmap=explode(".",$val["url"]);
                         $mapa=$detmap[0].".".$detmap[1].".".$detmap[2]."/".$val["hotel_id"]."/map";
-        $la=$val["location"][0]["latitude"];
-        $lo=$val["location"][0]["longitude"];
-        ?>
+                        $la=$val["location"][0]["latitude"];
+                        $lo=$val["location"][0]["longitude"];
+                        $slug_h = Utils::slugify($hotel);
+              ?>
                 <li>
                   <div class="fotoHotel">
-                    <a class="preview" title="<?php echo $hotel; ?>" href="../caseDetalleHotel/eve.php?evento=main&countrycodes=ad&idhotel=$v_hotel">
+                    <a class="preview" title="<?php echo $hotel; ?>" href="<?php echo url_for('hotel_details',array('id' => $v_hotel,'slug'=>$slug_c, 'slugh' => $slug_h)) ?>">
                       <img height="100" width="150" alt="<?php echo $hotel; ?>" src="<?php echo $foto["url_max300"] ?>">
                     </a>
                   </div>
                   <div class="hotelText">
                     <div class="tituloHotel">
-                      <a class="preview" title="<?php echo $hotel; ?>" href="../caseDetalleHotel/eve.php?evento=main&countrycodes=ad&idhotel=$v_hotel"><?php echo $hotel ?></a>
+                      <a class="preview" title="<?php echo $hotel; ?>" href="<?php echo url_for('hotel_details',array('id' => $v_hotel,'slug'=>$slug_c, 'slugh' => $slug_h)) ?>"><?php echo $hotel ?></a>
                       <img alt="<?php echo $val["class"]?>estrellas" src="<?php echo sfConfig::get('app_s_img').trim($val["class"])?>estrellas.png">
                     </div>
                     <div class="direccion"><?php echo $val["address"]?>&nbsp;<a class="preview"  onclick=" window.open('eve.php?evento=mapa&la=$la&lo=$lo&ciudad=$ciu&hotel=$hotel','d_mapa','width=700,height=600,scrollbars=yes')" rel="nofollow"><b>Ver Mapa</b></a></div>
@@ -96,7 +97,7 @@
       if($deshotel!=$tex_desc["hotel_id"]) {
                             $deshotel=$tex_desc["hotel_id"];
                             if($val["hotel_id"]==$deshotel) { ?>
-                    <div class="descripcion"><?php echo substr($tex_desc["description"],0,260)?>...<a class="preview"	href="../caseDetalleHotel/eve.php?evento=main&countrycodes=ad&idhotel=$v_hotel"  title="Ampliar detalle de Hotel <?php echo $hotel ?>">Ampliar</a></div>
+                    <div class="descripcion"><?php echo substr($tex_desc["description"],0,260)?>...<a class="preview"	href="<?php echo url_for('hotel_details',array('id' => $v_hotel,'slug'=>$slug_c, 'slugh' => $slug_h)) ?>"  title="Ampliar detalle de Hotel <?php echo $hotel ?>">Ampliar</a></div>
           <?php }
                   }
                 }?>

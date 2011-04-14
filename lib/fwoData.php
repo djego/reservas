@@ -38,7 +38,7 @@ class fwoData
 			switch ($values[$i]['type']) { 
 				case 'cdata': array_push($child, $values[$i]['value']); break; 
 				case 'complete': 	$name = $values[$i]['tag']; 
-					if(!empty($name) && !empty ($values[$i]['value'])){ $child[$name]= ($values[$i]['value'])?($values[$i]['value']):'';
+					if(!empty($name)){ $child[$name]= (array_key_exists('value',$values[$i]))?($values[$i]['value']):'';
 						if(isset($values[$i]['attributes'])) {$child[$name] = $values[$i]['attributes'];} 
 					}
 				break; 				
