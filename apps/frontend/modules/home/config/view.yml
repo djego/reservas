@@ -6,3 +6,6 @@ citySuccess:
 hotelSuccess:
   stylesheets: [%app_s_css%reservaria.css]
 #  javascripts: [%app_s_js%jquery.quickpaginate.js]
+
+pruebaSuccess:
+  has_layout: false

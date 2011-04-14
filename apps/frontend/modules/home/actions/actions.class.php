@@ -67,4 +67,21 @@ class homeActions extends sfActions {
     $this->lst_hotel_desc = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations',$param);
 
   }
+
+  public function executePrueba(sfWebRequest $request) {
+    $q_name = 'llo';
+    $q_name = strtoupper($q_name);
+    $param="languagecodes=es&countrycodes=ad";
+    $lst_city = $this->data->fetchRcp('bookings.getCities', $param);
+    foreach ($lst_city as $city){
+      $city_name =  strtoupper($city['name']);
+       if(strpos($city_name, $q_name) > -1){
+         echo  $city['name'].'<br>';
+       }
+      ///echo $city['name'].'<br>';
+    }
+    die ();
+        
+
+  }
 }

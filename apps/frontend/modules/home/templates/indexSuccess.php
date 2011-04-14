@@ -17,10 +17,10 @@
         </script>
         <!-- the actual roundabout -->
         <ul id="roundabout">
-          <li id="roundaboutimage1"><a href="#"><img src="<?php echo sfConfig::get('app_s_up'); ?>timthumb5eb4.jpg?src=<?php echo sfConfig::get('app_s_up'); ?>timthumb5eb4.jpg&amp;w=348&amp;h=228&amp;zc=1" alt="" /></a></li>
-          <li id="roundaboutimage2"><a href="#"><img src="<?php echo sfConfig::get('app_s_up'); ?>timthumb4195.jpg?src=<?php echo sfConfig::get('app_s_up'); ?>timthumb4195.jpg&amp;w=348&amp;h=228&amp;zc=1" alt="" /></a></li>
-          <li id="roundaboutimage3"><a href="#"><img src="<?php echo sfConfig::get('app_s_up'); ?>timthumb76ca.jpg?src=<?php echo sfConfig::get('app_s_up'); ?>timthumb76ca.jpg&amp;w=348&amp;h=228&amp;zc=1" alt="" /></a></li>
-          <li id="roundaboutimage4"><a href="#"><img src="<?php echo sfConfig::get('app_s_up'); ?>timthumb4854.jpg?src=<?php echo sfConfig::get('app_s_up'); ?>timthumb4854.jpg&amp;w=348&amp;h=228&amp;zc=1" alt="" /></a></li>
+          <li id="roundaboutimage1"><a href="#"><img src="<?php echo sfConfig::get('app_s_up'); ?>timthumb5eb4.jpg?w=348&amp;h=228&amp;zc=1" alt="" /></a></li>
+          <li id="roundaboutimage2"><a href="#"><img src="<?php echo sfConfig::get('app_s_up'); ?>timthumb4195.jpg?w=348&amp;h=228&amp;zc=1" alt="" /></a></li>
+          <li id="roundaboutimage3"><a href="#"><img src="<?php echo sfConfig::get('app_s_up'); ?>timthumb76ca.jpg?w=348&amp;h=228&amp;zc=1" alt="" /></a></li>
+          <li id="roundaboutimage4"><a href="#"><img src="<?php echo sfConfig::get('app_s_up'); ?>timthumb4854.jpg?w=348&amp;h=228&amp;zc=1" alt="" /></a></li>
         </ul>
         <div id="filler"><!--  --></div>
       </div>
@@ -117,7 +117,9 @@
         <div class="padright"> </div>
       </div>
     </div>
-
+    <div class="wide-horz-divider"><!--  --></div>
+    Buscar hoteles
+      
     <div class="wide-horz-divider"><!--  --></div>
 
     <div class="full-width clearfix pt0">
