@@ -1,6 +1,5 @@
 <!-- start header alternate -->
 <div class="header-alt">
-
   <div class="slide slide-roundabout bg1">
     <div class="containit ornament-right">
       <div class="roundaboutshadow">
@@ -44,13 +43,13 @@
         };
         // settings for second button, for each roundabout image one setting
         var linktwo = {
-          roundaboutimage1: '<a class="btn-medium" href="http://www.tododewindows.com/reservas_hoteles2/hoteles/caseListaHoteles/eve.php?evento=main&countrycodes=ad&city=-1397214"><span>Reservar Hoteles</span></a>',
-          roundaboutimage2: '<a class="btn-medium" href="http://www.tododewindows.com/reservas_hoteles2/hoteles/caseListaHoteles/eve.php?evento=main&countrycodes=ad&city=-1396951"><span>Reservar Hoteles</span></a>',
-          roundaboutimage3: '<a class="btn-medium" href="http://www.tododewindows.com/reservas_hoteles2/hoteles/caseListaHoteles/eve.php?evento=main&countrycodes=ad&city=-1396705"><span>Reservar Hoteles</span></a>',
-          roundaboutimage4: '<a class="btn-medium" href="http://www.tododewindows.com/reservas_hoteles2/hoteles/caseListaHoteles/eve.php?evento=main&countrycodes=ad&city=-1396388"><span>Reservar Hoteles</span></a>',
-          roundaboutimage5: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Reservar Hoteles</span></a>',
-          roundaboutimage6: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Purchase This Now</span></a>',
-          roundaboutimage7: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Cufon Buttons are Sexy</span></a>'
+            roundaboutimage1: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1397214/xixerella.html"><span>Reservar Hoteles</span></a>',
+          roundaboutimage2: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1396951/syspony.html"><span>Reservar Hoteles</span></a>',
+          roundaboutimage3: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1396705/ransol.html"><span>Reservar Hoteles</span></a>',
+          roundaboutimage4: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1396388/pal.html"><span>Reservar Hoteles</span></a>'
+//          roundaboutimage5: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Reservar Hoteles</span></a>',
+//          roundaboutimage6: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Purchase This Now</span></a>',
+//          roundaboutimage7: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Cufon Buttons are Sexy</span></a>'
         };
         // what happens on focus and on blur
         $('#roundabout li').focus(function() {
@@ -166,10 +165,11 @@
         foreach ($lst_ciudad as $val) { $i++;
           if ($ciudad != $val["city_id"]) {
             $ciudad = $val["city_id"];
-            $name = $val["name"];     ?>
+            $name = $val["name"];
+            $slug_city = Utils::slugify($val["name"]); ?>
             <div class="one-fourth pt20">
               <h3>Hoteles en <?php echo $name ?></h3>
-              <div class="text-button"> <?php echo $val["nr_hotels"] ?> hoteles <a href="hoteles/caseListaHoteles/eve.php?evento=main&amp;countrycodes=ad&amp;city=<?php echo $ciudad ?>">Ver más</a> <img src="<?php echo sfConfig::get('app_s_img'); ?>arrow.jpg" width="6" height="7" alt="" class="vm"/></div>
+              <div class="text-button"> <?php echo $val["nr_hotels"] ?> hoteles <a href="<?php echo url_for('city_hotels',array('id' => $ciudad,'slug' => $slug_city)) ?>">Ver más</a> <img src="<?php echo sfConfig::get('app_s_img'); ?>arrow.jpg" width="6" height="7" alt="" class="vm"/></div>
             </div>
       <?php
           }
