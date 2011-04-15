@@ -98,7 +98,7 @@
     <div class="main-menu">
       <div class="ornament">
         <div class="containit">
-          <div class="logo"><a href="index.php"><img src="<?php echo sfConfig::get('app_s_img'); ?>logo.png" alt="Andorra Hotels" /></a></div>
+          <div class="logo"><a href="<?php echo url_for('@homepage'); ?>"><img src="<?php echo sfConfig::get('app_s_img'); ?>logo.png" alt="Andorra Hotels" /></a></div>
           <div class="menu">
             <!-- navigation start -->
             <div id="navigation">

@@ -118,13 +118,34 @@
       </div>
     </div>
     <div class="wide-horz-divider"><!--  --></div>
-    Buscar hoteles
-      
+    <form style="float: left" method="post" action="<?php echo url_for('search') ?>">
+    
+    <h3>Buscar hoteles</h3>    
+    <?php if ($form->isCSRFProtected()) : ?>
+            <?php   echo $form['_csrf_token']->render(); ?>
+            <?php endif; ?>
+    	<div style="float: left;">
+	    	<label style="float: left;width: 100px">Ciudad:</label>&nbsp;
+	    	<?php echo $form['ciudad']->render(array('style' => 'float:left'))?>
+    	</div>
+    	<div style="float:left;clear: left">
+    		<label style="float: left;width: 100px">Fecha llegada:</label>&nbsp;
+    		<?php echo $form['fecha-inicio']->render(array('style' =>'float:left'))?>    		
+    	</div>
+    	<div style="float:left;clear: left">
+    		<label style="float: left;width: 100px">Fecha llegada:</label>&nbsp;
+    		<?php echo $form['fecha-final']->render(array('style' =>'float:left'))?>    		
+    	</div>
+    	<div style="float:left;clear: left">   		
+    		<input type="submit" value="Buscar" />
+    	</div>
+    </form>  
     <div class="wide-horz-divider"><!--  --></div>
 
     <div class="full-width clearfix pt0">
       <div style="float:left; width: 720px;">
         <h1>Hoteles en Andorra</h1>
+        <?php if(count($lst_ciudad)>0):?>
         <?php $ciudad = ""; $i = 0;        
         foreach ($lst_ciudad as $val) { $i++;
           if ($ciudad != $val["city_id"]) {
@@ -144,6 +165,11 @@
           }
         }
         ?>
+        <?php else:?>
+        	<div class="one-fourth pt20">
+                  <h3>No hay resultados</h3>
+                </div>
+        <?php endif;?>
       </div>
       <div class="one-fourth-last border-vert-left pt20">
         <div class="pad">
@@ -162,6 +188,7 @@
     <div class="wide-horz-divider"><!--  --></div>
     <div class="full-width clearfix pt0">
       <h1>Otros destinos populares</h1>
+      <?php if(count($lst_ciudad)>0):?>
       <?php
         $ciudad = "";$i=0;
         foreach ($lst_ciudad as $val) { $i++;
@@ -177,6 +204,11 @@
           }
         }
       ?>
+      <?php else:?>
+        	<div class="one-fourth pt20">
+                  <h3>No hay resultados</h3>
+                </div>
+        <?php endif;?>
     </div>
 
 

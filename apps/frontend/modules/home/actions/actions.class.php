@@ -19,12 +19,17 @@ class homeActions extends sfActions {
     $this->data = new fwoData();
   }
   public function executeIndex(sfWebRequest $request) {
-    // $this->forward('default', 'module');
+
+	//$param_initial = array('');
+	$param_initial = Array ('ciudad' => '', 'fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d'), 'month' => date('m')+0)); 
+	$this->form =  new searchForm($param_initial);
+
+		    // $this->forward('default', 'module');
 //    $this->data = new fwoData();
     $lst_ciudades = $this->data->fetchRcp('bookings.getCities', 'countrycodes=ad');
     $this->lst_ciudad = $lst_ciudades;
 
-
+	
   }
   public function executeCity(sfWebRequest $request) {
 //    if(!$city_id = $request->getParameter('id')){
@@ -68,19 +73,39 @@ class homeActions extends sfActions {
 
   }
 
-  public function executePrueba(sfWebRequest $request) {
-    $q_name = 'llo';
-    $q_name = strtoupper($q_name);
-    $param="languagecodes=es&countrycodes=ad";
-    $lst_city = $this->data->fetchRcp('bookings.getCities', $param);
-    foreach ($lst_city as $city){
-      $city_name =  strtoupper($city['name']);
-       if(strpos($city_name, $q_name) > -1){
-         echo  $city['name'].'<br>';
-       }
-      ///echo $city['name'].'<br>';
-    }
-    die ();
+  public function executeSearch(sfWebRequest $request) {
+  	$this->form =  new searchForm($this->getUser()->getAttribute('searching'));
+  	
+    $param_search = $request->getParameter('search');
+	$this->form->bind($param_search);
+	if($this->form->isValid()){
+		$this->getUser()->setAttribute('searching',$this->form->getValues());
+	}
+//		print_r($param_search);die();
+		if(!$param_search['ciudad']) $this->redirect('homepage');
+    	$q_name = strtoupper($param_search['ciudad']);
+    	$param="languagecodes=es&countrycodes=ad";
+    	$lst_city = $this->data->fetchRcp('bookings.getCities', $param);
+    	foreach ($lst_city as $city){
+      		$city_name =  strtoupper($city['name']);
+       		if(strpos($city_name, $q_name) > -1){
+       			$diai = str_pad($param_search['fecha-inicio']['day'], 2, "0", STR_PAD_LEFT);
+				$mesi = str_pad($param_search['fecha-inicio']['month'], 2, "0", STR_PAD_LEFT);
+				$diaf = str_pad($param_search['fecha-final']['day'], 2, "0", STR_PAD_LEFT);
+				$mesf = str_pad($param_search['fecha-final']['month'], 2, "0", STR_PAD_LEFT);
+       			$ini = '2011-'.$mesi.'-'.$diai;
+       			$fin = '2011-'.$mesf.'-'.$diaf;       			
+       			
+       			$param="arrival_date=".$ini."&departure_date=".$fin."&city_ids=".$city['city_id'];
+    			if($lst_hoteles = $this->data->fetchRcp('bookings.getHotelAvailability', $param)){
+    				$ar_cities[] = $city;
+    			}
+         		
+       		}
+       		
+      	///echo $city['name'].'<br>';
+    	}
+    	$this->lst_ciudad = $ar_cities;
         
 
   }

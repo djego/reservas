@@ -1,6 +1,9 @@
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
+search:
+  url:   /busqueda
+  param: { module: home, action: search }
 city_hotels:
   url:   /:id/:slug.html
   param: { module: home, action: city }
