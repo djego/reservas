@@ -90,7 +90,7 @@
                       <a class="preview" title="<?php echo $hotel; ?>" href="<?php echo url_for('hotel_details',array('id' => $v_hotel,'slug'=>$slug_c, 'slugh' => $slug_h)) ?>"><?php echo $hotel ?></a>
                       <img alt="<?php echo $val["class"]?>estrellas" src="<?php echo sfConfig::get('app_s_img').trim($val["class"])?>estrellas.png">
                     </div>
-                    <div class="direccion"><?php echo $val["address"]?>&nbsp;<a class="preview"  onclick=" window.open('eve.php?evento=mapa&la=$la&lo=$lo&ciudad=$ciu&hotel=$hotel','d_mapa','width=700,height=600,scrollbars=yes')" rel="nofollow"><b>Ver Mapa</b></a></div>
+                    <div class="direccion"><?php echo $val["address"]?>&nbsp;<a class="preview"  onclick=" window.open('<?php echo url_for('mapa')?>?la=<?php echo $la ?>&lo=<?php echo $lo ?>&ciudad=<?php echo $ciu ?>&hotel=<?php echo $hotel ?>','d_mapa','width=700,height=600,scrollbars=yes')" rel="nofollow"><b>Ver Mapa</b></a></div>
                             <?php  }
                         }
                         foreach ($lst_desc as $tex_desc) {
@@ -119,7 +119,7 @@
             <table cellpadding="0" cellspacing="0" width="98%">
               <tr>
                 <td><input name="search" class="blog-search-field" value="Buscar..." onfocus="javascript:if(this.value=='Search...') this.value=''" onblur="if(this.value=='') this.value='Search...'"/></td>
-                <td><a class="btn-small" href="#"><span><img src="../../theme/default/images/arrow-small-bread.png" width="9" height="12" alt="" style="margin-top:8px;"/></span></a></td>
+                <td><a class="btn-small" href="#"><span><img src="<?php echo sfConfig::get('app_s_img')?>arrow-small-bread.png" width="9" height="12" alt="" style="margin-top:8px;"/></span></a></td>
               </tr>
             </table>
           </div>

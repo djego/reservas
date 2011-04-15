@@ -129,11 +129,11 @@
 	    	<?php echo $form['ciudad']->render(array('style' => 'float:left'))?>
     	</div>
     	<div style="float:left;clear: left">
-    		<label style="float: left;width: 100px">Fecha llegada:</label>&nbsp;
+    		<label style="float: left;width: 100px">Fecha de llegada:</label>&nbsp;
     		<?php echo $form['fecha-inicio']->render(array('style' =>'float:left'))?>    		
     	</div>
     	<div style="float:left;clear: left">
-    		<label style="float: left;width: 100px">Fecha llegada:</label>&nbsp;
+    		<label style="float: left;width: 100px">Fecha de salida:</label>&nbsp;
     		<?php echo $form['fecha-final']->render(array('style' =>'float:left'))?>    		
     	</div>
     	<div style="float:left;clear: left">   		

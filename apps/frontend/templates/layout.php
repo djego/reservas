@@ -104,15 +104,15 @@
             <div id="navigation">
 
               <ul class="sf-menu">
-                <li><a href="index.php" class="applyfont">Home</a> </li>
-                <li><a href="gallery-grid.html" class="applyfont">Nosotros</a>
+                <li><a href="<?php echo url_for('homepage'); ?>" class="applyfont">Home</a> </li>
+                <li><a href="<?php echo url_for('nosotros'); ?>" class="applyfont">Nosotros</a>
 
                 </li>
 
-                <li><a href="faq.html" class="applyfont">FAQ</a></li>
+                <li><a href="<?php echo url_for('faq'); ?>" class="applyfont">FAQ</a></li>
 
-                <li><a href="terminos" class="applyfont">Condiciones</a></li>
-                <li class="last"><a href="contact-half.html" class="applyfont">Contacto</a> </li>
+                <li><a href="<?php echo url_for('condiciones'); ?>" class="applyfont">Condiciones</a></li>
+                <li class="last"><a href="<?php echo url_for('contactos'); ?>" class="applyfont">Contacto</a> </li>
               </ul>
 
             </div>
@@ -133,11 +133,11 @@
             <div class="nopad">
               <h4>Link</h4>
               <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#">Nosotros</a></li>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Condiciones</a></li>
-                <li class="last"><a href="#">Contacto</a></li>
+                <li><a href="<?php echo url_for('homepage'); ?>">Home</a></li>
+                <li><a href="<?php echo url_for('nosotros'); ?>">Nosotros</a></li>
+                <li><a href="<?php echo url_for('faq'); ?>">FAQ</a></li>
+                <li><a href="<?php echo url_for('condiciones'); ?>">Condiciones</a></li>
+                <li class="last"><a href="<?php echo url_for('contactos'); ?>">Contacto</a></li>
               </ul>
             </div>
           </div>

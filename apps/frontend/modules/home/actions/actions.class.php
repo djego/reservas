@@ -21,7 +21,7 @@ class homeActions extends sfActions {
   public function executeIndex(sfWebRequest $request) {
 
 	//$param_initial = array('');
-	$param_initial = Array ('ciudad' => '', 'fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d'), 'month' => date('m')+0)); 
+	$param_initial = Array ('ciudad' => '', 'fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d')+1, 'month' => date('m')+0));
 	$this->form =  new searchForm($param_initial);
 
 		    // $this->forward('default', 'module');
@@ -109,4 +109,24 @@ class homeActions extends sfActions {
         
 
   }
+  public function executeMapa(sfWebRequest $request){
+	$this->la = $request->getParameter('la');
+	$this->lo = $request->getParameter('lo');
+	$this->ciudad = $request->getParameter('ciudad');
+	$this->hotel = $request->getParameter('hotel');
+  }
+
+  public function executeNosotros(){
+
+  }
+  public function executeFaq(){
+
+  }
+  public function executeCondicion(){
+
+  }
+  public function executeContacto(){
+
+  }
+
 }
