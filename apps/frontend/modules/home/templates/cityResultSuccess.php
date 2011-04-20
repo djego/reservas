@@ -43,13 +43,13 @@
         };
         // settings for second button, for each roundabout image one setting
         var linktwo = {
-            roundaboutimage1: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1397214/xixerella.html"><span>Reservar Hoteles</span></a>',
+          roundaboutimage1: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1397214/xixerella.html"><span>Reservar Hoteles</span></a>',
           roundaboutimage2: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1396951/syspony.html"><span>Reservar Hoteles</span></a>',
           roundaboutimage3: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1396705/ransol.html"><span>Reservar Hoteles</span></a>',
           roundaboutimage4: '<a class="btn-medium" href="<?php echo sfConfig::get('app_host_name') ?>/-1396388/pal.html"><span>Reservar Hoteles</span></a>'
-//          roundaboutimage5: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Reservar Hoteles</span></a>',
-//          roundaboutimage6: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Purchase This Now</span></a>',
-//          roundaboutimage7: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Cufon Buttons are Sexy</span></a>'
+          //          roundaboutimage5: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Reservar Hoteles</span></a>',
+          //          roundaboutimage6: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Purchase This Now</span></a>',
+          //          roundaboutimage7: '<a class="btn-medium" href="http://themeforest.net/user/bogdanspn/portfolio?ref=bogdanspn"><span>Cufon Buttons are Sexy</span></a>'
         };
         // what happens on focus and on blur
         $('#roundabout li').focus(function() {
@@ -119,52 +119,113 @@
     </div>
     <div class="wide-horz-divider"><!--  --></div>
     <form style="float: left" method="post" action="<?php echo url_for('search') ?>">
-    
-    <h3>Buscar hoteles</h3>    
-    <?php if ($form->isCSRFProtected()) : ?>
-            <?php   echo $form['_csrf_token']->render(); ?>
-            <?php endif; ?>
-    	<div style="float: left;">
-	    	<label style="float: left;width: 100px">Ciudad:</label>&nbsp;
-	    	<?php echo $form['ciudad']->render(array('style' => 'float:left'))?>
-    	</div>
-    	<div style="float:left;clear: left">
-    		<label style="float: left;width: 100px">Fecha de llegada:</label>&nbsp;
-    		<?php echo $form['fecha-inicio']->render(array('style' =>'float:left'))?>    		
-    	</div>
-    	<div style="float:left;clear: left">
-    		<label style="float: left;width: 100px">Fecha de salida:</label>&nbsp;
-    		<?php echo $form['fecha-final']->render(array('style' =>'float:left'))?>    		
-    	</div>
-    	<div style="float:left;clear: left">   		
-    		<input type="submit" value="Buscar" />
-    	</div>
+
+      <h3>Buscar hoteles</h3>
+      <?php if ($form->isCSRFProtected()) : ?>
+      <?php echo $form['_csrf_token']->render(); ?>
+      <?php endif; ?>
+        <div style="float: left;">
+          <label style="float: left;width: 100px">Ciudad:</label>&nbsp;
+        <?php echo $form['ciudad']->render(array('style' => 'float:left')) ?>
+      </div>
+      <div style="float:left;clear: left">
+        <label style="float: left;width: 100px">Fecha de llegada:</label>&nbsp;
+        <?php echo $form['fecha-inicio']->render(array('style' => 'float:left')) ?>
+      </div>
+      <div style="float:left;clear: left">
+        <label style="float: left;width: 100px">Fecha de salida:</label>&nbsp;
+        <?php echo $form['fecha-final']->render(array('style' => 'float:left')) ?>
+      </div>
+      <div style="float:left;clear: left">
+        <input type="submit" value="Buscar" />
+      </div>
     </form>  
 
     <div class="wide-horz-divider"><!--  --></div>
-    <div class="full-width clearfix pt0">
-      <h1>Resultado de ciudades</h1>
-      <?php if(count($lst_ciudad)>0):?>
-      <?php
-        $ciudad = "";$i=0;
-        foreach ($lst_ciudad as $val) { $i++;
-          if ($ciudad != $val["city_id"]) {
-            $ciudad = $val["city_id"];
-            $name = $val["name"];
-            $slug_city = Utils::slugify($val["name"]); ?>
-            <div class="one-fourth pt20">
-              <h3>Hoteles en <?php echo $name ?></h3>
-              <div class="text-button"> <?php echo $val["nr_hotels"] ?> hoteles <a href="<?php echo url_for('city_hotels_result',array('id' => $ciudad,'slug' => $slug_city)) ?>">Ver más</a> <img src="<?php echo sfConfig::get('app_s_img'); ?>arrow.jpg" width="6" height="7" alt="" class="vm"/></div>
-            </div>
-      <?php
-          }
-        }
-      ?>
-      <?php else:?>
-        	<div class="one-fourth pt20">
-                  <h3>No hay resultados</h3>
-                </div>
-        <?php endif;?>
+    <div style="float: left;margin-top: 15px;">
+      <h3>Hoteles en <?php echo $city_name; ?></h3>
+          <?php
+          $hotel = "";
+          $deshotel = "";
+          $i = 0;
+          foreach ($lst_hoteles as $val) {
+            $i++;
+            $ciu = $val["city"];
+            if ($i == 0) {
+          ?>
+              <div class="padright"><h1 class="mt15">Ciudad de <a href="#"><?php echo $val["city"] ?></a></h1></div>
+
+          <?php
+            }
+            if ($hotel != $val["name"]) {
+              $hotel = $val["name"];
+          ?>
+              <div class="modulo6001">
+                  <ul id="hoteles">
+                <?php
+                foreach ($lst_photo as $foto) {
+                  if ($val["hotel_id"] == $foto["hotel_id"]) {
+                    $v_hotel = $foto["hotel_id"];
+                    $detmap = explode(".", $val["url"]);
+                    $mapa = $detmap[0] . "." . $detmap[1] . "." . $detmap[2] . "/" . $val["hotel_id"] . "/map";
+                    $la = $val["location"][0]["latitude"];
+                    $lo = $val["location"][0]["longitude"];
+                    $slug_h = Utils::slugify($hotel);
+                ?>
+                    <li>
+                      <div class="fotoHotel">
+                        <a class="preview" title="<?php echo $hotel; ?>" href="<?php echo url_for('hotel_details', array('id' => $v_hotel, 'slug' => $slug_c, 'slugh' => $slug_h)) ?>">
+                          <img height="100" width="150" alt="<?php echo $hotel; ?>" src="<?php echo $foto["url_max300"] ?>">
+                        </a>
+                      </div>
+                      <div class="hotelText">
+                        <div class="tituloHotel">
+                          <a class="preview" title="<?php echo $hotel; ?>" href="<?php echo url_for('hotel_details', array('id' => $v_hotel, 'slug' => $slug_c, 'slugh' => $slug_h)) ?>"><?php echo $hotel ?></a>
+                          <img alt="<?php echo $val["class"] ?>estrellas" src="<?php echo sfConfig::get('app_s_img') . trim($val["class"]) ?>estrellas.png">
+                        </div>
+                        <div class="direccion"><?php echo $val["address"] ?>&nbsp;<a class="preview"  onclick=" window.open('<?php echo url_for('mapa') ?>?la=<?php echo $la ?>&lo=<?php echo $lo ?>&ciudad=<?php echo $ciu ?>&hotel=<?php echo $hotel ?>','d_mapa','width=700,height=600,scrollbars=yes')" rel="nofollow"><b>Ver Mapa</b></a></div>
+                    <?php
+                  }
+                }
+                foreach ($lst_desc as $tex_desc) {
+                  if ($deshotel != $tex_desc["hotel_id"]) {
+                    $deshotel = $tex_desc["hotel_id"];
+                    if ($val["hotel_id"] == $deshotel) {
+                    ?>
+                      <div class="descripcion"><?php echo substr($tex_desc["description"], 0, 260) ?>...<a class="preview"	href="<?php echo url_for('hotel_details_result', array('id' => $v_hotel, 'slug' => $slug_c, 'slugh' => $slug_h)) ?>"  title="Ampliar detalle de Hotel <?php echo $hotel ?>">Ampliar</a></div>
+                    <?php
+                    }
+                  }
+                } ?>
+                  </div>
+                    </li>
+                    <li>
+                      <table class="tablaHoteles">
+                        <tr class="separacion">
+                          <th class="hotelTipo">Tipo de habitación</th>
+                          <th class="hotelPersonas">Personas máximas</th>
+                          <th class="hotelDisponibilidad">Disponibilidad</th>
+                          <th class="hotelPrecio">Total 1 noche</th>
+                        </tr>
+                      <?php
+                      $hotel_rooms = $data->fetchRcp('bookings.getRooms', 'countrycodes=ad&hotel_ids='.$val["hotel_id"]);
+                      $ar_type_room = array();
+                      foreach ($hotel_rooms as $room):?>
+                        <?php $ar_type_room = $data->fetchRcp('bookings.getRoomTypes', 'languagecodes=es&roomtype_ids='.$room["roomtype_id"]); ?>
+                         <tr class="separacion">
+                          <td class="hotelTipo">Habitación <?php echo ($ar_type_room[0]['name']); ?></td>
+                          <td class="hotelPersonas"><?php echo $room['max_persons']; ?></td>
+                          <td class="hotelDisponibilidad">Disponibles</td>
+                          <td class="hotelPrecio"><span class="precioTarifa"><?php echo $room['max_price']; ?>€</span> <span class="precioOferta"><?php echo $room['max_price']; ?>€</span></td>
+                        </tr>
+                      <?php endforeach; ?>
+                        </table>
+                    </li>
+                  </ul></div>
+            <?php
+              }
+            }
+            ?>
     </div>
 
 

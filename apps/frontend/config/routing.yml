@@ -26,6 +26,13 @@ search:
 city_hotels:
   url:   /:id/:slug.html
   param: { module: home, action: city }
+
+city_hotels_result:
+  url:   /busqueda/:id/:slug.html
+  param: { module: home, action: cityResult }
+hotel_details_result:
+  url:   /busqueda/:id/:slug/:slugh.html
+  param: { module: home, action: hotelResult }
 hotel_details:
   url:   /:id/:slug/:slugh.html
   param: { module: home, action: hotel }
