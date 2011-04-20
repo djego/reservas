@@ -2001,5 +2001,11 @@ a.left:active  	{ background-position:-60px 0; }
 a.disabled {  	visibility:hidden !important; }
 
 
+.form_search{
+  float: left;
+  margin-bottom: 10px;
+  width: 310px;
+}
+
 
 

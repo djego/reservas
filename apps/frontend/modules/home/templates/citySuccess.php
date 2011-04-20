@@ -30,7 +30,7 @@
     <div class="full-width clearfix pt0">
       <div class="breadcrumbs">
         <ul class="clearfix">
-          <li class="first"><a href="../index.php">Home</a></li>
+          <li class="first"><a href="<?php echo url_for('homepage'); ?>">Home</a></li>
           <li>Hoteles en <?php echo $city_name; ?></li>
         </ul>
       </div>
@@ -116,12 +116,28 @@
         <div class="padright">
 
           <div class="blog-search">
-            <table cellpadding="0" cellspacing="0" width="98%">
-              <tr>
-                <td><input name="search" class="blog-search-field" value="Buscar..." onfocus="javascript:if(this.value=='Search...') this.value=''" onblur="if(this.value=='') this.value='Search...'"/></td>
-                <td><a class="btn-small" href="#"><span><img src="<?php echo sfConfig::get('app_s_img')?>arrow-small-bread.png" width="9" height="12" alt="" style="margin-top:8px;"/></span></a></td>
-              </tr>
-            </table>
+            <form class="form_search" method="post" action="<?php echo url_for('search') ?>">
+
+              <h3>Buscar hoteles</h3>
+              <?php if ($form->isCSRFProtected()) : ?>
+                <?php echo $form['_csrf_token']->render(); ?>
+              <?php endif; ?>
+              <div style="float: left;">
+                <label style="float: left;width: 100px">Ciudad:</label>&nbsp;
+                <?php echo $form['ciudad']->render(array('style' => 'float:left')) ?>
+              </div>
+              <div style="float:left;clear: left">
+                <label style="float: left;width: 100px">Fecha de llegada:</label>&nbsp;
+                <?php echo $form['fecha-inicio']->render(array('style' => 'float:left')) ?>
+              </div>
+              <div style="float:left;clear: left">
+                <label style="float: left;width: 100px">Fecha de salida:</label>&nbsp;
+                <?php echo $form['fecha-final']->render(array('style' => 'float:left')) ?>
+              </div>
+              <div style="float:left;clear: left">
+                <input type="submit" value="Buscar" />
+              </div>
+            </form>
           </div>
 
           <h2>Por que reservar</h2>
