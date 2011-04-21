@@ -128,7 +128,7 @@
                 <td class="hotelTipo">Habitación <?php echo ($ar_type_room[0]['name']); ?></td>
                 <td class="hotelPersonas"><?php echo $room['max_persons']; ?></td>
                 <td class="hotelDisponibilidad">Disponibles</td>
-                <td class="hotelPrecio"><span class="precioTarifa"><?php echo $room['max_price']; ?>€</span> <span class="precioOferta"><?php echo $room['max_price']; ?>€</span></td>
+                <td class="hotelPrecio"><span class="precioTarifa"><?php echo $room['max_price']; ?>€</span> <span class="precioOferta"><?php echo $room['min_price']; ?>€</span></td>
               </tr>
                       <?php } endforeach; ?>
             </table>
