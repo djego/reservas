@@ -107,11 +107,13 @@
           <?php
                 $ini = Utils::getFormattedDate($lst_rooms['arrival_date'],'%d %F %Y');
                 $fin = Utils::getFormattedDate($lst_rooms['departure_date'],'%d %F %Y');
-          ?>  
+          		$interval = $fin - $ini;
+		  ?>  
           <div style="float: left;background-color: #EEF5FA">
           <p>Habitaciones disponibles del <span style="font-weight: bold"><?php echo $ini ?></span> al <span style="font-weight: bold"><?php echo $fin ?></span></p>
           <p>Selecciona el número de habitaciones y pulsa reservar</p>
           </div>
+          <form action="https://secure.booking.com/book.html" method="get">
           <div style="float: left;clear: left">
               <?php if($sf_user->getFlash('notice')): ?>
             <h4><?php echo $sf_user->getFlash('notice')?> </h4>
@@ -121,21 +123,30 @@
               <th class="hotelTipo">Tipo de habitación</th>
               <th class="hotelPersonas">Personas máximas</th>
               <th class="hotelDisponibilidad">Disponibilidad</th>
-              <th class="hotelPrecio">Total  <?php echo $fin-$ini>1?$fin-$ini.' noches':$fin-$ini.' noche'?> </th>
+              <th class="hotelPrecio">Total  <?php echo $interval>1?$interval.' noches':$interval.' noche'?> </th>
               <th class="hotelHabitaciones">Número de habitaciones</th>
             </tr>
+            
             <?php foreach ($lst_rooms['block'] as $room):?>
               <tr class="separacion">
                 <td class="hotelTipo"><?php echo $room['name']; ?></td>
                 <td class="hotelPersonas"><?php echo $room['max_occupancy']; ?></td>
-                <td class="hotelDisponibilidad">Sólo quedan <?php echo count($room['incremental_price']) ?> habitaciones</td>
+                <td class="hotelDisponibilidad">
+                	<?php if(count($room['incremental_price']) >= 7 ):?>
+                	Disponible
+                	<?php elseif(count($room['incremental_price']) >=4 && count($room['incremental_price'])<=6 ): ?>
+                	Quedan <?php echo count($room['incremental_price']) ?> habitaciones
+                	<?php else: ?>
+                	Sólo quedan <?php echo count($room['incremental_price']) ?> habitaciones
+                	<?php endif; ?>                	
+                </td>
                 <td class="hotelPrecio"><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?>€</span> <span class="precioOferta"><?php echo $room['min_price'][0]['price']; ?>€</span></td>
                 <td class="hotelHabitaciones">
 
-                  <select name="nr_rooms_<?php echo $block_id; ?>" class="comboPrecio" id="nr_rooms_<?php echo $block_id; ?>">
+                  <select name="nr_rooms_<?php echo $room['block_id']; ?>" class="comboPrecio" id="nr_rooms_<?php echo $room['block_id']; ?>">
                     <option value="0">0</option>
                     <?php foreach ($room['incremental_price'] as $key => $val):?>
-                    <option value="<?php echo $key ?>"><?php echo $val['price'] ?>€</option>
+                    <option value="<?php echo ($key+1) ?>"><?php echo ($key+1).'('.$val['price'].')' ?>€</option>
                     <?php endforeach; ?>
                   </select>
 
@@ -145,7 +156,19 @@
           </table>
           </div>
           <?php endif; ?>
-
+		<input type="hidden" name="aid" value="323497" />
+		<input type="hidden" name="hotel_id" value="<?php echo $hotel_id; ?>" />
+        <input type="hidden" name="checkin" value="<?php echo $lst_rooms['arrival_date']; ?>" />
+        <input type="hidden" name="interval" value="<?php echo $interval; ?>" />
+        <input type="hidden" value="es" name="lang">
+        <input type="hidden" value="1" name="stage">
+        <input type="hidden" value="Andorra-Hoteles" name="label">
+        <input type="hidden" value="booking.com" name="hostname">
+        <div class="fl clearfix">
+			<button type="submit" class="btn-medium">Reservar Ahora </button>
+        </div>
+        	
+        </form>
 
 
         </div>
@@ -158,8 +181,10 @@
           <?php endif; ?>
           <?php endforeach;?>
         </div>
+        <br>
+       
+        
           <?php
-          echo "<br><div class=\"fl clearfix\"><a class=\"btn-medium\" href=\"#\" onclick=\"window.open('http://www.booking.com/hotel/ad/$nameurl.html?aid=323497#availability_target','popup2','width=1020,height=1000,scrollbars=yes')\"><span>&nbsp;&nbsp; Reservar Ahora</span></a></div>";
         }
 
         ?>

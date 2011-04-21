@@ -83,11 +83,13 @@ class homeActions extends sfActions {
       $this->form_dis->bind($val_dispo);
       if($this->form_dis->isValid()) {
         $this->getUser()->setAttribute('searching_dispo',$this->form_dis->getValues());
-        // Cuartos disponibles
-        $ar_date = $this->changeFormatDate($this->getUser()->getAttribute('searching_dispo'));
+
+        // Cuartos disponibles        
+        $ar_date = $this->changeFormatDate($this->getUser()->getAttribute('searching_dispo'));        
         $parame="languagecode=es&arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&hotel_ids=".$hotel_id;
         $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability',$parame);
         $this->lst_rooms = $ar_rooms[0];
+//        print_r($this->lst_rooms);
       }
       $ar_date = $this->changeFormatDate($val_dispo);
       $param="arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&hotel_ids=".$hotel_id;
@@ -129,6 +131,7 @@ class homeActions extends sfActions {
 
     }
     $this->lst_services = $ar_total_service;
+    $this->hotel_id = $hotel_id;
 
   }
   public function executeHotelResult(sfWebRequest $request) {
@@ -187,6 +190,7 @@ class homeActions extends sfActions {
 
     }
     $this->lst_services = $ar_total_service;
+    $this->hotel_id = $hotel_id;
 
   }
 

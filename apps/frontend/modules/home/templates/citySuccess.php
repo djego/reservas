@@ -59,8 +59,8 @@
           $i = 0;
           foreach ($lst_hoteles as $val) {
             $i++;
-  $ciu=$val["city"];
-  if($i==0) {
+			  $ciu=$val["city"];
+			  if($i==0) {
               ?>
           <div class="padright"><h1 class="mt15">Ciudad de <a href="#"><?php echo $val["city"] ?></a></h1></div>
 
