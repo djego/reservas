@@ -20,6 +20,7 @@ class homeActions extends sfActions {
   }
   public function executeIndex(sfWebRequest $request) {
 
+
     //$param_initial = array('');
     $param_initial = Array ('ciudad' => '', 'fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d')+1, 'month' => date('m')+0));
     $this->form =  new searchForm($param_initial);
@@ -51,7 +52,7 @@ class homeActions extends sfActions {
     $this->lst_desc = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations',$param);
   }
   public function executeHotel(sfWebRequest $request) {
-    if($this->getUser()->getAttribute('searching_dispo')){
+    if($this->getUser()->getAttribute('searching_dispo')) {
       $param_initial = $this->getUser()->getAttribute('searching_dispo');
     }else {
       $param_initial = Array ('fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d')+1, 'month' => date('m')+0));
@@ -82,6 +83,11 @@ class homeActions extends sfActions {
       $this->form_dis->bind($val_dispo);
       if($this->form_dis->isValid()) {
         $this->getUser()->setAttribute('searching_dispo',$this->form_dis->getValues());
+        // Cuartos disponibles
+        $ar_date = $this->changeFormatDate($this->getUser()->getAttribute('searching_dispo'));
+        $parame="languagecode=es&arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&hotel_ids=".$hotel_id;
+        $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability',$parame);
+        $this->lst_rooms = $ar_rooms[0];
       }
       $ar_date = $this->changeFormatDate($val_dispo);
       $param="arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&hotel_ids=".$hotel_id;
@@ -94,30 +100,30 @@ class homeActions extends sfActions {
 
     }
 
-    $facility_types=$this->data->fetchRcp('bookings.getFacilityTypes','languagecodes=es');
-    $new_facility_types = array();
-    foreach ($facility_types as $types) {
-      if($types['name']) {
-        $new_hotel_facilities = array();
-        if(!$hotel_facilities = $this->data->fetchRcp('bookings.getHotelFacilities','countrycodes=ad&hotel_ids='.$hotel_id.'&facilitytype_ids='.$types['facilitytype_id'])){
-          unset ($types['name']);
-        }else{          
-        foreach ($hotel_facilities as $row) {
-          $param ="hotelfacilitytype_ids=".$row['hotelfacilitytype_id']."&languagecodes=es";
-          $hotel_facility_types = $this->data->fetchRcp('bookings.getHotelFacilityTypes',$param);
-          $row['child'] = $hotel_facility_types[0]['name'];
-          $new_hotel_facilities[] = $row['child'];
-        }
-          $types['child'] = $new_hotel_facilities;
-
-        }
-        unset ($types['facilitytype_id'],$types['languagecode']);
-        $new_facility_types[] = $types;
-        
-      }
-
-    }
-    $this->services = $new_facility_types;
+//    $facility_types=$this->data->fetchRcp('bookings.getFacilityTypes','languagecodes=es');
+//    $new_facility_types = array();
+//    foreach ($facility_types as $types) {
+//      if($types['name']) {
+//        $new_hotel_facilities = array();
+//        if(!$hotel_facilities = $this->data->fetchRcp('bookings.getHotelFacilities','countrycodes=ad&hotel_ids='.$hotel_id.'&facilitytype_ids='.$types['facilitytype_id'])) {
+//          unset ($types['name']);
+//        }else {
+//          foreach ($hotel_facilities as $row) {
+//            $param ="hotelfacilitytype_ids=".$row['hotelfacilitytype_id']."&languagecodes=es";
+//            $hotel_facility_types = $this->data->fetchRcp('bookings.getHotelFacilityTypes',$param);
+//            $row['child'] = $hotel_facility_types[0]['name'];
+//            $new_hotel_facilities[] = $row['child'];
+//          }
+//          $types['child'] = $new_hotel_facilities;
+//
+//        }
+//        unset ($types['facilitytype_id'],$types['languagecode']);
+//        $new_facility_types[] = $types;
+//
+//      }
+//
+//    }
+//    $this->services = $new_facility_types;
 
   }
   public function executeHotelResult(sfWebRequest $request) {
@@ -140,31 +146,35 @@ class homeActions extends sfActions {
     $param="countrycodes=ad&hotel_ids=".$hotel_id;
     $this->lst_hotel_desc = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations',$param);
 
-
-    $facility_types=$this->data->fetchRcp('bookings.getFacilityTypes','languagecodes=es');
-    $new_facility_types = array();
-    foreach ($facility_types as $types) {
-      if($types['name']) {
-        $new_hotel_facilities = array();
-        if(!$hotel_facilities = $this->data->fetchRcp('bookings.getHotelFacilities','countrycodes=ad&hotel_ids='.$hotel_id.'&facilitytype_ids='.$types['facilitytype_id'])){
-          unset ($types['name']);
-        }else{
-        foreach ($hotel_facilities as $row) {
-          $param ="hotelfacilitytype_ids=".$row['hotelfacilitytype_id']."&languagecodes=es";
-          $hotel_facility_types = $this->data->fetchRcp('bookings.getHotelFacilityTypes',$param);
-          $row['child'] = $hotel_facility_types[0]['name'];
-          $new_hotel_facilities[] = $row['child'];
-        }
-          $types['child'] = $new_hotel_facilities;
-
-        }
-        unset ($types['facilitytype_id'],$types['languagecode']);
-        $new_facility_types[] = $types;
-
-      }
-
-    }
-    $this->services = $new_facility_types;
+    // Cuartos disponibles
+    $ar_date = $this->changeFormatDate($this->getUser()->getAttribute('searching'));
+    $parame="languagecode=es&arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&hotel_ids=".$hotel_id;
+    $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability',$parame);
+    $this->lst_rooms = $ar_rooms[0];
+//  $facility_types=$this->data->fetchRcp('bookings.getFacilityTypes','languagecodes=es');
+//  $new_facility_types = array();
+//  foreach ($facility_types as $types) {
+//    if($types['name']) {
+//      $new_hotel_facilities = array();
+//      if(!$hotel_facilities = $this->data->fetchRcp('bookings.getHotelFacilities','countrycodes=ad&hotel_ids='.$hotel_id.'&facilitytype_ids='.$types['facilitytype_id'])) {
+//        unset ($types['name']);
+//      }else {
+//        foreach ($hotel_facilities as $row) {
+//          $param ="hotelfacilitytype_ids=".$row['hotelfacilitytype_id']."&languagecodes=es";
+//          $hotel_facility_types = $this->data->fetchRcp('bookings.getHotelFacilityTypes',$param);
+//          $row['child'] = $hotel_facility_types[0]['name'];
+//          $new_hotel_facilities[] = $row['child'];
+//        }
+//        $types['child'] = $new_hotel_facilities;
+//
+//      }
+//      unset ($types['facilitytype_id'],$types['languagecode']);
+//      $new_facility_types[] = $types;
+//
+//    }
+//
+//  }
+//  $this->services = $new_facility_types;
 
   }
 
@@ -175,26 +185,33 @@ class homeActions extends sfActions {
     $this->form->bind($param_search);
     if($this->form->isValid()) {
       $this->getUser()->setAttribute('searching',$this->form->getValues());
-    }
-//		print_r($param_search);die();
-    if(!$param_search['ciudad']) $this->redirect('homepage');
-    $q_name = strtoupper($param_search['ciudad']);
-    $param="languagecodes=es&countrycodes=ad";
-    $lst_city = $this->data->fetchRcp('bookings.getCities', $param);
-    foreach ($lst_city as $city) {
-      $city_name =  strtoupper($city['name']);
-      if(strpos($city_name, $q_name) > -1) {
-        $ar_date = $this->changeFormatDate($param_search);
-        $param="arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&city_ids=".$city['city_id'];
-        if($lst_hoteles = $this->data->fetchRcp('bookings.getHotelAvailability', $param)) {
-          $ar_cities[] = $city;
+      $ar_date = $this->changeFormatDate($param_search);
+      if(!$param_search['ciudad']) $this->redirect('homepage');
+      $q_name = strtoupper($param_search['ciudad']);
+      $param="languagecodes=es&countrycodes=ad";
+      $lst_city = $this->data->fetchRcp('bookings.getCities', $param);
+      foreach ($lst_city as $city) {
+        $city_name =  strtoupper($city['name']);
+        if(strpos($city_name, $q_name) > -1) {
+          
+          $param="arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&city_ids=".$city['city_id'];
+          if($lst_hoteles = $this->data->fetchRcp('bookings.getHotelAvailability', $param)) {
+            $ar_cities[] = $city;
+          }
+
         }
 
+        ///echo $city['name'].'<br>';
       }
+      $this->lst_ciudad = $ar_cities;
 
-      ///echo $city['name'].'<br>';
     }
-    $this->lst_ciudad = $ar_cities;
+
+
+
+
+
+
 
 
   }

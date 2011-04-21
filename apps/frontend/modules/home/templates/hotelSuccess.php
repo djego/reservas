@@ -102,54 +102,53 @@
               <input type="submit" value="Ver disponibilidad y precios" />
             </div>
           </form>
+          <?php
+                $ini = Utils::getFormattedDate($lst_rooms['arrival_date'],'%d %F %Y');
+                $fin = Utils::getFormattedDate($lst_rooms['departure_date'],'%d %F %Y');
+          ?>
+          <div style="float: left">
+          <p>Habitaciones disponibles del <span style="font-weight: bold"><?php echo $ini ?></span> al <span style="font-weight: bold"><?php echo $fin ?></span></p>
+          <p>Selecciona el número de habitaciones y pulsa reservar</p>
+          </div>
           <?php if($sf_request->isMethod('post')):?>
           <div style="float: left;clear: left">
               <?php if($sf_user->getFlash('notice')): ?>
             <h4><?php echo $sf_user->getFlash('notice')?> </h4>
               <?php endif;?>
             <table class="tablaHoteles">
+            <tr class="separacion">
+              <th class="hotelTipo">Tipo de habitación</th>
+              <th class="hotelPersonas">Personas máximas</th>
+              <th class="hotelDisponibilidad">Disponibilidad</th>
+              <th class="hotelPrecio">Total  <?php echo $fin-$ini>1?$fin-$ini.' noches':$fin-$ini.' noche'?> </th>
+              <th class="hotelHabitaciones">Número de habitaciones</th>
+            </tr>
+            <?php foreach ($lst_rooms['block'] as $room):?>
               <tr class="separacion">
-                <th class="hotelTipo">Tipo de habitación</th>
-                <th class="hotelPersonas">Personas máximas</th>
-                <th class="hotelDisponibilidad">Disponibilidad</th>
-                <th class="hotelPrecio">Total 1 noche</th>
-              </tr>
-                <?php
+                <td class="hotelTipo"><?php echo $room['name']; ?></td>
+                <td class="hotelPersonas"><?php echo $room['max_occupancy']; ?></td>
+                <td class="hotelDisponibilidad">Sólo quedan <?php echo count($room['incremental_price']) ?> habitaciones</td>
+                <td class="hotelPrecio"><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?>€</span> <span class="precioOferta"><?php echo $room['min_price'][0]['price']; ?>€</span></td>
+                <td class="hotelHabitaciones">
 
-                $hotel_rooms = $data->fetchRcp('bookings.getRooms', 'countrycodes=ad&hotel_ids='.$hotel_id);
-                $ar_type_room = array();                
-                foreach ($hotel_rooms as $room):?>
-                  <?php if($room['max_price'] &&  $room['min_price']){
-                    $ar_type_room = $data->fetchRcp('bookings.getRoomTypes', 'languagecodes=es&roomtype_ids='.$room["roomtype_id"]);
-                  ?>
-              <tr class="separacion">
-                <td class="hotelTipo">Habitación <?php echo ($ar_type_room[0]['name']); ?></td>
-                <td class="hotelPersonas"><?php echo $room['max_persons']; ?></td>
-                <td class="hotelDisponibilidad">Disponibles</td>
-                <td class="hotelPrecio"><span class="precioTarifa"><?php echo $room['max_price']; ?>€</span> <span class="precioOferta"><?php echo $room['min_price']; ?>€</span></td>
+                  <select name="nr_rooms_<?php echo $block_id; ?>" class="comboPrecio" id="nr_rooms_<?php echo $block_id; ?>">
+                    <option value="0">0</option>
+                    <?php foreach ($room['incremental_price'] as $key => $val):?>
+                    <option value="<?php echo $key ?>"><?php echo $val['price'] ?>€</option>
+                    <?php endforeach; ?>
+                  </select>
+
+                </td>
               </tr>
-                <?php } endforeach; ?>
-            </table>
+            <?php endforeach; ?>
+          </table>
           </div>
           <?php endif; ?>
 
 
 
         </div>
-        <div class="modulo6001">
-          <h2 class="tituloSeccion">Servicios del hotel</h2>
-          <?php foreach ($services as $service_dad):?>
-          <?php if(isset($service_dad['name'])):?>
-          <h3><?php echo $service_dad['name'] ?></h3>
-              <?php $cad ='';
-              foreach ($service_dad['child'] as $item) {
-                $cad.=$item.', ';
-                }
-              ?>
-          <p style="text-align: left "><?php echo substr($cad, 0, -2) ?> </p>
-          <?php endif ?>
-          <?php endforeach;?>
-        </div>
+        <div class="modulo6001">Servicios del Hotel</div>
           <?php
           echo "<br><div class=\"fl clearfix\"><a class=\"btn-medium\" href=\"#\" onclick=\"window.open('http://www.booking.com/hotel/ad/$nameurl.html?aid=323497#availability_target','popup2','width=1020,height=1000,scrollbars=yes')\"><span>&nbsp;&nbsp; Reservar Ahora</span></a></div>";
         }
