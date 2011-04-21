@@ -102,15 +102,16 @@
               <input type="submit" value="Ver disponibilidad y precios" />
             </div>
           </form>
+                  
+          <?php if($sf_request->isMethod('post')):?>
           <?php
                 $ini = Utils::getFormattedDate($lst_rooms['arrival_date'],'%d %F %Y');
                 $fin = Utils::getFormattedDate($lst_rooms['departure_date'],'%d %F %Y');
-          ?>
-          <div style="float: left">
+          ?>  
+          <div style="float: left;background-color: #EEF5FA">
           <p>Habitaciones disponibles del <span style="font-weight: bold"><?php echo $ini ?></span> al <span style="font-weight: bold"><?php echo $fin ?></span></p>
           <p>Selecciona el número de habitaciones y pulsa reservar</p>
           </div>
-          <?php if($sf_request->isMethod('post')):?>
           <div style="float: left;clear: left">
               <?php if($sf_user->getFlash('notice')): ?>
             <h4><?php echo $sf_user->getFlash('notice')?> </h4>
@@ -148,7 +149,15 @@
 
 
         </div>
-        <div class="modulo6001">Servicios del Hotel</div>
+        <div class="modulo6001">
+          <h2 class="tituloSeccion">Servicios del hotel</h2>
+          <?php foreach ($lst_services as $service):?>
+          <?php if($service['items']):?>
+          <h3><?php echo $service['type'] ?></h3>
+          <p style="text-align: left "><?php echo substr($service['items'], 0, -2) ?> </p>
+          <?php endif; ?>
+          <?php endforeach;?>
+        </div>
           <?php
           echo "<br><div class=\"fl clearfix\"><a class=\"btn-medium\" href=\"#\" onclick=\"window.open('http://www.booking.com/hotel/ad/$nameurl.html?aid=323497#availability_target','popup2','width=1020,height=1000,scrollbars=yes')\"><span>&nbsp;&nbsp; Reservar Ahora</span></a></div>";
         }

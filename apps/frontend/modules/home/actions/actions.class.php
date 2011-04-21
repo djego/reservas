@@ -99,31 +99,36 @@ class homeActions extends sfActions {
       }
 
     }
+    // Servicios del Hotel
+    $facility_types=$this->data->fetchRcp('bookings.getFacilityTypes','languagecodes=es');
+    foreach ($facility_types as $type){
+      if($type['name']){
+        $ar_facility_type[$type['facilitytype_id']] = $type['name'];
+      }
+    }
+    $hotel_facilities_detail = $this->data->fetchRcp('bookings.getHotelFacilityTypes','languagecodes=es');
+    $ar_facilities_detail= array();
+    foreach ($hotel_facilities_detail as $detail){
+      if($detail['name']){
+        $ar_facilities_detail[$detail['hotelfacilitytype_id']] = $detail['name'];
+      }
+    }
 
-//    $facility_types=$this->data->fetchRcp('bookings.getFacilityTypes','languagecodes=es');
-//    $new_facility_types = array();
-//    foreach ($facility_types as $types) {
-//      if($types['name']) {
-//        $new_hotel_facilities = array();
-//        if(!$hotel_facilities = $this->data->fetchRcp('bookings.getHotelFacilities','countrycodes=ad&hotel_ids='.$hotel_id.'&facilitytype_ids='.$types['facilitytype_id'])) {
-//          unset ($types['name']);
-//        }else {
-//          foreach ($hotel_facilities as $row) {
-//            $param ="hotelfacilitytype_ids=".$row['hotelfacilitytype_id']."&languagecodes=es";
-//            $hotel_facility_types = $this->data->fetchRcp('bookings.getHotelFacilityTypes',$param);
-//            $row['child'] = $hotel_facility_types[0]['name'];
-//            $new_hotel_facilities[] = $row['child'];
-//          }
-//          $types['child'] = $new_hotel_facilities;
-//
-//        }
-//        unset ($types['facilitytype_id'],$types['languagecode']);
-//        $new_facility_types[] = $types;
-//
-//      }
-//
-//    }
-//    $this->services = $new_facility_types;
+    $param_services = "countrycodes=ad&hotel_ids=".$hotel_id;
+
+    $ar_services = $this->data->fetchRcp('bookings.getHotelFacilities',$param_services);
+    $ar_total_service = array();
+    foreach ($ar_facility_type  as $key => $type){
+      $item ='';
+      foreach($ar_services as $row){
+         if($row['facilitytype_id'] == $key){
+           $item.= $ar_facilities_detail[$row['hotelfacilitytype_id']].', ';
+         }
+      }
+      $ar_total_service[] = array('type' =>$type, 'items' => $item );
+
+    }
+    $this->lst_services = $ar_total_service;
 
   }
   public function executeHotelResult(sfWebRequest $request) {
@@ -151,30 +156,37 @@ class homeActions extends sfActions {
     $parame="languagecode=es&arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&hotel_ids=".$hotel_id;
     $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability',$parame);
     $this->lst_rooms = $ar_rooms[0];
-//  $facility_types=$this->data->fetchRcp('bookings.getFacilityTypes','languagecodes=es');
-//  $new_facility_types = array();
-//  foreach ($facility_types as $types) {
-//    if($types['name']) {
-//      $new_hotel_facilities = array();
-//      if(!$hotel_facilities = $this->data->fetchRcp('bookings.getHotelFacilities','countrycodes=ad&hotel_ids='.$hotel_id.'&facilitytype_ids='.$types['facilitytype_id'])) {
-//        unset ($types['name']);
-//      }else {
-//        foreach ($hotel_facilities as $row) {
-//          $param ="hotelfacilitytype_ids=".$row['hotelfacilitytype_id']."&languagecodes=es";
-//          $hotel_facility_types = $this->data->fetchRcp('bookings.getHotelFacilityTypes',$param);
-//          $row['child'] = $hotel_facility_types[0]['name'];
-//          $new_hotel_facilities[] = $row['child'];
-//        }
-//        $types['child'] = $new_hotel_facilities;
-//
-//      }
-//      unset ($types['facilitytype_id'],$types['languagecode']);
-//      $new_facility_types[] = $types;
-//
-//    }
-//
-//  }
-//  $this->services = $new_facility_types;
+
+    // Servicios del Hotel
+    $facility_types=$this->data->fetchRcp('bookings.getFacilityTypes','languagecodes=es');
+    foreach ($facility_types as $type){
+      if($type['name']){
+        $ar_facility_type[$type['facilitytype_id']] = $type['name'];
+      }
+    }
+    $hotel_facilities_detail = $this->data->fetchRcp('bookings.getHotelFacilityTypes','languagecodes=es');
+    $ar_facilities_detail= array();
+    foreach ($hotel_facilities_detail as $detail){
+      if($detail['name']){
+        $ar_facilities_detail[$detail['hotelfacilitytype_id']] = $detail['name'];
+      }
+    }
+
+    $param_services = "countrycodes=ad&hotel_ids=".$hotel_id;
+
+    $ar_services = $this->data->fetchRcp('bookings.getHotelFacilities',$param_services);
+    $ar_total_service = array();
+    foreach ($ar_facility_type  as $key => $type){
+      $item ='';
+      foreach($ar_services as $row){
+         if($row['facilitytype_id'] == $key){
+           $item.= $ar_facilities_detail[$row['hotelfacilitytype_id']].', ';
+         }
+      }
+      $ar_total_service[] = array('type' =>$type, 'items' => $item );
+
+    }
+    $this->lst_services = $ar_total_service;
 
   }
 

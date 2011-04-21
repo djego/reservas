@@ -121,8 +121,15 @@
 
   <?php //print_r($this->getServices()); ?>
         </div>
-        <div class="modulo6001">Servicios del Hotel</div>
-
+        <div class="modulo6001">
+          <h2 class="tituloSeccion">Servicios del hotel</h2>
+          <?php foreach ($lst_services as $service):?>
+          <?php if($service['items']):?>
+          <h3><?php echo $service['type'] ?></h3>
+          <p style="text-align: left "><?php echo substr($service['items'], 0, -2) ?> </p>
+          <?php endif; ?>
+          <?php endforeach;?>
+        </div>
           <?php
           echo "<br><div class=\"fl clearfix\"><a class=\"btn-medium\" href=\"#\" onclick=\"window.open('http://www.booking.com/hotel/ad/$nameurl.html?aid=323497#availability_target','popup2','width=1020,height=1000,scrollbars=yes')\"><span>&nbsp;&nbsp; Reservar Ahora</span></a></div>";
         }
