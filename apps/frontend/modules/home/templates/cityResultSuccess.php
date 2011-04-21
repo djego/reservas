@@ -58,7 +58,7 @@
       $hotel = "";
       $deshotel = "";
       $i = 0;
-      foreach ($lst_hoteles as $val) {
+      foreach ($lst_hoteles as $key =>$val) {
         $i++;
         $ciu = $val["city"];
         if ($i == 0) {
@@ -110,28 +110,36 @@
             </div>
           </li>
           <li>
-            <table class="tablaHoteles">
+          <h3>Disponibilidad</h3>
+          <?php 
+                $ini = Utils::getFormattedDate($lst_rooms[$key]['arrival_date'],'%d %F %Y');
+                $fin = Utils::getFormattedDate($lst_rooms[$key]['departure_date'],'%d %F %Y');
+                $interval = $fin - $ini;
+          ?>
+			<table class="tablaHoteles">
+            <tr class="separacion">
+              <th class="hotelTipo">Tipo de habitación</th>
+              <th class="hotelPersonas">Personas máximas</th>
+              <th class="hotelDisponibilidad">Disponibilidad</th>
+              <th class="hotelPrecio">Total  <?php echo $interval>1?$interval.' noches':$interval.' noche'?> </th>
+            </tr>
+            <?php foreach ($lst_rooms[$key]['block'] as $room):?>
               <tr class="separacion">
-                <th class="hotelTipo">Tipo de habitación</th>
-                <th class="hotelPersonas">Personas máximas</th>
-                <th class="hotelDisponibilidad">Disponibilidad</th>
-                <th class="hotelPrecio">Total 1 noche</th>
+                <td class="hotelTipo"><?php echo $room['name']; ?></td>
+                <td class="hotelPersonas"><?php echo $room['max_occupancy']; ?></td>
+                <td class="hotelDisponibilidad">
+                	<?php if(count($room['incremental_price']) >= 7 ):?>
+                	Disponible
+                	<?php elseif(count($room['incremental_price']) >=4 && count($room['incremental_price'])<=6 ): ?>
+                	Quedan <?php echo count($room['incremental_price']) ?> habitaciones
+                	<?php else: ?>
+                	Sólo quedan <?php echo count($room['incremental_price']) ?> habitaciones
+                	<?php endif; ?>                	
+                </td>
+                <td class="hotelPrecio"><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?>€</span> <span class="precioOferta"><?php echo $room['min_price'][0]['price']; ?>€</span></td>
               </tr>
-                  <?php
-                  $hotel_rooms = $data->fetchRcp('bookings.getRooms', 'countrycodes=ad&hotel_ids='.$val["hotel_id"]);
-                  $ar_type_room = array();
-                  foreach ($hotel_rooms as $room):?>
-                    <?php if($room['max_price'] &&  $room['min_price']) {
-                      $ar_type_room = $data->fetchRcp('bookings.getRoomTypes', 'languagecodes=es&roomtype_ids='.$room["roomtype_id"]);
-                      ?>
-              <tr class="separacion">
-                <td class="hotelTipo">Habitación <?php echo ($ar_type_room[0]['name']); ?></td>
-                <td class="hotelPersonas"><?php echo $room['max_persons']; ?></td>
-                <td class="hotelDisponibilidad">Disponibles</td>
-                <td class="hotelPrecio"><span class="precioTarifa"><?php echo $room['max_price']; ?>€</span> <span class="precioOferta"><?php echo $room['min_price']; ?>€</span></td>
-              </tr>
-                      <?php } endforeach; ?>
-            </table>
+            <?php endforeach; ?>
+          </table>
           </li>
         </ul></div>
           <?php

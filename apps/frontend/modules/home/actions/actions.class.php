@@ -256,31 +256,31 @@ class homeActions extends sfActions {
     $param="languagecodes=es&countrycodes=ad&city_ids=".$city_id;
     $rs_city = $this->data->fetchRcp('bookings.getCities', $param);
     $this->city_name = $rs_city[0]['name'];
-    // lista de hoteles
-//    $param="countrycodes=ad&city_ids=".$city_id;
-//    $lst_hoteles = $this->data->fetchRcp('bookings.getHotels', $param);
-//    $this->lst_hoteles = $lst_hoteles;
-    // fotos de los hoteles
-//    $param="countrycodes=ad&city_ids=".$city_id;
-//    $this->lst_photo = $this->data->fetchRcp('bookings.getHotelPhotos',$param);
-//    print_r($this->lst_photo );die();
-//    $param="countrycodes=ad&languagecodes=es&city_ids=".$city_id;
-//    $this->lst_desc = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations',$param);
+
     $search_sesion  = $this->getUser()->getAttribute('searching');
     $ar_date = $this->changeFormatDate($search_sesion);
     $param="arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&city_ids=".$city_id;
     $lst_hoteles = $this->data->fetchRcp('bookings.getHotelAvailability', $param);
-    $ar = array();
+    $ar_date = $this->changeFormatDate($this->getUser()->getAttribute('searching'));
+    $ar = array();$ar_r= array();
     foreach ($lst_hoteles as $hotel) {
+    	echo $hotel['hotel_id'].'<br>';
       $hotels = $this->data->fetchRcp('bookings.getHotels', 'countrycodes=ad&hotel_ids='.$hotel['hotel_id']);
       $hotels_photo = $this->data->fetchRcp('bookings.getHotelPhotos', 'countrycodes=ad&hotel_ids='.$hotel['hotel_id']);
       $hotels_description = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations', 'countrycodes=ad&languagecodes=es&hotel_ids='.$hotel['hotel_id']);
+      // Cuartos disponibles      
+      $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability',"languagecode=es&arrival_date=".$ar_date['ini']."&departure_date=".$ar_date['fin']."&hotel_ids=".$hotel['hotel_id']);
+      $ar_r[] = $ar_rooms[0];
+//      $ar_rooms[] = $ar_rooms;
       $ar_hotels[] = $hotels[0];
       $ar_hotels_photo[] = $hotels_photo[0];
       $ar_hotels_description[] = $hotels_description[0];
+      
+      
     }
-
+	$this->lst_rooms = $ar_r;
     $this->lst_hoteles = $ar_hotels;
+//    print_r($this->lst_hoteles);
     $this->lst_photo = $ar_hotels_photo;
     $this->lst_desc = $ar_hotels_description;
   }
