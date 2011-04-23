@@ -2,18 +2,19 @@
 
 class searchForm extends sfForm
 { 
-  public static $mont = array (	1 => 'Enero 2001',
-	2 => 'Febrero 2001',
-	3 => 'Marzo 2001',
-	4 => 'Abril 2001',
-	5 => 'Mayo 2001',
-	6 => 'Junio 2001',
-	7 => 'Julio 2001',
-	8 => 'Agosto 2001',
-	9 => 'Septiembre 2001',
-	10 => 'Octubre 2001',
-	11 => 'Noviembre 2001',
-	12 => 'Diciembre 2001'); 
+  public static $mont = array (
+        1 => 'Enero 2011',
+	2 => 'Febrero 2011',
+	3 => 'Marzo 2011',
+	4 => 'Abril 2011',
+	5 => 'Mayo 2011',
+	6 => 'Junio 2011',
+	7 => 'Julio 2011',
+	8 => 'Agosto 2011',
+	9 => 'Septiembre 2011',
+	10 => 'Octubre 2011',
+	11 => 'Noviembre 2011',
+	12 => 'Diciembre 2011');
 	
 
   public function setup()

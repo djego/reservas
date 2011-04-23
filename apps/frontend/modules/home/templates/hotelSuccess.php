@@ -155,9 +155,8 @@
             <?php endforeach; ?>
           </table>
           </div>
-          <?php endif; ?>
-		<input type="hidden" name="aid" value="323497" />
-		<input type="hidden" name="hotel_id" value="<?php echo $hotel_id; ?>" />
+        <input type="hidden" name="aid" value="323497" />
+        <input type="hidden" name="hotel_id" value="<?php echo $hotel_id; ?>" />
         <input type="hidden" name="checkin" value="<?php echo $lst_rooms['arrival_date']; ?>" />
         <input type="hidden" name="interval" value="<?php echo $interval; ?>" />
         <input type="hidden" value="es" name="lang">
@@ -165,9 +164,9 @@
         <input type="hidden" value="Andorra-Hoteles" name="label">
         <input type="hidden" value="booking.com" name="hostname">
         <div class="fl clearfix">
-			<button type="submit" class="btn-medium">Reservar Ahora </button>
+          <button type="submit" class="btn-medium">Reservar Ahora </button>
         </div>
-        	
+          <?php endif; ?>       	
         </form>
 
 
