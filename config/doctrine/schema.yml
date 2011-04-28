@@ -1,0 +1,101 @@
+connection: doctrine
+detect_relations: true
+options:
+  type: INNODB
+  collate: utf8_spanish_ci
+  charset: utf8
+###################################  
+
+adCity:
+  tableName: ad_city
+  actAs:
+    Sluggable:
+      fields: [name]
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+    countrycode:
+      type: string(2)
+      default: 'ad'
+    languagecode:
+      type: string(2)
+      default: 'es'
+    latitude:
+      type: string(100)
+    longitude:
+      type: string(100)
+    name:
+      type: string(150)
+    nr_hotels:
+      type: integer(4)
+
+adHotel:
+  tableName: ad_hotel
+  actAs:
+    Sluggable:
+      fields: [name]
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+    name:
+      type: string(150)
+    address:
+      type: string(250)
+    chkin_from:
+      type: string(10)
+    chkin_to:
+      type: string(10)
+    chkout_from:
+      type: string(10)
+    chkout_to:
+      type: string(10)
+    city:
+      type: string(150)
+    city_id:
+      type: integer(4)
+      notnull: true
+    class_and:
+      type: int(3)
+    class_is_estimated:
+      type: boolean
+    commission:
+      type: double
+    countrycode:
+      type: string(2)
+      default: 'ad'
+    currencycode:
+      type: string(5)
+    district:
+      type: string(100)      
+    hoteltype_id:
+      type: integer(4) 
+    is_closed:
+      type: boolean
+    latitude:
+      type: string(150)             
+    longitude:
+      type: string(150)     
+    max_persons_in_reservation:
+      type: int(2) 
+    max_rooms_in_reservation:
+      type: int(2)
+    maxrate:
+      type: double      
+    minrate:
+      type: double      
+    nr_rooms:
+      type: int(2) 
+    preferred:
+      type: boolean
+    ranking:
+      type: int(2) 
+    review_nr:
+      type: int(2) 
+    review_score:
+      type: string(150) 
+    url:
+      type: string(150) 
+    zip:
+      type: string(150) 

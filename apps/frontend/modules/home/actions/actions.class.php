@@ -20,7 +20,7 @@ class homeActions extends sfActions {
   }
   public function executeIndex(sfWebRequest $request) {
 
-
+	
     //$param_initial = array('');
     $param_initial = Array ('ciudad' => '', 'fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d')+1, 'month' => date('m')+0));
     $this->form =  new searchForm($param_initial);
