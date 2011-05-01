@@ -42,6 +42,9 @@ abstract class BaseadHotelFormFilter extends BaseFormFilterDoctrine
       'review_score'               => new sfWidgetFormFilterInput(),
       'url'                        => new sfWidgetFormFilterInput(),
       'zip'                        => new sfWidgetFormFilterInput(),
+      'small_photo'                => new sfWidgetFormFilterInput(),
+      'medium_photo'               => new sfWidgetFormFilterInput(),
+      'big_photo'                  => new sfWidgetFormFilterInput(),
       'slug'                       => new sfWidgetFormFilterInput(),
     ));
 
@@ -75,6 +78,9 @@ abstract class BaseadHotelFormFilter extends BaseFormFilterDoctrine
       'review_score'               => new sfValidatorPass(array('required' => false)),
       'url'                        => new sfValidatorPass(array('required' => false)),
       'zip'                        => new sfValidatorPass(array('required' => false)),
+      'small_photo'                => new sfValidatorPass(array('required' => false)),
+      'medium_photo'               => new sfValidatorPass(array('required' => false)),
+      'big_photo'                  => new sfValidatorPass(array('required' => false)),
       'slug'                       => new sfValidatorPass(array('required' => false)),
     ));
 
@@ -125,6 +131,9 @@ abstract class BaseadHotelFormFilter extends BaseFormFilterDoctrine
       'review_score'               => 'Text',
       'url'                        => 'Text',
       'zip'                        => 'Text',
+      'small_photo'                => 'Text',
+      'medium_photo'               => 'Text',
+      'big_photo'                  => 'Text',
       'slug'                       => 'Text',
     );
   }

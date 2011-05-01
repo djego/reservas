@@ -1,0 +1,14 @@
+if(typeof(tooltipObjFlag)=='undefined'){var tooltipObjFlag='###'}
+if(typeof(tooltipSpeed)=='undefined'){var tooltipSpeed=300}
+if(typeof(tooltipLocal)=='undefined'){var tooltipLocal=false}
+var xOffset=20;var yOffset=20;var tooltipCSS='position:absolute;z-index:1000;';this.tooltip=function(){$('.tooltip').live('mouseover',function(e){this.t=(this.title=='')?this.t:this.title;var ttt=this.t;this.title='';var rx=new RegExp('^'+tooltipObjFlag);if(rx.test(ttt)){tte=ttt.replace(rx,'#').split(' ')[0];if(tte.length<1||tte.length>20){ttt=this.t;}else{ttt=$(tte).html();}}
+ttt=ttt.replace(/\\n/g,'<br>');var tmp=(typeof($(this).attr('rel'))=='undefined')?'':$(this).attr('rel').split(',');this.w=(tmp[0]=='')?$('#tooltip').width():tmp[0];this.c=(typeof(tmp[1])=='undefined')?'':'background-color:'+tmp[1];var tmp="<div id='tooltip' style='"+tooltipCSS+"width:"+this.w+"px;"+this.c+"'>"+ttt+"</div>";if(tooltipLocal){$(this).before(tmp);}else{$('body').append(tmp);}
+ttrelocate(e,'#tooltip');$('#tooltip').fadeIn(tooltipSpeed);})
+$('.tooltip').live('mouseout',function(e){this.title=this.t;$('#tooltip').remove();});$('.tooltip').live('mousemove',function(e){ttrelocate(e,'#tooltip');});$('a.preview,a.screenshot').live('mouseover',function(e){this.t=this.title;this.title='';var tmp="<div id='preview' style='"+tooltipCSS+"'><img src='";var c=(this.t!='')?'<br/>'+this.t:'';var ss=($(this).hasClass('screenshot')&&this.rel=="#")?'http://images.websnapr.com/?url='+this.href:this.rel;tmp+=($(this).hasClass('preview'))?this.href+"' alt='Cargando' />":ss+"' alt='URL preview' />";tmp+=c+"</div>";if(tooltipLocal){$(this).before(tmp);}else{$('body').append(tmp);}
+ttrelocate(e,'#preview');$('#preview').fadeIn(tooltipSpeed);})
+$('a.preview,a.screenshot').live('mouseout',function(e){this.title=this.t;$('#preview').remove();});$('a.preview,a.screenshot').live('mousemove',function(e){ttrelocate(e,'#preview');});}
+function ttrelocate(e,ttid){var ttw=$(ttid).width();var tth=$(ttid).height();var wscrY=$(window).scrollTop();var wscrX=$(window).scrollLeft();var curX=(document.all)?event.clientX+wscrX:e.pageX;var curY=(document.all)?event.clientY+wscrY:e.pageY;var ttleft=((curX-wscrX+xOffset*2+ttw)>$(window).width())?curX-ttw-xOffset:curX+xOffset;if(ttleft<wscrX+xOffset)ttleft=wscrX+xOffset;var tttop=((curY-wscrY+yOffset*2+tth)>$(window).height())?curY-tth-yOffset:curY+yOffset;if(tttop<wscrY+yOffset)tttop=curY+yOffset;$(ttid).css('top',tttop+'px').css('left',ttleft+'px');}
+function ddrivetip(ttt,ttc,ttw){var ttc=(ttc=='')?'':'background-color:'+ttc;$('body').append("<div id='tooltip2' style='"+tooltipCSS+"width:"+ttw+"px;"+ttc+"'>"+ttt+"</div>");$('#tooltip2').fadeIn(tooltipSpeed);}
+function hideddrivetip(){$('#tooltip2').remove();}
+function positiontip(evt){if($('#tooltip2').length)ttrelocate(evt,'#tooltip2');}
+document.onmousemove=positiontip;$(document).ready(function(){tooltip();});

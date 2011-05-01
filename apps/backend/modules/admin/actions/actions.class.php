@@ -18,11 +18,21 @@ class adminActions extends sfActions
 
   public function executeIndex(sfWebRequest $request)
   {
-	$mig_city = Migration::migCity();
-
+	if($request->isMethod('post')){
+	  $mig_city = Migration::migCity();
+	  $mig_hotel = Migration::migHotel();
+	  if($mig_city && $mig_hotel){
+	    $this->getUser()->setFlash('notice','Importacion realizada con exito');
+	  }
+	}
+    
 //	$param="countrycodes=ad";
 //    $lst_hoteles = $this->data->fetchRcp('bookings.getHotels', $param);
 //    print_r($lst_hoteles);die();
     
   }
+  public function executeProcessMigracion(sfWebRequest $request){
+    
+  }
+  
 }

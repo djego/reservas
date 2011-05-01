@@ -4,17 +4,17 @@
 default:
   http_metas:
     content-type: text/html
-
+    charset: UTF-8
   metas:
-    title:        AndorraHoteles.com - La mejor forma de reservar hotel
-    description:  Reserva de hoteles online. Reserva tu hotel en todo el mundo con confirmacion inmediata
-    keywords:     hoteles, hotel, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato
+    title:        Andorra Hoteles - Ofertas de Hoteles en Andorra - Reservas de hotel
+    description:  Ofertas de hoteles en Andorra. Reservas de hoteles baratos en Andorra para que puedas disfrutar de la temporada de esquí.
+    keywords:     hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes"
     language:     es
     #robots:       index, follow
 
-  stylesheets:    []
+  stylesheets:    [%app_s_css%estilos.css, %app_s_css%estilos_motor_generic.css]
 
-  javascripts:    [%app_s_js%jquery.min.js, %app_s_js%jquery.badBrowser.js, %app_s_js%jquery.tools.min.js]
+  javascripts:    [%app_s_js%jquery-1.js, %app_s_js%Jfunciones.js]
 
   has_layout:     true
   layout:         layout

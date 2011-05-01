@@ -19,16 +19,18 @@ class homeActions extends sfActions {
     $this->data = new fwoData();
   }
   public function executeIndex(sfWebRequest $request) {
-
-	
-    //$param_initial = array('');
-    $param_initial = Array ('ciudad' => '', 'fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d')+1, 'month' => date('m')+0));
-    $this->form =  new searchForm($param_initial);
-
-    // $this->forward('default', 'module');
-//    $this->data = new fwoData();
-    $lst_ciudades = $this->data->fetchRcp('bookings.getCities', 'countrycodes=ad');
-    $this->lst_ciudad = $lst_ciudades;
+    $lst_ciudades = $this->data->fetchRcp('bookings.getHotels', 'hotel_ids=220588');
+    
+	$this->lst_hotel = Doctrine::getTable('adHotel')->createQuery()->orderBy('RAND()')->limit(8)->fetchArray();
+	$this->lst_city = Doctrine::getTable('adCity')->createQuery()->orderBy('RAND()')->limit(4)->fetchArray();
+//    //$param_initial = array('');
+//    $param_initial = Array ('ciudad' => '', 'fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d')+1, 'month' => date('m')+0));
+//    $this->form =  new searchForm($param_initial);
+//
+//    // $this->forward('default', 'module');
+////    $this->data = new fwoData();
+//    $lst_ciudades = $this->data->fetchRcp('bookings.getCities', 'countrycodes=ad');
+//    $this->lst_ciudad = $lst_ciudades;
 
 
   }

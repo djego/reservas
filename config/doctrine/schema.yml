@@ -98,4 +98,10 @@ adHotel:
     url:
       type: string(150) 
     zip:
-      type: string(150) 
+      type: string(150)
+    small_photo:
+      type: string(150)
+    medium_photo:
+      type: string(150)
+    big_photo:  
+      type: string(150)

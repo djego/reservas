@@ -37,6 +37,9 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @property string $review_score
  * @property string $url
  * @property string $zip
+ * @property string $small_photo
+ * @property string $medium_photo
+ * @property string $big_photo
  * 
  * @method integer getId()                         Returns the current record's "id" value
  * @method string  getName()                       Returns the current record's "name" value
@@ -68,6 +71,9 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @method string  getReviewScore()                Returns the current record's "review_score" value
  * @method string  getUrl()                        Returns the current record's "url" value
  * @method string  getZip()                        Returns the current record's "zip" value
+ * @method string  getSmallPhoto()                 Returns the current record's "small_photo" value
+ * @method string  getMediumPhoto()                Returns the current record's "medium_photo" value
+ * @method string  getBigPhoto()                   Returns the current record's "big_photo" value
  * @method adHotel setId()                         Sets the current record's "id" value
  * @method adHotel setName()                       Sets the current record's "name" value
  * @method adHotel setAddress()                    Sets the current record's "address" value
@@ -98,6 +104,9 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @method adHotel setReviewScore()                Sets the current record's "review_score" value
  * @method adHotel setUrl()                        Sets the current record's "url" value
  * @method adHotel setZip()                        Sets the current record's "zip" value
+ * @method adHotel setSmallPhoto()                 Sets the current record's "small_photo" value
+ * @method adHotel setMediumPhoto()                Sets the current record's "medium_photo" value
+ * @method adHotel setBigPhoto()                   Sets the current record's "big_photo" value
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -223,6 +232,18 @@ abstract class BaseadHotel extends sfDoctrineRecord
              'length' => 150,
              ));
         $this->hasColumn('zip', 'string', 150, array(
+             'type' => 'string',
+             'length' => 150,
+             ));
+        $this->hasColumn('small_photo', 'string', 150, array(
+             'type' => 'string',
+             'length' => 150,
+             ));
+        $this->hasColumn('medium_photo', 'string', 150, array(
+             'type' => 'string',
+             'length' => 150,
+             ));
+        $this->hasColumn('big_photo', 'string', 150, array(
              'type' => 'string',
              'length' => 150,
              ));

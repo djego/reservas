@@ -16,4 +16,9 @@ class adCityTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('adCity');
     }
+    
+    public function drop()
+    {
+        
+    }
 }

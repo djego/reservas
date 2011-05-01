@@ -45,6 +45,9 @@ abstract class BaseadHotelForm extends BaseFormDoctrine
       'review_score'               => new sfWidgetFormInputText(),
       'url'                        => new sfWidgetFormInputText(),
       'zip'                        => new sfWidgetFormInputText(),
+      'small_photo'                => new sfWidgetFormInputText(),
+      'medium_photo'               => new sfWidgetFormInputText(),
+      'big_photo'                  => new sfWidgetFormInputText(),
       'slug'                       => new sfWidgetFormInputText(),
     ));
 
@@ -79,6 +82,9 @@ abstract class BaseadHotelForm extends BaseFormDoctrine
       'review_score'               => new sfValidatorString(array('max_length' => 150, 'required' => false)),
       'url'                        => new sfValidatorString(array('max_length' => 150, 'required' => false)),
       'zip'                        => new sfValidatorString(array('max_length' => 150, 'required' => false)),
+      'small_photo'                => new sfValidatorString(array('max_length' => 150, 'required' => false)),
+      'medium_photo'               => new sfValidatorString(array('max_length' => 150, 'required' => false)),
+      'big_photo'                  => new sfValidatorString(array('max_length' => 150, 'required' => false)),
       'slug'                       => new sfValidatorString(array('max_length' => 255, 'required' => false)),
     ));
 

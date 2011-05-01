@@ -9,6 +9,9 @@
     <?php include_javascripts() ?>
   </head>
   <body>
+	<div style="float: right;"><a href="<?php echo sfConfig::get('app_host_name')?>">Pagina</a> | Usuario: <?php if($sf_user->isAuthenticated()):?><b><?php echo $sf_user->getUsername(); ?></b><?php endif;?> | <a href="guard/logout">Cerrar</a></div>
+
+	</ul>
     <?php echo $sf_content ?>
   </body>
 </html>
