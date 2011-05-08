@@ -23,9 +23,13 @@ mapa:
 search:
   url:   /busqueda
   param: { module: home, action: search }
+city:
+  url:   /destinos-andorra
+  param: { module: home, action: city } 
+  
 city_hotels:
   url:   /:id/:slug.html
-  param: { module: home, action: city }
+  param: { module: home, action: cityHotels }
 
 city_hotels_result:
   url:   /busqueda/:id/:slug.html

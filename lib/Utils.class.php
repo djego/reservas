@@ -117,5 +117,31 @@ class Utils {
     return str_replace($keys, $values, $format);
 
   }
+  
+  public static function addPeriod($date, $period = 0, $type = 'd')
+  {    
+    extract(getdate(strtotime($date)));       
+    if ($type == 'd')    $mkdate_end = mktime($hours, $minutes, $seconds, $mon, $mday + $period, $year);    
+    elseif ($type == 'm') $mkdate_end = mktime($hours, $minutes, $seconds, $mon + $period, $mday, $year);
+    elseif ($type == 'Y') $mkdate_end = mktime($hours, $minutes, $seconds, $mon, $mday, $year + $period);
+    elseif ($type == 'H') $mkdate_end = mktime($hours + $period, $minutes, $seconds, $mon, $mday, $year);
+    elseif ($type == 'i') $mkdate_end = mktime($hours, $minutes + $period, $seconds, $mon, $mday, $year);
+    elseif ($type == 's') $mkdate_end = mktime($hours, $minutes, $seconds + $period, $mon, $mday, $year);
+          
+    return date('d/m/Y H:i:s', $mkdate_end);
+        
+  }
+  
+  public static function sumaDia($fecha,$dia)
+  {	
+    list($day,$mon,$year) = explode('/',$fecha);
+	return date('d/m/Y',mktime(0,0,0,$mon,$day+$dia,$year));		
+  }
+  
+   public static function  nameurl($detalle){	
+	$deur=explode("/",$detalle);
+	$nombrehotel=explode(".",$deur[5]);
+	return $nombrehotel[0];
+  }
 }
 ?>

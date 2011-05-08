@@ -30,6 +30,18 @@ adCity:
     nr_hotels:
       type: integer(4)
 
+adHotelDescriptionType:
+  tableName: ad_hotel_description_type
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+    languagecode:
+      type: string(2)
+      default: 'es'
+    name:
+      type: string(150)
+
 adHotel:
   tableName: ad_hotel
   actAs:
@@ -105,3 +117,30 @@ adHotel:
       type: string(150)
     big_photo:  
       type: string(150)
+
+
+adHotelDescription:
+  tableName: ad_hotel_description
+  columns:
+    descriptiontype_id:
+      type: integer(4)
+      primary: true 
+    hotel_id:
+      type: integer(4)
+      primary: true 
+    description: 
+      type: string(5000) 
+    languagecode: 
+      type: string(2)
+      default: 'es'
+  relations:
+    Hotel:
+      class: adHotel
+      foreignAlias: HotelDescs
+      local: hotel_id
+      foreign: id
+    DescType:
+      class: adHotelDescriptionType
+      foreignAlias: HotelDescs
+      local: descriptiontype_id
+      foreign: id

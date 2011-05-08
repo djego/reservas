@@ -11,7 +11,7 @@
   <div class="cabecera">
 	<div class="cabecera-logo">
 		<div class="logo">
-			<a href="http://www.andorrahoteles.com/" title="Hoteles en Andorra"><img src="<?php echo sfConfig::get('app_s_img');?>/logo.png" alt="Hoteles en Andorra" title="Hoteles en Andorra" border="0"></a>
+			<a href="<?php echo url_for('homepage');?>" title="Hoteles en Andorra"><img src="<?php echo sfConfig::get('app_s_img');?>/logo.png" alt="Hoteles en Andorra" title="Hoteles en Andorra" border="0"></a>
 		</div>
 		<div class="mensaje">
 			Las mejores <strong>ofertas de hoteles en Andorra</strong>.
@@ -22,8 +22,8 @@
 <div class="menu-superior">
 	<div class="menu">
 		<ul>
-			<li class="inicio"><a href="#" title="Andorra Hoteles">INICIO</a></li>
-			<li class="destino"><a href="destinos-andorra" title="Destinos de Andorra">DESTINOS DE ANDORRA</a></li>
+			<li class="inicio"><a href="<?php echo url_for('homepage');?>" title="Andorra Hoteles">INICIO</a></li>
+			<li class="destino"><a href="<?php echo url_for('city'); ?>" title="Destinos de Andorra">DESTINOS DE ANDORRA</a></li>
 			<li class="actividades"><a href="excursiones-actividades" title="Excursiones y Actividades en Andorra">EXCURSIONES Y ACTIVIDADES</a></li>
 			<li class="paquetes"><a href="paquetes-turisticos" title="Paquetes tur&iacute;sticos">PAQUETES TURISTICOS</a></li>
 			<li class="turismo"><a href="turismo-andorra" title="Turismo en Andorra">TURISMO EN ANDORRA</a></li>

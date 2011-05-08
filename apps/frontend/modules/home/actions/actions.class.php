@@ -19,39 +19,54 @@ class homeActions extends sfActions {
     $this->data = new fwoData();
   }
   public function executeIndex(sfWebRequest $request) {
-    $lst_ciudades = $this->data->fetchRcp('bookings.getHotels', 'hotel_ids=220588');
+//    $lst_ciudades = $this->data->fetchRcp('bookings.getHotels', 'hotel_ids=220588');
     
-	$this->lst_hotel = Doctrine::getTable('adHotel')->createQuery()->orderBy('RAND()')->limit(8)->fetchArray();
-	$this->lst_city = Doctrine::getTable('adCity')->createQuery()->orderBy('RAND()')->limit(4)->fetchArray();
-//    //$param_initial = array('');
-//    $param_initial = Array ('ciudad' => '', 'fecha-inicio' => Array ('day' => date('d'), 'month' =>  date('m')+0), 'fecha-final' => Array ('day' => date('d')+1, 'month' => date('m')+0));
-//    $this->form =  new searchForm($param_initial);
-//
-//    // $this->forward('default', 'module');
-////    $this->data = new fwoData();
-//    $lst_ciudades = $this->data->fetchRcp('bookings.getCities', 'countrycodes=ad');
-//    $this->lst_ciudad = $lst_ciudades;
-
+	$this->lst_hotel = Doctrine::getTable('adHotel')->getHotelsMain();
+	$this->lst_city = Doctrine::getTable('adCity')->getCitiesMain();
 
   }
   public function executeCity(sfWebRequest $request) {
-    $this->form =  new searchForm($this->getUser()->getAttribute('searching'));
-    $this->slug_c = $request->getParameter('slug');
-    $city_id = $request->getParameter('id');
-    // nombre de la ciudad
-    $param="languagecodes=es&countrycodes=ad&city_ids=".$city_id;
-    $rs_city = $this->data->fetchRcp('bookings.getCities', $param);
-    $this->city_name = $rs_city[0]['name'];
-    // lista de hoteles
-    $param="countrycodes=ad&city_ids=".$city_id;
-    $lst_hoteles = $this->data->fetchRcp('bookings.getHotels', $param);
-    $this->lst_hoteles = $lst_hoteles;
-    // fotos de los hoteles
-    $param="countrycodes=ad&city_ids=".$city_id;
-    $this->lst_photo = $this->data->fetchRcp('bookings.getHotelPhotos',$param);
-//    print_r($this->lst_photo );die();
-    $param="countrycodes=ad&languagecodes=es&city_ids=".$city_id;
-    $this->lst_desc = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations',$param);
+//    $this->form =  new searchForm($this->getUser()->getAttribute('searching'));
+//    $this->slug_c = $request->getParameter('slug');
+//    $city_id = $request->getParameter('id');
+//    // nombre de la ciudad
+//    $param="languagecodes=es&countrycodes=ad&city_ids=".$city_id;
+//    $rs_city = $this->data->fetchRcp('bookings.getCities', $param);
+//    $this->city_name = $rs_city[0]['name'];
+//    // lista de hoteles
+//    $param="countrycodes=ad&city_ids=".$city_id;
+//    $lst_hoteles = $this->data->fetchRcp('bookings.getHotels', $param);
+//    $this->lst_hoteles = $lst_hoteles;
+//    // fotos de los hoteles
+//    $param="countrycodes=ad&city_ids=".$city_id;
+//    $this->lst_photo = $this->data->fetchRcp('bookings.getHotelPhotos',$param);
+////    print_r($this->lst_photo );die();
+//    $param="countrycodes=ad&languagecodes=es&city_ids=".$city_id;
+//    $this->lst_desc = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations',$param);
+    $this->lst_cities = Doctrine::getTable('adCity')->createQuery()->orderBy('name ASC')->fetchArray();
+  }
+  public function executeCityHotels(sfWebRequest $request) {
+    $cid = $request->getParameter('id');
+    $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());   
+    if(!$orden = $request->getParameter('orden')){
+        $this->pager = new sfDoctrinePager('adHotel',sfConfig::get('app_max_hotels'));
+	    $query = Doctrine::getTable('adHotel')->getHotelsCity($cid);
+	    $this->pager->setQuery($query);
+	    $this->pager->setPage($request->getParameter('p', 1));
+	    $this->pager->init();
+	    $this->lst_hotel = $this->pager->getResults()->toArray();
+    }else{
+       if($orden == 'pop')  $order = 'ranking';
+       if($orden == 'opi')  $order = 'review_nr';
+       if($orden == 'est')  $order = 'class_and';
+       if($orden == 'pre')  $order = 'minrate';
+       $this->pager = new sfDoctrinePager('adHotel',10);
+	   $query = Doctrine::getTable('adHotel')->getHotelsCity($cid,$order);
+	   $this->pager->setQuery($query);
+	   $this->pager->setPage($request->getParameter('p', 1));
+	   $this->pager->init();
+	   $this->lst_hotel = $this->pager->getResults()->toArray();
+    }
   }
   public function executeHotel(sfWebRequest $request) {
     if($this->getUser()->getAttribute('searching_dispo')) {

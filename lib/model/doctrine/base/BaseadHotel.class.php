@@ -40,73 +40,76 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @property string $small_photo
  * @property string $medium_photo
  * @property string $big_photo
+ * @property Doctrine_Collection $HotelDescs
  * 
- * @method integer getId()                         Returns the current record's "id" value
- * @method string  getName()                       Returns the current record's "name" value
- * @method string  getAddress()                    Returns the current record's "address" value
- * @method string  getChkinFrom()                  Returns the current record's "chkin_from" value
- * @method string  getChkinTo()                    Returns the current record's "chkin_to" value
- * @method string  getChkoutFrom()                 Returns the current record's "chkout_from" value
- * @method string  getChkoutTo()                   Returns the current record's "chkout_to" value
- * @method string  getCity()                       Returns the current record's "city" value
- * @method integer getCityId()                     Returns the current record's "city_id" value
- * @method int     getClassAnd()                   Returns the current record's "class_and" value
- * @method boolean getClassIsEstimated()           Returns the current record's "class_is_estimated" value
- * @method double  getCommission()                 Returns the current record's "commission" value
- * @method string  getCountrycode()                Returns the current record's "countrycode" value
- * @method string  getCurrencycode()               Returns the current record's "currencycode" value
- * @method string  getDistrict()                   Returns the current record's "district" value
- * @method integer getHoteltypeId()                Returns the current record's "hoteltype_id" value
- * @method boolean getIsClosed()                   Returns the current record's "is_closed" value
- * @method string  getLatitude()                   Returns the current record's "latitude" value
- * @method string  getLongitude()                  Returns the current record's "longitude" value
- * @method int     getMaxPersonsInReservation()    Returns the current record's "max_persons_in_reservation" value
- * @method int     getMaxRoomsInReservation()      Returns the current record's "max_rooms_in_reservation" value
- * @method double  getMaxrate()                    Returns the current record's "maxrate" value
- * @method double  getMinrate()                    Returns the current record's "minrate" value
- * @method int     getNrRooms()                    Returns the current record's "nr_rooms" value
- * @method boolean getPreferred()                  Returns the current record's "preferred" value
- * @method int     getRanking()                    Returns the current record's "ranking" value
- * @method int     getReviewNr()                   Returns the current record's "review_nr" value
- * @method string  getReviewScore()                Returns the current record's "review_score" value
- * @method string  getUrl()                        Returns the current record's "url" value
- * @method string  getZip()                        Returns the current record's "zip" value
- * @method string  getSmallPhoto()                 Returns the current record's "small_photo" value
- * @method string  getMediumPhoto()                Returns the current record's "medium_photo" value
- * @method string  getBigPhoto()                   Returns the current record's "big_photo" value
- * @method adHotel setId()                         Sets the current record's "id" value
- * @method adHotel setName()                       Sets the current record's "name" value
- * @method adHotel setAddress()                    Sets the current record's "address" value
- * @method adHotel setChkinFrom()                  Sets the current record's "chkin_from" value
- * @method adHotel setChkinTo()                    Sets the current record's "chkin_to" value
- * @method adHotel setChkoutFrom()                 Sets the current record's "chkout_from" value
- * @method adHotel setChkoutTo()                   Sets the current record's "chkout_to" value
- * @method adHotel setCity()                       Sets the current record's "city" value
- * @method adHotel setCityId()                     Sets the current record's "city_id" value
- * @method adHotel setClassAnd()                   Sets the current record's "class_and" value
- * @method adHotel setClassIsEstimated()           Sets the current record's "class_is_estimated" value
- * @method adHotel setCommission()                 Sets the current record's "commission" value
- * @method adHotel setCountrycode()                Sets the current record's "countrycode" value
- * @method adHotel setCurrencycode()               Sets the current record's "currencycode" value
- * @method adHotel setDistrict()                   Sets the current record's "district" value
- * @method adHotel setHoteltypeId()                Sets the current record's "hoteltype_id" value
- * @method adHotel setIsClosed()                   Sets the current record's "is_closed" value
- * @method adHotel setLatitude()                   Sets the current record's "latitude" value
- * @method adHotel setLongitude()                  Sets the current record's "longitude" value
- * @method adHotel setMaxPersonsInReservation()    Sets the current record's "max_persons_in_reservation" value
- * @method adHotel setMaxRoomsInReservation()      Sets the current record's "max_rooms_in_reservation" value
- * @method adHotel setMaxrate()                    Sets the current record's "maxrate" value
- * @method adHotel setMinrate()                    Sets the current record's "minrate" value
- * @method adHotel setNrRooms()                    Sets the current record's "nr_rooms" value
- * @method adHotel setPreferred()                  Sets the current record's "preferred" value
- * @method adHotel setRanking()                    Sets the current record's "ranking" value
- * @method adHotel setReviewNr()                   Sets the current record's "review_nr" value
- * @method adHotel setReviewScore()                Sets the current record's "review_score" value
- * @method adHotel setUrl()                        Sets the current record's "url" value
- * @method adHotel setZip()                        Sets the current record's "zip" value
- * @method adHotel setSmallPhoto()                 Sets the current record's "small_photo" value
- * @method adHotel setMediumPhoto()                Sets the current record's "medium_photo" value
- * @method adHotel setBigPhoto()                   Sets the current record's "big_photo" value
+ * @method integer             getId()                         Returns the current record's "id" value
+ * @method string              getName()                       Returns the current record's "name" value
+ * @method string              getAddress()                    Returns the current record's "address" value
+ * @method string              getChkinFrom()                  Returns the current record's "chkin_from" value
+ * @method string              getChkinTo()                    Returns the current record's "chkin_to" value
+ * @method string              getChkoutFrom()                 Returns the current record's "chkout_from" value
+ * @method string              getChkoutTo()                   Returns the current record's "chkout_to" value
+ * @method string              getCity()                       Returns the current record's "city" value
+ * @method integer             getCityId()                     Returns the current record's "city_id" value
+ * @method int                 getClassAnd()                   Returns the current record's "class_and" value
+ * @method boolean             getClassIsEstimated()           Returns the current record's "class_is_estimated" value
+ * @method double              getCommission()                 Returns the current record's "commission" value
+ * @method string              getCountrycode()                Returns the current record's "countrycode" value
+ * @method string              getCurrencycode()               Returns the current record's "currencycode" value
+ * @method string              getDistrict()                   Returns the current record's "district" value
+ * @method integer             getHoteltypeId()                Returns the current record's "hoteltype_id" value
+ * @method boolean             getIsClosed()                   Returns the current record's "is_closed" value
+ * @method string              getLatitude()                   Returns the current record's "latitude" value
+ * @method string              getLongitude()                  Returns the current record's "longitude" value
+ * @method int                 getMaxPersonsInReservation()    Returns the current record's "max_persons_in_reservation" value
+ * @method int                 getMaxRoomsInReservation()      Returns the current record's "max_rooms_in_reservation" value
+ * @method double              getMaxrate()                    Returns the current record's "maxrate" value
+ * @method double              getMinrate()                    Returns the current record's "minrate" value
+ * @method int                 getNrRooms()                    Returns the current record's "nr_rooms" value
+ * @method boolean             getPreferred()                  Returns the current record's "preferred" value
+ * @method int                 getRanking()                    Returns the current record's "ranking" value
+ * @method int                 getReviewNr()                   Returns the current record's "review_nr" value
+ * @method string              getReviewScore()                Returns the current record's "review_score" value
+ * @method string              getUrl()                        Returns the current record's "url" value
+ * @method string              getZip()                        Returns the current record's "zip" value
+ * @method string              getSmallPhoto()                 Returns the current record's "small_photo" value
+ * @method string              getMediumPhoto()                Returns the current record's "medium_photo" value
+ * @method string              getBigPhoto()                   Returns the current record's "big_photo" value
+ * @method Doctrine_Collection getHotelDescs()                 Returns the current record's "HotelDescs" collection
+ * @method adHotel             setId()                         Sets the current record's "id" value
+ * @method adHotel             setName()                       Sets the current record's "name" value
+ * @method adHotel             setAddress()                    Sets the current record's "address" value
+ * @method adHotel             setChkinFrom()                  Sets the current record's "chkin_from" value
+ * @method adHotel             setChkinTo()                    Sets the current record's "chkin_to" value
+ * @method adHotel             setChkoutFrom()                 Sets the current record's "chkout_from" value
+ * @method adHotel             setChkoutTo()                   Sets the current record's "chkout_to" value
+ * @method adHotel             setCity()                       Sets the current record's "city" value
+ * @method adHotel             setCityId()                     Sets the current record's "city_id" value
+ * @method adHotel             setClassAnd()                   Sets the current record's "class_and" value
+ * @method adHotel             setClassIsEstimated()           Sets the current record's "class_is_estimated" value
+ * @method adHotel             setCommission()                 Sets the current record's "commission" value
+ * @method adHotel             setCountrycode()                Sets the current record's "countrycode" value
+ * @method adHotel             setCurrencycode()               Sets the current record's "currencycode" value
+ * @method adHotel             setDistrict()                   Sets the current record's "district" value
+ * @method adHotel             setHoteltypeId()                Sets the current record's "hoteltype_id" value
+ * @method adHotel             setIsClosed()                   Sets the current record's "is_closed" value
+ * @method adHotel             setLatitude()                   Sets the current record's "latitude" value
+ * @method adHotel             setLongitude()                  Sets the current record's "longitude" value
+ * @method adHotel             setMaxPersonsInReservation()    Sets the current record's "max_persons_in_reservation" value
+ * @method adHotel             setMaxRoomsInReservation()      Sets the current record's "max_rooms_in_reservation" value
+ * @method adHotel             setMaxrate()                    Sets the current record's "maxrate" value
+ * @method adHotel             setMinrate()                    Sets the current record's "minrate" value
+ * @method adHotel             setNrRooms()                    Sets the current record's "nr_rooms" value
+ * @method adHotel             setPreferred()                  Sets the current record's "preferred" value
+ * @method adHotel             setRanking()                    Sets the current record's "ranking" value
+ * @method adHotel             setReviewNr()                   Sets the current record's "review_nr" value
+ * @method adHotel             setReviewScore()                Sets the current record's "review_score" value
+ * @method adHotel             setUrl()                        Sets the current record's "url" value
+ * @method adHotel             setZip()                        Sets the current record's "zip" value
+ * @method adHotel             setSmallPhoto()                 Sets the current record's "small_photo" value
+ * @method adHotel             setMediumPhoto()                Sets the current record's "medium_photo" value
+ * @method adHotel             setBigPhoto()                   Sets the current record's "big_photo" value
+ * @method adHotel             setHotelDescs()                 Sets the current record's "HotelDescs" collection
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -256,6 +259,10 @@ abstract class BaseadHotel extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
+        $this->hasMany('adHotelDescription as HotelDescs', array(
+             'local' => 'id',
+             'foreign' => 'hotel_id'));
+
         $sluggable0 = new Doctrine_Template_Sluggable(array(
              'fields' => 
              array(

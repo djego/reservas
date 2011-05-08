@@ -10,9 +10,11 @@ class Migration {
   public static function migCity() {
   	$data = new fwoData();  	
     $lst_city = $data->fetchRcp('bookings.getCities', 'countrycodes=ad&languagecodes=es');    
-    $delete = Doctrine::getTable('adCity')->findAll()->delete();    
+    //$delete = Doctrine::getTable('adCity')->findAll()->delete();    
     foreach ($lst_city as $city){
-	  $rs_city = new adCity();
+	  if(!$rs_city = Doctrine::getTable('adCity')->find($city['city_id'])){
+	    $rs_city = new adCity();
+	  }
 	  $rs_city->setId($city['city_id']);
 	  $rs_city->setLatitude($city['latitude']);
 	  $rs_city->setLongitude($city['longitude']);
@@ -26,10 +28,12 @@ class Migration {
   	$data = new fwoData();
   	$ar_photo = self::obtenerImagesHotel(); 	
     $lst_hotel = $data->fetchRcp('bookings.getHotels', 'countrycodes=ad');    
-    $delete = Doctrine::getTable('adHotel')->findAll()->delete(); 
+//    $delete = Doctrine::getTable('adHotel')->findAll()->delete(); 
 //    print_r($lst_hotel);die();   
     foreach ($lst_hotel as $hotel){
-	  $rs_hotel = new adHotel();
+    if(!$rs_hotel = Doctrine::getTable('adHotel')->find($hotel['hotel_id'])){
+	    $rs_hotel = new adHotel();
+	  }
 	  $rs_hotel->setId($hotel['hotel_id']);
 	  $rs_hotel->setName($hotel['name']);
 	  $rs_hotel->setAddress($hotel['address']);
@@ -76,4 +80,34 @@ class Migration {
     }
     return $ar_photo;
   }
+  public static function migDescriptionHotelTypes() {
+    
+    $data = new fwoData();  	
+    $lst_desc_type = $data->fetchRcp('bookings.getHotelDescriptionTypes', 'languagecodes=es');    
+//    print_r($lst_desc_type);die();   
+    foreach ($lst_desc_type as $type){
+	  if(!$rs_desc_type = Doctrine::getTable('adHotelDescriptionType')->find($type['descriptiontype_id'])){
+	    $rs_desc_type = new adHotelDescriptionType();
+	  }
+	  $rs_desc_type->setId($type['descriptiontype_id']);
+	  $rs_desc_type->setName($type['name']);
+	  $rs_desc_type->setLanguagecode($type['languagecode']);
+	  $rs_desc_type->save();
+	}
+    $data2 = new fwoData();  	
+    $lst_desc = $data2->fetchRcp('bookings.getHotelDescriptionTranslations', 'languagecodes=es&countrycodes=ad');    
+    //$delete = Doctrine::getTable('adCity')->findAll()->delete();    
+    foreach ($lst_desc as $desc){
+	  if(!$rs_desc = Doctrine::getTable('adHotelDescription')->find(array($desc['hotel_id'], $desc['descriptiontype_id']))){
+	    $rs_desc = new adHotelDescription();
+	  }
+	  $rs_desc->setHotelId($desc['hotel_id']);
+	  $rs_desc->setDescriptiontypeId($desc['descriptiontype_id']);
+	  $rs_desc->setDescription($desc['description']);	  
+	  $rs_desc->setLanguagecode($desc['languagecode']);
+	  $rs_desc->save();
+	}
+	return true;
+  }
+  
 }

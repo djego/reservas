@@ -21,7 +21,8 @@ class adminActions extends sfActions
 	if($request->isMethod('post')){
 	  $mig_city = Migration::migCity();
 	  $mig_hotel = Migration::migHotel();
-	  if($mig_city && $mig_hotel){
+	  $mig_desc =  Migration::migDescriptionHotelTypes();
+	  if($mig_city && $mig_hotel && $mig_desc){
 	    $this->getUser()->setFlash('notice','Importacion realizada con exito');
 	  }
 	}

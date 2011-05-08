@@ -13,3 +13,6 @@ hotelResultSuccess:
   stylesheets: [%app_s_css%reservaria.css]
 mapaSuccess:
   has_layout: false
+  
+indexSuccess:
+  javascripts: [%app_s_js%Jfunciones.js]

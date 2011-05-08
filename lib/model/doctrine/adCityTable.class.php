@@ -17,8 +17,9 @@ class adCityTable extends Doctrine_Table
         return Doctrine_Core::getTable('adCity');
     }
     
-    public function drop()
+    public function getCitiesMain()
     {
-        
+      $q = $this->createQuery()->whereIn('id',array(-1394439,-1396418,-1395312,-1395964))->orderBy('RAND()')->fetchArray(); 
+      return $q;       
     }
 }
