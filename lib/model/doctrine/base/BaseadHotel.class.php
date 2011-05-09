@@ -41,6 +41,7 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @property string $medium_photo
  * @property string $big_photo
  * @property Doctrine_Collection $HotelDescs
+ * @property Doctrine_Collection $RoomPhotos
  * 
  * @method integer             getId()                         Returns the current record's "id" value
  * @method string              getName()                       Returns the current record's "name" value
@@ -76,6 +77,7 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @method string              getMediumPhoto()                Returns the current record's "medium_photo" value
  * @method string              getBigPhoto()                   Returns the current record's "big_photo" value
  * @method Doctrine_Collection getHotelDescs()                 Returns the current record's "HotelDescs" collection
+ * @method Doctrine_Collection getRoomPhotos()                 Returns the current record's "RoomPhotos" collection
  * @method adHotel             setId()                         Sets the current record's "id" value
  * @method adHotel             setName()                       Sets the current record's "name" value
  * @method adHotel             setAddress()                    Sets the current record's "address" value
@@ -110,6 +112,7 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @method adHotel             setMediumPhoto()                Sets the current record's "medium_photo" value
  * @method adHotel             setBigPhoto()                   Sets the current record's "big_photo" value
  * @method adHotel             setHotelDescs()                 Sets the current record's "HotelDescs" collection
+ * @method adHotel             setRoomPhotos()                 Sets the current record's "RoomPhotos" collection
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -260,6 +263,10 @@ abstract class BaseadHotel extends sfDoctrineRecord
     {
         parent::setUp();
         $this->hasMany('adHotelDescription as HotelDescs', array(
+             'local' => 'id',
+             'foreign' => 'hotel_id'));
+
+        $this->hasMany('adHotelRoomPhoto as RoomPhotos', array(
              'local' => 'id',
              'foreign' => 'hotel_id'));
 

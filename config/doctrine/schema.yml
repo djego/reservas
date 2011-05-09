@@ -144,3 +144,28 @@ adHotelDescription:
       foreignAlias: HotelDescs
       local: descriptiontype_id
       foreign: id
+
+adHotelRoomPhoto:
+  tableName: ad_hotel_room_photo
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+    hotel_id:
+      type: integer(4)
+      notnull: true 
+    room_id:
+      type: integer(4)
+      notnull: true 
+    small_photo:
+      type: string(150)
+    medium_photo:
+      type: string(150)
+    big_photo:  
+      type: string(150)
+  relations:
+    Hotel:
+      class: adHotel
+      foreignAlias: RoomPhotos
+      local: hotel_id
+      foreign: id
