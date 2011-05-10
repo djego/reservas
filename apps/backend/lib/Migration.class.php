@@ -96,39 +96,133 @@ class Migration {
       $rs_desc_type->setLanguagecode($type['languagecode']);
       $rs_desc_type->save();
     }
+  }
+
+  public static function migDescriptionHotel() {
     $data2 = new fwoData();
     $lst_desc = $data2->fetchRcp('bookings.getHotelDescriptionTranslations', 'languagecodes=es&countrycodes=ad');
     //$delete = Doctrine::getTable('adCity')->findAll()->delete();    
     foreach ($lst_desc as $desc) {
-      if (!$rs_desc = Doctrine::getTable('adHotelDescription')->find(array($desc['hotel_id'], $desc['descriptiontype_id']))) {
-        $rs_desc = new adHotelDescription();
+      $rs_hotel = Doctrine::getTable('adHotel')->find($desc['hotel_id']);
+      if ($rs_hotel) {
+        if (!$rs_desc = Doctrine::getTable('adHotelDescription')->findOneByDescriptiontypeIdAndHotelId($desc['descriptiontype_id'], $desc['hotel_id'])) {
+          $rs_desc = new adHotelDescription();
+        }
+        $rs_desc->setHotelId($desc['hotel_id']);
+        $rs_desc->setDescriptiontypeId($desc['descriptiontype_id']);
+        $rs_desc->setDescription($desc['description']);
+        $rs_desc->setLanguagecode($desc['languagecode']);
+        $rs_desc->save();
       }
-      $rs_desc->setHotelId($desc['hotel_id']);
-      $rs_desc->setDescriptiontypeId($desc['descriptiontype_id']);
-      $rs_desc->setDescription($desc['description']);
-      $rs_desc->setLanguagecode($desc['languagecode']);
-      $rs_desc->save();
     }
+
     return true;
   }
 
   public static function migRoomPhoto() {
     $data = new fwoData();
-    $lst_roomphoto = $data->fetchRcp('bookings.getRoomPhotos', 'countrycodes=ad');
+
     //$delete = Doctrine::getTable('adCity')->findAll()->delete();    
-    foreach ($lst_roomphoto as $roomphoto) {
-      if (!$rs_roomphoto = Doctrine::getTable('adHotelRoomPhoto')->find($roomphoto['photo_id'])) {
-        $rs_roomphoto = new adHotelRoomPhoto();
+    $lst_hotels = Doctrine::getTable('adHotel')->findAll()->toArray();
+    foreach ($lst_hotels as $hotel) {
+      $lst_roomphoto = $data->fetchRcp('bookings.getRoomPhotos', 'countrycodes=ad&hotel_ids=' . $hotel['id']);
+      $ar = array();
+      if ($lst_roomphoto) {
+        foreach ($lst_roomphoto as $roomphoto) {
+          $ar[$roomphoto['photo_id']] = array('med' => $roomphoto['url_max300'], 'big' => $roomphoto['url_original'], 'sma' => $roomphoto['url_square60']);
+        }
       }
-      $rs_roomphoto->setId($roomphoto['photo_id']);
-      $rs_roomphoto->setHotelId($roomphoto['hotel_id']);
-      $rs_roomphoto->setRoomId($roomphoto['room_id']);
-      $rs_roomphoto->setSmallPhoto($roomphoto['url_square60']);
-      $rs_roomphoto->setMediumPhoto($roomphoto['url_max300']);
-      $rs_roomphoto->setBigPhoto($roomphoto['url_original']);
-      $rs_roomphoto->save();
+      if (count($ar) > 0) {
+        foreach ($ar as $key => $row) {
+
+          if (!$rs_roomphoto = Doctrine::getTable('adHotelRoomPhoto')->findOneByPhotoIdAndHotelId($key, $hotel['id'])) {
+            $rs_roomphoto = new adHotelRoomPhoto();
+          }
+          $rs_roomphoto->setPhotoId($key);
+          $rs_roomphoto->setHotelId($hotel['id']);
+          $rs_roomphoto->setRoomId(11111);
+          $rs_roomphoto->setSmallPhoto($row['sma']);
+          $rs_roomphoto->setMediumPhoto($row['med']);
+          $rs_roomphoto->setBigPhoto($row['big']);
+          $rs_roomphoto->save();
+        }
+      }
+////      print_r($ar);die();
+//        if (!$rs_roomphoto = Doctrine::getTable('adHotelRoomPhoto')->findOneByPhotoIdAndHotelId($roomphoto['photo_id'], $roomphoto['hotel_id'])) {
+//          $rs_roomphoto = new adHotelRoomPhoto();
+//        }
+//      
+//        $rs_roomphoto->setPhotoId($roomphoto['photo_id']);
+//        $rs_roomphoto->setHotelId($roomphoto['hotel_id']);
+//        $rs_roomphoto->setRoomId($roomphoto['room_id']);
+//        $rs_roomphoto->setSmallPhoto($roomphoto['url_square60']);
+//        $rs_roomphoto->setMediumPhoto($roomphoto['url_max300']);
+//        $rs_roomphoto->setBigPhoto($roomphoto['url_original']);
+//        $rs_roomphoto->save();
     }
     return true;
+  }
+
+  public static function migServices() {
+    $data = new fwoData();
+//    $lst_hotel = Doctrine::getTable('adHotel')->createQuery()->fetchArray();
+//    foreach ($lst_hotel as $hotel){
+//    $param_services = "countrycodes=ad&hotel_ids=" . $hotel['id'];
+//      $ar_services = $data->fetchRcp('bookings.getHotelFacilities', $param_services);
+//      print_r($ar_services);
+//      
+//    }die ();
+//    
+    // Servicios del Hotel
+    $facility_types = $data->fetchRcp('bookings.getFacilityTypes', 'languagecodes=es');
+    foreach ($facility_types as $type) {
+      if ($type['name']) {
+        $ar_facility_type[$type['facilitytype_id']] = $type['name'];
+      }
+    }
+    $hotel_facilities_detail = $data->fetchRcp('bookings.getHotelFacilityTypes', 'languagecodes=es');
+    $ar_facilities_detail = array();
+    foreach ($hotel_facilities_detail as $detail) {
+      if ($detail['name']) {
+        $ar_facilities_detail[$detail['hotelfacilitytype_id']] = $detail['name'];
+      }
+    }
+
+//    $param_services = "countrycodes=ad&hotel_ids=";
+//    $ar_services = $data->fetchRcp('bookings.getHotelFacilities', $param_services);
+////    print_r($ar_services);die();
+//    foreach ($ar_services as $service){      
+//      $ad_service = new adHotelService();
+//      $ad_service->setHotelId($service['hotel_id']);
+//      $ad_service->setFacilitytype($ar_facility_type[$service['facilitytype_id']]);
+//      $ad_service->setHotelfacilitytype($ar_facilities_detail[$service['hotelfacilitytype_id']]);
+//      $ad_service->save();
+//    }
+    $lst_hotel = Doctrine::getTable('adHotel')->findAll()->toArray();
+    foreach ($lst_hotel as $hotel) {
+      $data = new fwoData();
+      $param_services = "countrycodes=ad&hotel_ids=" . $hotel['id'];
+      $ar_services = $data->fetchRcp('bookings.getHotelFacilities', $param_services);
+      $ar_total_service = array();
+      foreach ($ar_facility_type as $key => $type) {
+        $item = '';
+        foreach ($ar_services as $row) {
+          if ($row['facilitytype_id'] == $key) {
+            $item.= $ar_facilities_detail[$row['hotelfacilitytype_id']] . ', ';
+          }
+        }
+        $ar_total_service[] = array('type' => $type, 'items' => $item);
+        $ad_service = new adHotelService();
+        $ad_service->setHotelId($hotel['id']);
+        $ad_service->setFacilitytype($type);
+        $ad_service->setHotelfacilitytype($item);
+        $ad_service->save();
+      }     
+      
+//      print_r($ar_total_service);
+    }
+//    print_r($ar_total_service);
+//        die ();
   }
 
 }

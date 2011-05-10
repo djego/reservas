@@ -16,6 +16,7 @@ abstract class BaseadHotelRoomPhotoForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'           => new sfWidgetFormInputHidden(),
+      'photo_id'     => new sfWidgetFormInputText(),
       'hotel_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Hotel'), 'add_empty' => false)),
       'room_id'      => new sfWidgetFormInputText(),
       'small_photo'  => new sfWidgetFormInputText(),
@@ -25,6 +26,7 @@ abstract class BaseadHotelRoomPhotoForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'           => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'photo_id'     => new sfValidatorInteger(),
       'hotel_id'     => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Hotel'))),
       'room_id'      => new sfValidatorInteger(),
       'small_photo'  => new sfValidatorString(array('max_length' => 150, 'required' => false)),

@@ -39,6 +39,7 @@ abstract class BaseadHotelDescriptionFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
+      'id'                 => 'Number',
       'descriptiontype_id' => 'Number',
       'hotel_id'           => 'Number',
       'description'        => 'Text',

@@ -13,6 +13,7 @@ abstract class BaseadHotelRoomPhotoFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
+      'photo_id'     => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'hotel_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Hotel'), 'add_empty' => true)),
       'room_id'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'small_photo'  => new sfWidgetFormFilterInput(),
@@ -21,6 +22,7 @@ abstract class BaseadHotelRoomPhotoFormFilter extends BaseFormFilterDoctrine
     ));
 
     $this->setValidators(array(
+      'photo_id'     => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'hotel_id'     => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Hotel'), 'column' => 'id')),
       'room_id'      => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'small_photo'  => new sfValidatorPass(array('required' => false)),
@@ -46,6 +48,7 @@ abstract class BaseadHotelRoomPhotoFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'           => 'Number',
+      'photo_id'     => 'Number',
       'hotel_id'     => 'ForeignKey',
       'room_id'      => 'Number',
       'small_photo'  => 'Text',

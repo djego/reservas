@@ -64,6 +64,17 @@ class homeActions extends sfActions {
     $hid = $request->getParameter('id');
     $this->forward404Unless($this->hotel = Doctrine::getTable('adHotel')->find($hid));
     
+    $lst_service  = Doctrine::getTable('adHotelService')
+            ->createQuery()
+            ->where('hotel_id = ?', $this->hotel->id)
+            ->fetchArray();
+//    print_r($lst_service);
+    $data = new fwoData();
+    $param_services = "countrycodes=ad&hotel_ids=".$this->hotel->id;
+    $ar_services = $data->fetchRcp('bookings.getHotelFacilities', $param_services);
+    print_r($ar_services);
+    die();
+    
     if ($this->getUser()->getAttribute('searching_dispo')) {
       $param_initial = $this->getUser()->getAttribute('searching_dispo');
     } else {

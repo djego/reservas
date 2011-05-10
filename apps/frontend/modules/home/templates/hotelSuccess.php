@@ -111,13 +111,13 @@
           <div class="panel">
             <ul id="fichaHotelfotosMini">
               <?php foreach ($hotel->RoomPhotos as $room_photo): ?>
+              
                 <li>
                   <a href="<?php echo $room_photo->big_photo; ?>" class="preview" title="<?php echo $hotel->name ?>">
                     <img src="<?php echo $room_photo->small_photo; ?>" alt="<?php echo $hotel->name ?>" width="60" height="60"/>
                   </a>
                 </li>
               <?php endforeach; ?>
-
             </ul>
           </div>
           <br clear="all" />

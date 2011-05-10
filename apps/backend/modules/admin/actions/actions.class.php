@@ -17,9 +17,11 @@ class adminActions extends sfActions {
    */
   public function executeIndex(sfWebRequest $request) {
     $mig_city = Migration::migCity();
-    $mig_hotel = Migration::migHotel();
-    $mig_desc = Migration::migDescriptionHotelTypes();
-    $mig_room_photo = Migration::migRoomPhoto();
+//    $mig_hotel = Migration::migHotel();
+//    $mig_desc_type = Migration::migDescriptionHotelTypes();
+//    $mig_desc = Migration::migDescriptionHotel();
+//    $mig_room_photo = Migration::migRoomPhoto();
+    $mig_room_photo = Migration::migServices();
   }
 
 
