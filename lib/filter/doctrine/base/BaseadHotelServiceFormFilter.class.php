@@ -13,11 +13,15 @@ abstract class BaseadHotelServiceFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'hotel_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Hotel'), 'add_empty' => true)),
+      'hotel_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Hotel'), 'add_empty' => true)),
+      'type'     => new sfWidgetFormFilterInput(),
+      'service'  => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'hotel_id'          => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Hotel'), 'column' => 'id')),
+      'hotel_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Hotel'), 'column' => 'id')),
+      'type'     => new sfValidatorPass(array('required' => false)),
+      'service'  => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('ad_hotel_service_filters[%s]');
@@ -37,10 +41,10 @@ abstract class BaseadHotelServiceFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'                => 'Number',
-      'hotelfacilitytype' => 'Text',
-      'facilitytype'      => 'Text',
-      'hotel_id'          => 'ForeignKey',
+      'id'       => 'Number',
+      'hotel_id' => 'ForeignKey',
+      'type'     => 'Text',
+      'service'  => 'Text',
     );
   }
 }

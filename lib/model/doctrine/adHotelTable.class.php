@@ -40,6 +40,19 @@ class adHotelTable extends Doctrine_Table
 //      echo $q->getSqlQuery(); die();
       return $q;
     }
+    public function getHotelsCityResult($cid,$htids, $order =''){
+      $q = $this->createQuery('h');
+      $q->select('h.*, d.description as description');
+      $q->innerJoin('h.HotelDescs as d');
+      $q->where('d.descriptiontype_id = 6');
+      $q->andWhereIn('h.id',$htids);
+      $q->andWhere('h.city_id = ?',$cid);
+      if($order == '') $q->orderBy('h.class_and DESC');
+      elseif($order == 'minrate') $q->orderBy('minrate ASC');
+      else $q->orderBy('h.'.$order.' DESC');
+//      echo $q->getSqlQuery(); die();
+      return $q;
+    }
     
 //    public function getHotel($hid){
 //      $q = $this->createQuery('h');

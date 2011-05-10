@@ -16,9 +16,9 @@ class adminActions extends sfActions {
    * @param sfRequest $request A request object
    */
   public function executeIndex(sfWebRequest $request) {
-    $mig_city = Migration::migCity();
-//    $mig_hotel = Migration::migHotel();
+//    $mig_city = Migration::migCity();
 //    $mig_desc_type = Migration::migDescriptionHotelTypes();
+//    $mig_hotel = Migration::migHotel();
 //    $mig_desc = Migration::migDescriptionHotel();
 //    $mig_room_photo = Migration::migRoomPhoto();
     $mig_room_photo = Migration::migServices();

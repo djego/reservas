@@ -16,4 +16,11 @@ class adHotelServiceTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('adHotelService');
     }
+    public function getService($hid){
+        $q = $this->createQuery()
+            ->where('hotel_id = ?', $hid)
+            ->fetchArray();
+        
+        return $q;
+    }
 }

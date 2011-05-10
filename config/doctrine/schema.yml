@@ -149,6 +149,7 @@ adHotelDescription:
       local: descriptiontype_id
       foreign: id
 
+
 adHotelRoomPhoto:
   tableName: ad_hotel_room_photo
   columns:
@@ -185,15 +186,13 @@ adHotelService:
       type: integer(4)
       primary: true
       autoincrement: true
-    hotelfacilitytype:
-      type: string(200)
-      primary: true 
-    facilitytype:
-      type: string(150)
-      primary: true 
     hotel_id:
       type: integer(4)
       notnull: true 
+    type:
+      type: string(150)
+    service:
+      type: string(2000)
   relations:
     Hotel:
       class: adHotel

@@ -2,12 +2,12 @@
     $(function(){
         $('#check_sinfecha').click(function(){
             if ($(this).is(':checked')) {
-                $('#id_fecha_entrada').attr("disabled", true);
-                $('#id_fecha_salida').attr("disabled", true);
+                $('#search_new_fecha_entrada').attr("disabled", true);
+                $('#search_new_fecha_salida').attr("disabled", true);
             }
             else {
-                $('#id_fecha_entrada').removeAttr("disabled");
-                $('#id_fecha_salida').removeAttr("disabled");
+                $('#search_new_fecha_entrada').removeAttr("disabled");
+                $('#search_new_fecha_salida').removeAttr("disabled");
             }
 	    
         });
@@ -23,14 +23,17 @@
             <div class="motor-form-standard">
                 <div class="titulo">Hoteles en Andorra</div>
                 <div class="slogan">al mejor precio online garantizado</div>
-                <form action="/es/bookcore_engine/availability/" method="post">
+                <form action="<?php echo url_for('search_city')?>" method="post">
+                  <?php if ($search_form->isCSRFProtected()) : ?>
+                  <?php echo $search_form['_csrf_token']->render(); ?>
+                <?php endif; ?>
                     <ul>
                         <li>
                             <label for="id_hotel"><strong>Destino de Andorra</strong></label> 
-                            <input type="text" name="destino" id="b_destination" value="" size="32"/>
+                            <?php echo $search_form['destino']->render() ?>
                         </li>
-                        <li><label for="id_fecha_entrada">Fecha de entrada:</label> <input class="" name="fecha_entrada" value="<?php echo date("d/m/Y") ?>" id="id_fecha_entrada" type="text"></li>
-                        <li><label for="id_fecha_salida">Fecha de salida:</label> <input class="" name="fecha_salida" value="<?php echo Utils::sumaDia(date("d/m/Y"), 1); ?>" id="id_fecha_salida" type="text"></li>
+                        <li><label for="search_new_fecha_entrada">Fecha de entrada:</label><?php echo $search_form['fecha_entrada']->render() ?> </li>
+                        <li><label for="search_new_fecha_salida">Fecha de salida:</label> <?php echo $search_form['fecha_salida']->render() ?></li>
 
                         <li class="tienes_codigo"><input id="check_sinfecha"type="checkbox" name="sinFechas" value="1" /> Aún no he decidido las fechas</li>
 
@@ -113,7 +116,7 @@
                             <br /><?php echo $city['nr_hotels']; ?> hoteles
                             <br clear="all" /><br />
                         <?php endforeach; ?>	
-                        <div  class="masdestinos" align="center"><a href="http://www.andorrahoteles.com/destinos-andorra">Más destinos de Andorra</a></div>
+                        <div  class="masdestinos" align="center"><a href="<?php echo url_for('city'); ?>">Más destinos de Andorra</a></div>
                     </div>
 
                     <br clear="all" />

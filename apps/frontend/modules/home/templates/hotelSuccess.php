@@ -4,13 +4,10 @@
     <div class="home-under">
 
       <div class="home-content2">
-        <div class="navegacion"><a href="http://www.andorrahoteles.com" title="Hoteles en Andorra">Andorra Hoteles</a> > <a href="http://www.andorrahoteles.com" title="Hoteles en Andorra">Hoteles en Andorra La Vella</a> > Hotel Mena Andorra</div>
+        <div class="navegacion"><a href="<?php echo url_for('homepage');  ?>" title="Hoteles en Andorra">Andorra Hoteles</a> > <a href="<?php echo url_for('city_hotels', array('id' => $hotel['city_id'], 'slug' => $ar_slug_city[$hotel['city_id']])) ?>" title="Hoteles en <?php echo $hotel['city'] ?>">Hoteles en <?php echo $hotel['city'] ?></a> > <?php echo $hotel['name'] ?></div>
 
         <div class="listados-izq">
-
-
-
-          <form id="frm-refine" action="" class="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+         
             <b>B&uacute;squeda de disponibilidad</b>
             <br />&nbsp;
 
@@ -110,11 +107,13 @@
           </div>	
           <div class="panel">
             <ul id="fichaHotelfotosMini">
-              <?php foreach ($hotel->RoomPhotos as $room_photo): ?>
-              
+              <?php $ar = array(); foreach ($hotel->RoomPhotos as $room_photo): ?>
+              <?php $ar[$room_photo->photo_id] = array('big' => $room_photo->big_photo, 'sma' => $room_photo->small_photo); ?>
+              <?php endforeach; ?>
+              <?php foreach ($ar as $room_photo): ?>
                 <li>
-                  <a href="<?php echo $room_photo->big_photo; ?>" class="preview" title="<?php echo $hotel->name ?>">
-                    <img src="<?php echo $room_photo->small_photo; ?>" alt="<?php echo $hotel->name ?>" width="60" height="60"/>
+                  <a href="<?php echo $room_photo['big']; ?>" class="preview" title="<?php echo $hotel->name ?>">
+                    <img src="<?php echo $room_photo['sma']; ?>" alt="<?php echo $hotel->name ?>" width="60" height="60"/>
                   </a>
                 </li>
               <?php endforeach; ?>
@@ -133,11 +132,16 @@
           <h2 class="seccionHotel">Disponibilidad del hotel</h2>
           <?php if ($sf_request->isMethod('post')): ?>
             <?php
-            $ini = Utils::getFormattedDate($lst_rooms['arrival_date'], '%d/%m/%Y');
-            $fin = Utils::getFormattedDate($lst_rooms['departure_date'], '%d/%m/%Y');
-            $interval = $fin - $ini;
-            ?>  
-            <div class="disponibilidadHotel">Habitaciones disponibles del <span><?php echo $ini ?></span> al <span><?php echo $fin ?></span>.(<a style='cursor: pointer;' onclick="muestra_oculta('modificar-fechas')">modificar fechas</a>)</div>
+            if ($lst_rooms) {
+              $ini = Utils::getFormattedDate($lst_rooms['arrival_date'], '%d/%m/%Y');
+              $fin = Utils::getFormattedDate($lst_rooms['departure_date'], '%d/%m/%Y');
+              $interval = $fin - $ini;
+              ?>  
+              <div class="disponibilidadHotel">Habitaciones disponibles del <span><?php echo $ini ?></span> al <span><?php echo $fin ?></span>.(<a style='cursor: pointer;' onclick="muestra_oculta('modificar-fechas')">modificar fechas</a>)</div>
+            <?php } else { ?>
+              <div style="color: #FF1325;font-size: 14px;margin-top: 10px; padding: 10px;">No existe disponibilidad para estas  (<a style='cursor: pointer;' onclick="muestra_oculta('modificar-fechas')">modificar fechas</a>)</div>
+
+            <?php } ?>
             <div id="modificar-fechas" class="modificarfechas" style="display:none">
               <p>Selecciona las fechas para comprabar la disponibilidad: </p> <br />
               <form action="" method="post">
@@ -170,7 +174,9 @@
                 </table>
               </form>
             </div>
-            <div>
+              <?php if ($lst_rooms): ?>
+            <div>              
+              <form action="https://secure.booking.com/book.html" method="get">
               <table summary="Disponibilidad" class="tabDispoHot">
                 <tbody>
                   <tr class="separHab">
@@ -180,90 +186,64 @@
                     <th class="hPrecio">Precio final</th>
                     <th class="hotelHabitaciones">Número de habitaciones</th>
                   </tr>
-
+                   <?php foreach ($lst_rooms['block'] as $room):?>
                   <tr class="separHab">
                     <td class="hTipo">
-                      <span>Habitación Doble - 1 o 2 camas - Single Use</span><br />
-                      <a style='cursor: pointer;' onclick="muestra_oculta('habitacion24248403_80523382_0')">Ver detalles</a>
+                      <span><?php echo $room['name']; ?></span><br />
+                      <a style='cursor: pointer;' onclick="muestra_oculta('habitacion<?php echo $room['block_id']; ?>')">Ver detalles</a>
                     </td>
                     <td class="colPerson">
 
-                      <img height="10" width="60" alt="" src="images/persons_1L.png">
+                      <img height="10" width="60" alt="" src="<?php echo sfConfig::get('app_s_img');?>persons_<?php echo $room['max_occupancy']; ?>L.png">
                     </td>
+                    <?php if(count($room['incremental_price']) >= 6 ){
+                      $text = 'Disponible';
+                      $class = 'dispohab';
+                    }else{
+                      $text = 'Sólo quedan '.count($room['incremental_price']).' habitaciones';
+                      $class = 'PocasHab';
+                    } ?>
+                	
                     <td class="colDispo">
-                      <a title="Disponible" href="index.php?lang=sp&frombusca=ok&textinput=Madrid&datein=04-17-2011&dateout=04-18-2011&okupa=1;1|1;1|1;1&radio=&botonBuscar_x=19&botonBuscar_y=25&h=44755&block=9186101_80410768_0" class="dispohab">Disponible</a>
+                      <a title="Disponible" href="" class="<?php echo $class ?>"><?php echo $text ?></a>
                     </td>
                     <td class="hPrecio">
-                      <span class="precioTarifa">289.44 &nbsp;€</span>
+                      <?php if($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']   ): ?><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?> &nbsp;€</span><?php endif; ?>
 
-                      <span class="colOferta">205.20 &nbsp;€</span>
+                      <span class="colOferta"><?php echo $room['min_price'][0]['price']; ?> &nbsp;€</span>
                     </td>
-                    <td class="hotelHabitaciones"><select id="nr_rooms_24248404_80523382_0" class="comboPrecio" name="nr_rooms_24248404_80523382_0"><option value="0">0</option><option value="1">1 (211 €)</option></select></td>
+                    <td class="hotelHabitaciones">
+                      <select name="nr_rooms_<?php echo $room['block_id']; ?>" class="comboPrecio" id="nr_rooms_<?php echo $room['block_id']; ?>">
+                        <option value="0">0</option>
+                        <?php foreach ($room['incremental_price'] as $key => $val):?>
+                        <option value="<?php echo ($key+1) ?>"><?php echo ($key+1).'('.$val['price'].')' ?>€</option>
+                        <?php endforeach; ?>
+                      </select>
+                    </td>
                   </tr>
                   <tr class="separacion">
                     <td colspan="5" style="width:100%">
-                      <div id="habitacion24248403_80523382_0" class="detallesHabitaciones" style="display:none">
+                      <div id="habitacion<?php echo $room['block_id']; ?>" class="detallesHabitaciones" style="display:none">
                         <div class="detallesimagenes"><ul><li><a href="http://aff.bstatic.com/1/images/hotel/max500/349/3493177.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/349/3493177.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/349/3493184.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/349/3493184.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/349/3493201.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/349/3493201.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/349/3493794.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/349/3493794.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/356/3561631.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/356/3561631.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/356/3561632.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/356/3561632.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/356/3561633.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/356/3561633.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/356/3561634.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/356/3561634.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/356/3561635.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/356/3561635.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/356/3561636.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/356/3561636.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/356/3561638.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/356/3561638.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/381/3810503.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/381/3810503.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/381/3810504.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/381/3810504.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/381/3810505.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/381/3810505.gif" width="60" height="60"/></a></li></ul></div>
                         <p>Esta amplia habitación cuenta con una plancha de pantalones y un set de bienvenida exclusivo. Algunas habitaciones tienen balcón.</p>
                         <h3>Equipamiento de las habitaciones</h3><p>Ducha, Teléfono, Aire acondicionado, Secador de pelo, Plancha para ropa, Balcón, Frigorífico, Equipo de planchado, Zona de estar, WC, Microondas, Lavavajillas, Lavadora, Cuarto de baño, Calefacción, Cocina, TV de pantalla plana / LCD / plasma , Entrada privada, Sofá, Suelos de baldosa / mármol, Hervidor de agua eléctrico</p><h3>Incluido en el precio</h3><p>IVA</p>        
-                      </div></td></tr>
-
-                  <tr class="separHab">
-                    <td class="hTipo">
-                      <span>Habitación Doble - 1 o 2 camas</span><br /><a style='cursor: pointer;' onclick="muestra_oculta('habitacion24248403_80523382_1')">Ver detalles</a>
-                    </td>
-
-                    <td class="colPerson">
-                      <img height="10" width="60" alt="" src="images/persons_2L.png">
-                    </td>
-                    <td class="colDispo">
-                      <a title="S&oacute;lo quedan 2 habitaciones" href="index.php?lang=sp&frombusca=ok&textinput=Madrid&datein=04-17-2011&dateout=04-18-2011&okupa=1;1|1;1|1;1&radio=&botonBuscar_x=19&botonBuscar_y=25&h=44813&block=9360401_80605787_0" class="PocasHab">S&oacute;lo quedan 2 habitaciones</a>
-                    </td>
-                    <td class="hPrecio">
-                      <span class="precioTarifa">289.44 &nbsp;€</span>
-
-                      <span class="colOferta">259.20 &nbsp;€</span>
-                    </td>
-                    <td class="hotelHabitaciones"><select id="nr_rooms_24248404_80523382_0" class="comboPrecio" name="nr_rooms_24248404_80523382_0"><option value="0">0</option><option value="1">1 (211 €)</option>
-                        <option value="2">2 (422 €)</option></select></td>        
+                      </div></td>
                   </tr>
-                  <tr class="separacion">
-                    <td colspan="5" style="width:100%">
-                      <div id="habitacion24248403_80523382_1" class="detallesHabitaciones" style="display:none">
-                        <div class="detallesimagenes"><ul><li><a href="http://aff.bstatic.com/1/images/hotel/max500/349/3493177.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/349/3493177.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/349/3493184.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/349/3493184.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/349/3493201.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/349/3493201.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/349/3493794.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/349/3493794.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/356/3561631.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/356/3561631.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/356/3561632.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/356/3561632.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/356/3561633.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/356/3561633.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/356/3561634.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/356/3561634.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/356/3561635.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/356/3561635.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/356/3561636.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/356/3561636.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/356/3561638.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/356/3561638.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/381/3810503.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/381/3810503.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/381/3810504.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/381/3810504.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/381/3810505.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/381/3810505.gif" width="60" height="60"/></a></li></ul></div>
-                        <p>Esta amplia habitación cuenta con una plancha de pantalones y un set de bienvenida exclusivo. Algunas habitaciones tienen balcón.</p>
-                        <h3>Equipamiento de las habitaciones</h3><p>Ducha, Teléfono, Aire acondicionado, Secador de pelo, Plancha para ropa, Balcón, Frigorífico, Equipo de planchado, Zona de estar, WC, Microondas, Lavavajillas, Lavadora, Cuarto de baño, Calefacción, Cocina, TV de pantalla plana / LCD / plasma , Entrada privada, Sofá, Suelos de baldosa / mármol, Hervidor de agua eléctrico</p><h3>Incluido en el precio</h3><p>IVA</p>        
-                      </div></td></tr>
-                  <tr class="separHab">
-                    <td class="hTipo">
-                      <span>Habitación Doble - 1 o 2 camas - Desayuno incluido - Single Use</span><br /><a style='cursor: pointer;' onclick="muestra_oculta('habitacion24248403_80523382_2')">Ver detalles</a>
-                    </td>
-
-                    <td class="colPerson">
-                      <img height="10" width="60" alt="" src="images/persons_1L.png">
-                    </td>
-                    <td class="colDispo">
-                      <a title="S&oacute;lo quedan 2 habitaciones" href="index.php?lang=sp&frombusca=ok&textinput=Madrid&datein=04-17-2011&dateout=04-18-2011&okupa=1;1|1;1|1;1&radio=&botonBuscar_x=19&botonBuscar_y=25&h=44813&block=9360401_234568_1" class="PocasHab">S&oacute;lo quedan 2 habitaciones</a>
-                    </td>
-                    <td class="hPrecio">
-                      <span class="precioTarifa">289.44 &nbsp;€</span>
-
-                      <span class="colOferta">220.32 &nbsp;€</span>
-                    </td>
-                    <td class="hotelHabitaciones"><select id="nr_rooms_24248404_80523382_0" class="comboPrecio" name="nr_rooms_24248404_80523382_0"><option value="0">0</option><option value="1">1 (211 €)</option>
-                        <option value="2">2 (422 €)</option></select></td>
-                  </tr>
-                  <tr class="separacion">
-                    <td colspan="5" style="width:100%">
-                      <div id="habitacion24248403_80523382_2" class="detallesHabitaciones" style="display:none">
-                        <div class="detallesimagenes"><ul><li><a href="http://aff.bstatic.com/1/images/hotel/max500/349/3493177.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/349/3493177.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/349/3493184.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/349/3493184.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/349/3493201.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/349/3493201.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/349/3493794.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/349/3493794.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/356/3561631.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/356/3561631.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/356/3561632.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/356/3561632.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/356/3561633.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/356/3561633.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/356/3561634.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/356/3561634.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/356/3561635.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/356/3561635.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/356/3561636.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/356/3561636.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/2/images/hotel/max500/356/3561638.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/2/images/hotel/square60/356/3561638.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/3/images/hotel/max500/381/3810503.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/3/images/hotel/square60/381/3810503.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/0/images/hotel/max500/381/3810504.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/0/images/hotel/square60/381/3810504.gif" width="60" height="60"/></a></li><li><a href="http://aff.bstatic.com/1/images/hotel/max500/381/3810505.jpg" title="Madrid Central Suites" class="preview"><img alt="Madrid Central Suites" src="http://aff.bstatic.com/1/images/hotel/square60/381/3810505.gif" width="60" height="60"/></a></li></ul></div>
-                        <p>Esta amplia habitación cuenta con una plancha de pantalones y un set de bienvenida exclusivo. Algunas habitaciones tienen balcón.</p>
-                        <h3>Equipamiento de las habitaciones</h3><p>Ducha, Teléfono, Aire acondicionado, Secador de pelo, Plancha para ropa, Balcón, Frigorífico, Equipo de planchado, Zona de estar, WC, Microondas, Lavavajillas, Lavadora, Cuarto de baño, Calefacción, Cocina, TV de pantalla plana / LCD / plasma , Entrada privada, Sofá, Suelos de baldosa / mármol, Hervidor de agua eléctrico</p><h3>Incluido en el precio</h3><p>IVA</p>        
-                      </div></td></tr>
+                  <?php endforeach; ?>                  
                 </tbody>
               </table>
+              <input type="hidden" name="aid" value="323497" />
+              <input type="hidden" name="hotel_id" value="<?php echo $hotel['id']; ?>" />
+              <input type="hidden" name="checkin" value="<?php echo $lst_rooms['arrival_date']; ?>" />
+              <input type="hidden" name="interval" value="<?php echo $interval; ?>" />
+              <input type="hidden" value="es" name="lang"/>
+              <input type="hidden" value="1" name="stage"/>
+              <input type="hidden" value="Andorra-Hoteles" name="label"/>
+              <input type="hidden" value="booking.com" name="hostname"/>
               <div align="right"><button type="submit" title="Reservar hotel">Reservar ahora</button></div>
+              </form>
             </div>
+              <?php endif; ?>
           <?php else: ?>
             <div class="disponibilidadHotel">¿Cuándo quieres alojarte en el Hotel Mena Andorra?</div>
 
@@ -303,18 +283,19 @@
           <?php endif; ?>
           <br clear="all" /><br />
 
-          <div class="servicios"><h2 class="seccionHotel">Servicios Hotel Mena Andorra</h2>
-            <h4>Servicios generales</h4>
-            <p>Calefacción, Habitaciones familiares, Aire acondicionado, Ascensor, Habitaciones para no fumadores, Prohibido fumar en todo el recinto del hotel, Registro de entrada y salida exprés.</p>
-
-            <h4>Otros servicios</h4>
-            <p>Centro de negocios, Registro de entrada / salida privado, Información turística, Servicio de lavandería, Servicio de consejería.</p>					
-
-            <h4>Internet</h4>
-            <p>Internet WIFI en todo el hotel. GRATIS</p>
-
-            <h4>Aparcamiento</h4>
-            <p>No hay parking.</p>
+          <div class="servicios"><h2 class="seccionHotel">Servicios <?php $hotel->name ?></h2>
+            <?php foreach ($lst_service as $service): ?>
+              <h4><?php echo $service['type'] ?></h4>
+              <p><?php echo $service['service'] ?>.</p>
+            <?php endforeach; ?>
+            <!--            <h4>Otros servicios</h4>
+                        <p>Centro de negocios, Registro de entrada / salida privado, Información turística, Servicio de lavandería, Servicio de consejería.</p>					
+            
+                        <h4>Internet</h4>
+                        <p>Internet WIFI en todo el hotel. GRATIS</p>
+            
+                        <h4>Aparcamiento</h4>
+                        <p>No hay parking.</p>-->
 
           </div>
           <br clear="all" /><br />

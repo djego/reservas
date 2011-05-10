@@ -24,8 +24,41 @@ class Migration {
     return true;
   }
 
-  public static function migHotel() {
+  public static function migDescriptionHotelTypes() {
+
     $data = new fwoData();
+    $lst_desc_type = $data->fetchRcp('bookings.getHotelDescriptionTypes', 'languagecodes=es');
+//    print_r($lst_desc_type);die();   
+    foreach ($lst_desc_type as $type) {
+      if (!$rs_desc_type = Doctrine::getTable('adHotelDescriptionType')->find($type['descriptiontype_id'])) {
+        $rs_desc_type = new adHotelDescriptionType();
+      }
+      $rs_desc_type->setId($type['descriptiontype_id']);
+      $rs_desc_type->setName($type['name']);
+      $rs_desc_type->setLanguagecode($type['languagecode']);
+      $rs_desc_type->save();
+    }
+  }
+
+  public static function migHotel() {
+
+    $data = new fwoData();
+
+//    // Servicios del Hotel
+//    $facility_types = $data->fetchRcp('bookings.getFacilityTypes', 'languagecodes=es');
+//    foreach ($facility_types as $type) {
+//      if ($type['name']) {
+//        $ar_facility_type[$type['facilitytype_id']] = $type['name'];
+//      }
+//    }
+//    $hotel_facilities_detail = $data->fetchRcp('bookings.getHotelFacilityTypes', 'languagecodes=es');
+//    $ar_facilities_detail = array();
+//    foreach ($hotel_facilities_detail as $detail) {
+//      if ($detail['name']) {
+//        $ar_facilities_detail[$detail['hotelfacilitytype_id']] = $detail['name'];
+//      }
+//    }
+
     $ar_photo = self::obtenerImagesHotel();
     $lst_hotel = $data->fetchRcp('bookings.getHotels', 'countrycodes=ad');
 //    $delete = Doctrine::getTable('adHotel')->findAll()->delete(); 
@@ -68,6 +101,57 @@ class Migration {
       $rs_hotel->setMediumPhoto($ar_photo[$hotel['hotel_id']]['url_max300']);
       $rs_hotel->setBigPhoto($ar_photo[$hotel['hotel_id']]['url_original']);
       $rs_hotel->save();
+
+      // Description 
+      $data = new fwoData();
+      $lst_desc = $data->fetchRcp('bookings.getHotelDescriptionTranslations', 'languagecodes=es&countrycodes=ad&hotel_ids=' . $rs_hotel->id);
+      foreach ($lst_desc as $desc) {
+        if (!$rs_desc = Doctrine::getTable('adHotelDescription')->findOneByDescriptiontypeIdAndHotelId($desc['descriptiontype_id'], $desc['hotel_id'])) {
+          $rs_desc = new adHotelDescription();
+        }
+        $rs_desc->setHotelId($desc['hotel_id']);
+        $rs_desc->setDescriptiontypeId($desc['descriptiontype_id']);
+        $rs_desc->setDescription($desc['description']);
+        $rs_desc->setLanguagecode($desc['languagecode']);
+        $rs_desc->save();
+      }
+      // Fotos Cuartos
+      $data = new fwoData();
+      $lst_roomphoto = $data->fetchRcp('bookings.getRoomPhotos', 'countrycodes=ad&hotel_ids=' . $rs_hotel->id);
+      if ($lst_roomphoto) {
+        foreach ($lst_roomphoto as $roomphoto) {
+
+          if (!$rs_roomphoto = Doctrine::getTable('adHotelRoomPhoto')->findOneByPhotoIdAndHotelIdAndRoomId($roomphoto['photo_id'], $roomphoto['hotel_id'], $roomphoto['room_id'])) {
+            $rs_roomphoto = new adHotelRoomPhoto();
+          }
+          $rs_roomphoto->setPhotoId($roomphoto['photo_id']);
+          $rs_roomphoto->setHotelId($roomphoto['hotel_id']);
+          $rs_roomphoto->setRoomId($roomphoto['room_id']);
+          $rs_roomphoto->setSmallPhoto($roomphoto['url_square60']);
+          $rs_roomphoto->setMediumPhoto($roomphoto['url_max300']);
+          $rs_roomphoto->setBigPhoto($roomphoto['url_original']);
+          $rs_roomphoto->save();
+        }
+      }
+
+
+//      $data = new fwoData();
+//      $param_services = "countrycodes=ad&hotel_ids=" . $rs_hotel->id;
+//      $ar_services = $data->fetchRcp('bookings.getHotelFacilities', $param_services);
+//      $ar_total_service = array();
+//      foreach ($ar_facility_type as $key => $type) {
+//        $item = '';
+//        foreach ($ar_services as $row) {
+//          if ($row['facilitytype_id'] == $key) {
+//            $item.= $ar_facilities_detail[$row['hotelfacilitytype_id']] . ', ';
+//          }
+//        }
+//        $ad_service = new adHotelService();
+//        $ad_service->setHotelId($rs_hotel->id);
+//        $ad_service->setType($type);
+//        $ad_service->setService($item);
+//        $ad_service->save();
+//      }
     }
     return true;
   }
@@ -80,22 +164,6 @@ class Migration {
       $ar_photo[$photo['hotel_id']] = array('url_max300' => $photo['url_max300'], 'url_original' => $photo['url_original'], 'url_square60' => $photo['url_square60']);
     }
     return $ar_photo;
-  }
-
-  public static function migDescriptionHotelTypes() {
-
-    $data = new fwoData();
-    $lst_desc_type = $data->fetchRcp('bookings.getHotelDescriptionTypes', 'languagecodes=es');
-//    print_r($lst_desc_type);die();   
-    foreach ($lst_desc_type as $type) {
-      if (!$rs_desc_type = Doctrine::getTable('adHotelDescriptionType')->find($type['descriptiontype_id'])) {
-        $rs_desc_type = new adHotelDescriptionType();
-      }
-      $rs_desc_type->setId($type['descriptiontype_id']);
-      $rs_desc_type->setName($type['name']);
-      $rs_desc_type->setLanguagecode($type['languagecode']);
-      $rs_desc_type->save();
-    }
   }
 
   public static function migDescriptionHotel() {
@@ -122,7 +190,7 @@ class Migration {
   public static function migRoomPhoto() {
     $data = new fwoData();
 
-    //$delete = Doctrine::getTable('adCity')->findAll()->delete();    
+//    //$delete = Doctrine::getTable('adCity')->findAll()->delete();    
     $lst_hotels = Doctrine::getTable('adHotel')->findAll()->toArray();
     foreach ($lst_hotels as $hotel) {
       $lst_roomphoto = $data->fetchRcp('bookings.getRoomPhotos', 'countrycodes=ad&hotel_ids=' . $hotel['id']);
@@ -147,10 +215,12 @@ class Migration {
           $rs_roomphoto->save();
         }
       }
-////      print_r($ar);die();
-//        if (!$rs_roomphoto = Doctrine::getTable('adHotelRoomPhoto')->findOneByPhotoIdAndHotelId($roomphoto['photo_id'], $roomphoto['hotel_id'])) {
+//      print_r($ar);die();
+//    $lst_roomphoto = $data->fetchRcp('bookings.getRoomPhotos', 'countrycodes=ad');
+//    foreach ($lst_roomphoto as $roomphoto){
+////        if (!$rs_roomphoto = Doctrine::getTable('adHotelRoomPhoto')->findOneByPhotoIdAndHotelIdAndRoomId($roomphoto['photo_id'], $roomphoto['hotel_id'], $roomphoto['room_id'])) {
 //          $rs_roomphoto = new adHotelRoomPhoto();
-//        }
+////        }
 //      
 //        $rs_roomphoto->setPhotoId($roomphoto['photo_id']);
 //        $rs_roomphoto->setHotelId($roomphoto['hotel_id']);
@@ -165,14 +235,7 @@ class Migration {
 
   public static function migServices() {
     $data = new fwoData();
-//    $lst_hotel = Doctrine::getTable('adHotel')->createQuery()->fetchArray();
-//    foreach ($lst_hotel as $hotel){
-//    $param_services = "countrycodes=ad&hotel_ids=" . $hotel['id'];
-//      $ar_services = $data->fetchRcp('bookings.getHotelFacilities', $param_services);
-//      print_r($ar_services);
-//      
-//    }die ();
-//    
+
     // Servicios del Hotel
     $facility_types = $data->fetchRcp('bookings.getFacilityTypes', 'languagecodes=es');
     foreach ($facility_types as $type) {
@@ -188,16 +251,6 @@ class Migration {
       }
     }
 
-//    $param_services = "countrycodes=ad&hotel_ids=";
-//    $ar_services = $data->fetchRcp('bookings.getHotelFacilities', $param_services);
-////    print_r($ar_services);die();
-//    foreach ($ar_services as $service){      
-//      $ad_service = new adHotelService();
-//      $ad_service->setHotelId($service['hotel_id']);
-//      $ad_service->setFacilitytype($ar_facility_type[$service['facilitytype_id']]);
-//      $ad_service->setHotelfacilitytype($ar_facilities_detail[$service['hotelfacilitytype_id']]);
-//      $ad_service->save();
-//    }
     $lst_hotel = Doctrine::getTable('adHotel')->findAll()->toArray();
     foreach ($lst_hotel as $hotel) {
       $data = new fwoData();
@@ -211,14 +264,16 @@ class Migration {
             $item.= $ar_facilities_detail[$row['hotelfacilitytype_id']] . ', ';
           }
         }
-        $ar_total_service[] = array('type' => $type, 'items' => $item);
-        $ad_service = new adHotelService();
+//        $ar_total_service[] = array('type' => $type, 'items' => $item);
+        if (!$ad_service = Doctrine::getTable('adHotelService')->findOneByHotelIdAndType($hotel['id'], $type)) {
+          $ad_service = new adHotelService();
+        }
         $ad_service->setHotelId($hotel['id']);
-        $ad_service->setFacilitytype($type);
-        $ad_service->setHotelfacilitytype($item);
+        $ad_service->setType($type);
+        $ad_service->setService($item);
         $ad_service->save();
-      }     
-      
+      }
+
 //      print_r($ar_total_service);
     }
 //    print_r($ar_total_service);
