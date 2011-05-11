@@ -23,7 +23,7 @@
       <div class="motor-form-standard">
         <div class="titulo">Hoteles en Andorra</div>
         <div class="slogan">al mejor precio online garantizado</div>
-        <form action="<?php echo url_for('search_city') ?>" method="get">
+        <form action="<?php echo url_for('search_city') ?>" method="post">
           <?php if ($search_form->isCSRFProtected()) : ?>
             <?php echo $search_form['_csrf_token']->render(); ?>
           <?php endif; ?>

@@ -32,8 +32,8 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @property double $minrate
  * @property int $nr_rooms
  * @property boolean $preferred
- * @property int $ranking
- * @property int $review_nr
+ * @property string $ranking
+ * @property string $review_nr
  * @property string $review_score
  * @property string $url
  * @property string $zip
@@ -69,8 +69,8 @@ Doctrine_Manager::getInstance()->bindComponent('adHotel', 'doctrine');
  * @method double              getMinrate()                    Returns the current record's "minrate" value
  * @method int                 getNrRooms()                    Returns the current record's "nr_rooms" value
  * @method boolean             getPreferred()                  Returns the current record's "preferred" value
- * @method int                 getRanking()                    Returns the current record's "ranking" value
- * @method int                 getReviewNr()                   Returns the current record's "review_nr" value
+ * @method string              getRanking()                    Returns the current record's "ranking" value
+ * @method string              getReviewNr()                   Returns the current record's "review_nr" value
  * @method string              getReviewScore()                Returns the current record's "review_score" value
  * @method string              getUrl()                        Returns the current record's "url" value
  * @method string              getZip()                        Returns the current record's "zip" value
@@ -224,13 +224,13 @@ abstract class BaseadHotel extends sfDoctrineRecord
         $this->hasColumn('preferred', 'boolean', null, array(
              'type' => 'boolean',
              ));
-        $this->hasColumn('ranking', 'int', 2, array(
-             'type' => 'int',
-             'length' => 2,
+        $this->hasColumn('ranking', 'string', 50, array(
+             'type' => 'string',
+             'length' => 50,
              ));
-        $this->hasColumn('review_nr', 'int', 2, array(
-             'type' => 'int',
-             'length' => 2,
+        $this->hasColumn('review_nr', 'string', 50, array(
+             'type' => 'string',
+             'length' => 50,
              ));
         $this->hasColumn('review_score', 'string', 150, array(
              'type' => 'string',

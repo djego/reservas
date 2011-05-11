@@ -1,19 +1,14 @@
 ## YAML Template.
 ---
 all:
-  javascripts: [%app_s_js%Jfunciones.js]
+  javascripts: [%app_s_js%Jfunciones.js, %app_s_js%search.js]
 citySuccess:
   stylesheets: [%app_s_css%reservaria.css]
-  javascripts: [%app_s_js%jquery.quickpaginate.js]
-cityResultSuccess:
-  stylesheets: [%app_s_css%reservaria.css]
-  javascripts: [%app_s_js%jquery.quickpaginate.js]
 hotelSuccess:
   stylesheets: [%app_s_css%reservaria.css]
-  javascripts: [%app_s_js%imagepreview.js]
+  javascripts: [%app_s_js%imagepreview.js, %app_s_js%search_dispo.js]
 hotelResultSuccess:
   stylesheets: [%app_s_css%reservaria.css]
 mapaSuccess:
   has_layout: false
 indexSuccess:
-  javascripts: [%app_s_js%Jfunciones.js]

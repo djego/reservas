@@ -102,9 +102,9 @@ adHotel:
     preferred:
       type: boolean
     ranking:
-      type: int(2) 
+      type: string(50)
     review_nr:
-      type: int(2) 
+      type: string(50)
     review_score:
       type: string(150) 
     url:

@@ -409,3 +409,11 @@ div.paginacion span.disabled {
 .destinosAndorra li a:hover { text-decoration: none; }
 
 
+.checkbox_list li{
+  display:block;overflow:hidden;height:1%;padding-left:10px;
+}
+.checkbox_list li label{
+      color: #006699;
+    cursor: pointer;
+    text-decoration: underline;
+}

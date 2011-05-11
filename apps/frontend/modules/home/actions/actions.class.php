@@ -32,6 +32,8 @@ class homeActions extends sfActions {
 
   public function executeCity(sfWebRequest $request) {
     $this->lst_cities = Doctrine::getTable('adCity')->createQuery()->orderBy('name ASC')->fetchArray();
+    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+    $this->search_form = new newSearchForm($param_initial);
   }
 
   public function executeSearchCity(sfWebRequest $request) {
@@ -61,6 +63,7 @@ class homeActions extends sfActions {
   public function executeCityHotels(sfWebRequest $request) {
     $cid = $request->getParameter('id');
     $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
+    $this->search_form = new newSearchForm();
     if (!$orden = $request->getParameter('orden')) {
       $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
       $query = Doctrine::getTable('adHotel')->getHotelsCity($cid);
@@ -84,12 +87,20 @@ class homeActions extends sfActions {
       $this->pager->init();
       $this->lst_hotel = $this->pager->getResults()->toArray();
     }
+
+
+
   }
 
   public function executeCityHotelsResult(sfWebRequest $request) {
+
+
+    
     $cid = $request->getParameter('id');
     $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
-    $this->search_form = new newSearchForm($this->getUser()->getAttribute('search_city'));
+    $ar_session = $this->getUser()->getAttribute('search_city');
+    $ar_session['destino'] = $this->rs_city['name'];
+    $this->search_form = new newSearchForm($ar_session);
     $search_sesion = $this->getUser()->getAttribute('search_city');
     $fecha_entrada = $this->changeFormatDate($search_sesion['fecha_entrada']);
     $fecha_salida = $this->changeFormatDate($search_sesion['fecha_salida']);
@@ -101,34 +112,55 @@ class homeActions extends sfActions {
     foreach ($lst_hoteles_ok as $hotel_ok) {
       $ar[] = $hotel_ok['hotel_id'];
     }
-    if (!$orden = $request->getParameter('orden')) {
-      $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-      $query = Doctrine::getTable('adHotel')->getHotelsCityResult($cid, $ar);
-      $this->pager->setQuery($query);
-      $this->pager->setPage($request->getParameter('p', 1));
-      $this->pager->init();
-      $this->lst_hotel = $this->pager->getResults()->toArray();
-    } else {
-      if ($orden == 'pop')
-        $order = 'ranking';
-      if ($orden == 'opi')
-        $order = 'review_nr';
-      if ($orden == 'est')
-        $order = 'class_and';
-      if ($orden == 'pre')
-        $order = 'minrate';
-      $this->pager = new sfDoctrinePager('adHotel', 10);
-      $query = Doctrine::getTable('adHotel')->getHotelsCityResult($cid, $ar, $order);
-      $this->pager->setQuery($query);
-      $this->pager->setPage($request->getParameter('p', 1));
-      $this->pager->init();
-      $this->lst_hotel = $this->pager->getResults()->toArray();
+//    if (!$orden = $request->getParameter('orden')) {
+    $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar, $ar_session['star'], $ar_session['facility']);
+    $this->pager->setQuery($query);
+    $this->pager->setPage($request->getParameter('p', 1));
+    $this->pager->init();
+    $this->lst_hotel = $this->pager->getResults()->toArray();
+
+
+
+
+    if($request->isMethod('post')) {
+      $ar_star = $request->getParameter('search_new');
+
+      $this->search_form->bind($ar_star);
+      if($this->search_form->isValid()) {
+        $param_search = $this->search_form->getValues();
+        $this->getUser()->setAttribute('search_city', $param_search);
+//        print_r($param_search);die();
+        $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+//        if(($ar_star['star']) && isset ($ar_star['facility'])){
+        $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$param_search['star'],$param_search['facility']);
+//        }elseif(isset ($ar_star['star'])){
+//          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$ar_star['star']);
+//        }elseif(isset ($ar_star['star'])){
+//          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$ar_star['facility']);
+//        }
+//        else{
+//          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid);
+//        }
+        $this->pager->setQuery($query);
+        $this->pager->setPage($request->getParameter('p', 1));
+        $this->pager->init();
+        $this->lst_hotel = $this->pager->getResults()->toArray();
+
+      }
+
+//
+//      print_r($ar_star);
+//die ();
     }
+
+
   }
 
   public function executeHotel(sfWebRequest $request) {
 
-
+//    print_r($this->getUser()->getAttribute('searching_dispo'));
+//    die();
     $this->ar_slug_city = $this->getArraySlugCity();
     $hid = $request->getParameter('id');
     $this->forward404Unless($this->hotel = Doctrine::getTable('adHotel')->find($hid));
@@ -140,88 +172,32 @@ class homeActions extends sfActions {
     if ($this->getUser()->getAttribute('searching_dispo')) {
       $param_initial = $this->getUser()->getAttribute('searching_dispo');
     } else {
-      $param_initial = Array('fecha-inicio' => Array('day' => date('d') + 0, 'month' => date('m') + 0), 'fecha-final' => Array('day' => date('d') + 1, 'month' => date('m') + 0));
+      $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
     }
     $this->form_dis = new searchForm($param_initial);
-//    $this->form = new searchForm($this->getUser()->getAttribute('searching'));
-//
-//    $hotel_id = $request->getParameter('id');
-//    $this->slug_c = $request->getParameter('slug');
-//    $param = "countrycodes=ad&hotel_ids=" . $hotel_id;
-//    $this->rs_hotel = $this->data->fetchRcp('bookings.getHotels', $param);
-//    // datos de la ciudad y nombre del hotel
-//    $this->city_name = $this->rs_hotel[0]['city'];
-//    $this->city_id = $this->rs_hotel[0]['city_id'];
-//    $this->hotel_name = $this->rs_hotel[0]['name'];
-//    //foto del hotel
-//    $param = "countrycodes=ad&hotel_ids=" . $hotel_id;
-//    $this->rs_photo = $this->data->fetchRcp('bookings.getHotelPhotos', $param);
-//    // fotos de los cuartos
-//    $param = "countrycodes=ad&hotel_ids=" . $hotel_id;
-//    $this->lst_photos_room = $this->data->fetchRcp('bookings.getRoomPhotos', $param);
-//    
-//    
-//    $param = "countrycodes=ad&hotel_ids=" . $hotel_id;
-//    $this->lst_hotel_desc = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations', $param);
-//
+    $this->form_pro = new searchProForm($param_initial);
+
     if ($request->isMethod('post')) {
-      $val_dispo = $request->getParameter('search');
+      $val_dispo = $request->getParameter('search_dispo');
       $this->form_dis->bind($val_dispo);
       if ($this->form_dis->isValid()) {
-        $this->getUser()->setAttribute('searching_dispo', $this->form_dis->getValues());
-
-        // Cuartos disponibles        
-        $ar_date = $this->changeFormatDate2($this->getUser()->getAttribute('searching_dispo'));
-        $parame = "languagecodes=es&arrival_date=" . $ar_date['ini'] . "&departure_date=" . $ar_date['fin'] . "&hotel_ids=" . $this->hotel->id;
+        $data_dispo  = $this->form_dis->getValues();
+        $this->getUser()->setAttribute('searching_dispo', $data_dispo);
+        // Cuartos disponibles
+        $fecha_entrada = $this->changeFormatDate($data_dispo['fecha_entrada']);
+        $fecha_salida = $this->changeFormatDate($data_dispo['fecha_salida']);
+        $parame = "languagecodes=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
         $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
-        if($ar_rooms == NULL){
+        if($ar_rooms == NULL) {
           $this->lst_rooms = false;
-        }else{
+        }else {
           $this->lst_rooms = $ar_rooms[0];
         }
-        
-//        print_r($ar_rooms);
-//        die();
+
       }
-//      $ar_date = $this->changeFormatDate($val_dispo);
-//      $param = "arrival_date=" . $ar_date['ini'] . "&departure_date=" . $ar_date['fin'] . "&hotel_ids=" . $hotel_id;
-//      if ($this->hotel_avaible = $this->data->fetchRcp('bookings.getHotelAvailability', $param)) {
-//        $this->hotel_id = $hotel_id;
-//      } else {
-//        $this->getUser()->setFlash('notice', 'No existe cuartos disponibles');
-//        $this->redirect($request->getReferer());
-//      }
+
     }
-//    // Servicios del Hotel
-//    $facility_types = $this->data->fetchRcp('bookings.getFacilityTypes', 'languagecodes=es');
-//    foreach ($facility_types as $type) {
-//      if ($type['name']) {
-//        $ar_facility_type[$type['facilitytype_id']] = $type['name'];
-//      }
-//    }
-//    $hotel_facilities_detail = $this->data->fetchRcp('bookings.getHotelFacilityTypes', 'languagecodes=es');
-//    $ar_facilities_detail = array();
-//    foreach ($hotel_facilities_detail as $detail) {
-//      if ($detail['name']) {
-//        $ar_facilities_detail[$detail['hotelfacilitytype_id']] = $detail['name'];
-//      }
-//    }
-//
-//    $param_services = "countrycodes=ad&hotel_ids=" . $hotel_id;
-//
-//    $ar_services = $this->data->fetchRcp('bookings.getHotelFacilities', $param_services);
-//    $ar_total_service = array();
-//    foreach ($ar_facility_type as $key => $type) {
-//      $item = '';
-//      foreach ($ar_services as $row) {
-//        if ($row['facilitytype_id'] == $key) {
-//          $item.= $ar_facilities_detail[$row['hotelfacilitytype_id']] . ', ';
-//        }
-//      }
-//      $ar_total_service[] = array('type' => $type, 'items' => $item);
-//    }
-//    $this->lst_services = $ar_total_service;
-//    $this->hotel_id = $hotel_id;
+
   }
 
   protected function getArraySlugCity() {
@@ -234,61 +210,44 @@ class homeActions extends sfActions {
   }
 
   public function executeHotelResult(sfWebRequest $request) {
-    $this->form = new searchForm($this->getUser()->getAttribute('searching'));
-    $hotel_id = $request->getParameter('id');
-    $this->slug_c = $request->getParameter('slug');
-    $param = "countrycodes=ad&hotel_ids=" . $hotel_id;
-    $this->rs_hotel = $this->data->fetchRcp('bookings.getHotels', $param);
-    // datos de la ciudad y nombre del hotel
-    $this->city_name = $this->rs_hotel[0]['city'];
-    $this->city_id = $this->rs_hotel[0]['city_id'];
-    $this->hotel_name = $this->rs_hotel[0]['name'];
-    //foto del hotel
-    $param = "countrycodes=ad&hotel_ids=" . $hotel_id;
-    $this->rs_photo = $this->data->fetchRcp('bookings.getHotelPhotos', $param);
-    // fotos de los cuartos
-    $param = "countrycodes=ad&hotel_ids=" . $hotel_id;
-    $this->lst_photos_room = $this->data->fetchRcp('bookings.getRoomPhotos', $param);
 
-    $param = "countrycodes=ad&hotel_ids=" . $hotel_id;
-    $this->lst_hotel_desc = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations', $param);
+    $this->ar_slug_city = $this->getArraySlugCity();
+    $hid = $request->getParameter('id');
+    $this->forward404Unless($this->hotel = Doctrine::getTable('adHotel')->find($hid));
+    $this->lst_service = Doctrine::getTable('adHotelService')->getService($this->hotel->id);
+    $this->range = Utils::getDistance($this->hotel->longitude - 0.002, $this->hotel->latitude - 0.002, $this->hotel->longitude + 0.002, $this->hotel->latitude + 0.002);
+    $this->hotels_nearby = Doctrine::getTable('adHotel')->getHotelsNearby($this->hotel->longitude, $this->hotel->latitude, 0.002, 0.002);
+    $this->aditional_info = Doctrine::getTable('adHotelDescription')->getInfoAditional($this->hotel->id);
+//    print_r($this->aditional_info);die();
+
+
 
     // Cuartos disponibles
-    $ar_date = $this->changeFormatDate($this->getUser()->getAttribute('searching'));
-    $parame = "languagecode=es&arrival_date=" . $ar_date['ini'] . "&departure_date=" . $ar_date['fin'] . "&hotel_ids=" . $hotel_id;
+    $search_sesion = $this->getUser()->getAttribute('search_city');
+    $this->search_form = new newSearchForm($search_sesion);
+
+    $fecha_entrada = $this->changeFormatDate($search_sesion['fecha_entrada']);
+    $fecha_salida = $this->changeFormatDate($search_sesion['fecha_salida']);
+    $parame = "languagecodes=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
     $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
     $this->lst_rooms = $ar_rooms[0];
 
-    // Servicios del Hotel
-    $facility_types = $this->data->fetchRcp('bookings.getFacilityTypes', 'languagecodes=es');
-    foreach ($facility_types as $type) {
-      if ($type['name']) {
-        $ar_facility_type[$type['facilitytype_id']] = $type['name'];
+    if($request->isMethod('post')) {
+      $this->search_form->bind($request->getParameter('search_new'));
+      if($this->search_form->isValid()) {
+        $param_search = $this->search_form->getValues();
+        $this->getUser()->setAttribute('search_city',$param_search);
+        $fecha_entrada = $this->changeFormatDate($param_search['fecha_entrada']);
+        $fecha_salida = $this->changeFormatDate($param_search['fecha_salida']);
+        $parame = "languagecodes=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
+        $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
+        $this->lst_rooms = $ar_rooms[0];
       }
-    }
-    $hotel_facilities_detail = $this->data->fetchRcp('bookings.getHotelFacilityTypes', 'languagecodes=es');
-    $ar_facilities_detail = array();
-    foreach ($hotel_facilities_detail as $detail) {
-      if ($detail['name']) {
-        $ar_facilities_detail[$detail['hotelfacilitytype_id']] = $detail['name'];
-      }
+
+
     }
 
-    $param_services = "countrycodes=ad&hotel_ids=" . $hotel_id;
 
-    $ar_services = $this->data->fetchRcp('bookings.getHotelFacilities', $param_services);
-    $ar_total_service = array();
-    foreach ($ar_facility_type as $key => $type) {
-      $item = '';
-      foreach ($ar_services as $row) {
-        if ($row['facilitytype_id'] == $key) {
-          $item.= $ar_facilities_detail[$row['hotelfacilitytype_id']] . ', ';
-        }
-      }
-      $ar_total_service[] = array('type' => $type, 'items' => $item);
-    }
-    $this->lst_services = $ar_total_service;
-    $this->hotel_id = $hotel_id;
   }
 
   public function executeSearch(sfWebRequest $request) {
@@ -372,7 +331,7 @@ class homeActions extends sfActions {
       $hotels = $this->data->fetchRcp('bookings.getHotels', 'countrycodes=ad&hotel_ids=' . $hotel['hotel_id']);
       $hotels_photo = $this->data->fetchRcp('bookings.getHotelPhotos', 'countrycodes=ad&hotel_ids=' . $hotel['hotel_id']);
       $hotels_description = $this->data->fetchRcp('bookings.getHotelDescriptionTranslations', 'countrycodes=ad&languagecodes=es&hotel_ids=' . $hotel['hotel_id']);
-      // Cuartos disponibles      
+      // Cuartos disponibles
       $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', "languagecode=es&arrival_date=" . $ar_date['ini'] . "&departure_date=" . $ar_date['fin'] . "&hotel_ids=" . $hotel['hotel_id']);
       $ar_r[] = $ar_rooms[0];
 //      $ar_rooms[] = $ar_rooms;
@@ -390,19 +349,19 @@ class homeActions extends sfActions {
   /*  Paginas estaticas */
 
   public function executeNosotros() {
-    
+
   }
 
   public function executeFaq() {
-    
+
   }
 
   public function executeCondicion() {
-    
+
   }
 
   public function executeContacto() {
-    
+
   }
 
 }

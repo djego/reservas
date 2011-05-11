@@ -280,4 +280,13 @@ class Migration {
 //        die ();
   }
 
+
+  public static function migRooms() {
+    $data = new fwoData();
+
+    // Servicios del Hotel
+    $hotel_facilities_detail = $data->fetchRcp('bookings.getRoomTypes', 'languagecodes=es');
+    print_r($hotel_facilities_detail);die();
+  }
+
 }

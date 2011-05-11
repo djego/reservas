@@ -41,18 +41,52 @@ class adHotelTable extends Doctrine_Table
       return $q;
     }
     public function getHotelsCityResult($cid,$htids, $order =''){
+
       $q = $this->createQuery('h');
       $q->select('h.*, d.description as description');
       $q->innerJoin('h.HotelDescs as d');
       $q->where('d.descriptiontype_id = 6');
       $q->andWhereIn('h.id',$htids);
       $q->andWhere('h.city_id = ?',$cid);
+
       if($order == '') $q->orderBy('h.class_and DESC');
       elseif($order == 'minrate') $q->orderBy('minrate ASC');
       else $q->orderBy('h.'.$order.' DESC');
 //      echo $q->getSqlQuery(); die();
       return $q;
     }
+
+    public function getHotelsCityResult2($cid,$htids,$star = array(),$facility = array(),$order=''){
+      
+//      echo substr($star_cad,0,-4);die();
+      $q = $this->createQuery('h');
+      $q->select('h.*, d.description as description');
+      $q->innerJoin('h.HotelDescs as d');
+      $q->where('d.descriptiontype_id = 6');
+      $q->andWhereIn('h.id',$htids);
+      $q->andWhere('h.city_id = ?',$cid);
+      $star_cad = '';
+      if(count($star)>0){
+         foreach ($star as $s){
+           $star_cad.= 'h.class_and = '.$s.' OR ';
+        }
+        $q->andWhere(substr($star_cad,0,-4));
+      }
+      $faci_cad='';
+      if(count($facility)>0){
+         foreach ($facility as $f){
+           $faci_cad.= 'd.description like "%'.$f.'%" OR ';
+        }
+        $q->andWhere(substr($faci_cad,0,-4));
+      }
+//      echo substr($faci_cad,0,-4);die();
+      if($order == '') $q->orderBy('h.class_and DESC');
+      elseif($order == 'minrate') $q->orderBy('minrate ASC');
+      else $q->orderBy('h.'.$order.' DESC');
+//      echo $q->getSqlQuery(); die();
+      return $q;
+    }
+
     public function getHotelsNearby($lo, $la, $lod, $lad){
       $q = $this->createQuery();
       $q->where('latitude > '.($la - $lad));
