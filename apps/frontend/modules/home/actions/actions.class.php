@@ -28,8 +28,6 @@ class homeActions extends sfActions {
 
     $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
     $this->search_form = new newSearchForm($param_initial);
-
-
   }
 
   public function executeCity(sfWebRequest $request) {
@@ -88,11 +86,10 @@ class homeActions extends sfActions {
     }
   }
 
-  
   public function executeCityHotelsResult(sfWebRequest $request) {
     $cid = $request->getParameter('id');
     $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
-    $this->search_form = new newSearchForm($this->getUser()->getAttribute('search_city'));    
+    $this->search_form = new newSearchForm($this->getUser()->getAttribute('search_city'));
     $search_sesion = $this->getUser()->getAttribute('search_city');
     $fecha_entrada = $this->changeFormatDate($search_sesion['fecha_entrada']);
     $fecha_salida = $this->changeFormatDate($search_sesion['fecha_salida']);
@@ -101,8 +98,8 @@ class homeActions extends sfActions {
     $this->fecha_entrada = $fecha_entrada;
     $this->fecha_salida = $fecha_salida;
     $ar = array();
-    foreach ($lst_hoteles_ok as $hotel_ok){
-      $ar[]  = $hotel_ok['hotel_id'];
+    foreach ($lst_hoteles_ok as $hotel_ok) {
+      $ar[] = $hotel_ok['hotel_id'];
     }
     if (!$orden = $request->getParameter('orden')) {
       $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
@@ -128,26 +125,18 @@ class homeActions extends sfActions {
       $this->lst_hotel = $this->pager->getResults()->toArray();
     }
   }
-  
-  
+
   public function executeHotel(sfWebRequest $request) {
 
-//    $parame = "languagecode=es&arrival_date=2011-05-10&departure_date=2011-05-11&hotel_ids=26882";
-//    $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
-//    print_r($ar_rooms);die();
+
     $this->ar_slug_city = $this->getArraySlugCity();
     $hid = $request->getParameter('id');
     $this->forward404Unless($this->hotel = Doctrine::getTable('adHotel')->find($hid));
-
     $this->lst_service = Doctrine::getTable('adHotelService')->getService($this->hotel->id);
-
-//    print_r($this->lst_service);die();
-//    $data = new fwoData();
-//    $param_services = "countrycodes=ad&hotel_ids=".$this->hotel->id;
-//    $ar_services = $data->fetchRcp('bookings.getHotelFacilities', $param_services);
-//    print_r($ar_services);
-//    die();
-
+    $this->range = Utils::getDistance($this->hotel->longitude - 0.002, $this->hotel->latitude - 0.002, $this->hotel->longitude + 0.002, $this->hotel->latitude + 0.002);
+    $this->hotels_nearby = Doctrine::getTable('adHotel')->getHotelsNearby($this->hotel->longitude, $this->hotel->latitude, 0.002, 0.002);
+    $this->aditional_info = Doctrine::getTable('adHotelDescription')->getInfoAditional($this->hotel->id);
+//    print_r($this->aditional_info);die();
     if ($this->getUser()->getAttribute('searching_dispo')) {
       $param_initial = $this->getUser()->getAttribute('searching_dispo');
     } else {
@@ -182,11 +171,17 @@ class homeActions extends sfActions {
         $this->getUser()->setAttribute('searching_dispo', $this->form_dis->getValues());
 
         // Cuartos disponibles        
-        $ar_date = $this->changeFormatDate($this->getUser()->getAttribute('searching_dispo'));
-        $parame = "languagecode=es&arrival_date=" . $ar_date['ini'] . "&departure_date=" . $ar_date['fin'] . "&hotel_ids=" . $this->hotel->id;
+        $ar_date = $this->changeFormatDate2($this->getUser()->getAttribute('searching_dispo'));
+        $parame = "languagecodes=es&arrival_date=" . $ar_date['ini'] . "&departure_date=" . $ar_date['fin'] . "&hotel_ids=" . $this->hotel->id;
         $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
-        $this->lst_rooms = $ar_rooms[0];
-//        print_r($this->lst_rooms);
+        if($ar_rooms == NULL){
+          $this->lst_rooms = false;
+        }else{
+          $this->lst_rooms = $ar_rooms[0];
+        }
+        
+//        print_r($ar_rooms);
+//        die();
       }
 //      $ar_date = $this->changeFormatDate($val_dispo);
 //      $param = "arrival_date=" . $ar_date['ini'] . "&departure_date=" . $ar_date['fin'] . "&hotel_ids=" . $hotel_id;
@@ -338,12 +333,22 @@ class homeActions extends sfActions {
 //    $mesf = str_pad($param_search['fecha-final']['month'], 2, "0", STR_PAD_LEFT);
 //    $ini = '2011-' . $mesi . '-' . $diai;
 //    $fin = '2011-' . $mesf . '-' . $diaf;
-    
-    $dat  = str_replace('/', '-', $param_search);
-    $data_day = substr($dat,0,2);
-    $data_mes = substr($dat,3,2);
-    $data_ano = substr($dat,6,4);
-    return $data_ano.'-'.$data_mes.'-'.$data_day;
+
+    $dat = str_replace('/', '-', $param_search);
+    $data_day = substr($dat, 0, 2);
+    $data_mes = substr($dat, 3, 2);
+    $data_ano = substr($dat, 6, 4);
+    return $data_ano . '-' . $data_mes . '-' . $data_day;
+  }
+
+  protected function changeFormatDate2($param_search) {
+    $diai = str_pad($param_search['fecha-inicio']['day'], 2, "0", STR_PAD_LEFT);
+    $mesi = str_pad($param_search['fecha-inicio']['month'], 2, "0", STR_PAD_LEFT);
+    $diaf = str_pad($param_search['fecha-final']['day'], 2, "0", STR_PAD_LEFT);
+    $mesf = str_pad($param_search['fecha-final']['month'], 2, "0", STR_PAD_LEFT);
+    $ini = '2011-' . $mesi . '-' . $diai;
+    $fin = '2011-' . $mesf . '-' . $diaf;
+    return array('ini' => $ini,'fin' => $fin);
   }
 
   public function executeCityResult(sfWebRequest $request) {

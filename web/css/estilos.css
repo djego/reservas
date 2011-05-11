@@ -89,171 +89,211 @@ p{margin-bottom:10px;}
 .navegacion a:hover { text-decoration:underline; }
 
 .hotel-listado {
-	border-top: 1px dotted rgb(193, 193, 193);
-	display: inline-block;
-	padding-bottom: 5px;
-	width: 579px;
+  border-top: 1px dotted rgb(193, 193, 193);
+  display: inline-block;
+  padding-bottom: 5px;
+  width: 579px;
 }
 .hotel-listado-foto {
-	float: left;
-	margin-left: 0px;
-	display: inline-block;
-	margin-right: 6px;
-	margin-top: 8px;
-	overflow: hidden;
-	width: 110px;
+  float: left;
+  margin-left: 0px;
+  display: inline-block;
+  margin-right: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+  width: 110px;
 }
 .hotel-listado-foto img {
-	padding:2px;
-	background:#fff;
-	border:1px solid #bdbdbd;
-	margin-bottom:1px;
+  padding:2px;
+  background:#fff;
+  border:1px solid #bdbdbd;
+  margin-bottom:1px;
 }
 .hotel-listado-foto img:hover {
-	padding:2px;
-	background:#BFD5EE;
-	border:1px solid #bdbdbd;
-	margin-bottom:1px;
+  padding:2px;
+  background:#BFD5EE;
+  border:1px solid #bdbdbd;
+  margin-bottom:1px;
 }
+/*  Agregado  Hoteles cercanos */
+.seccion_hoteles_cercanos{
+  border: 1px solid #D1D0D0;
+  float: left;
+  font-size: 11px;
+  margin: 10px 0;
+  padding: 10px;
+  float: left;
+}
+
+.hotel-cercano {
+    color: #888786;
+    float: left;
+    font-size: 11px;
+    font-weight: bold;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.hotel-cercano-foto {
+  float: left;
+  margin-left: 0px;
+  display: inline-block;
+  margin-right: 6px;
+  overflow: hidden;
+}
+.hotel-cercano-foto img {
+  padding:2px;
+  background:#fff;
+  border:1px solid #bdbdbd;
+  margin-bottom:1px;
+}
+.hotel-cercano-foto img:hover {
+  padding:2px;
+  background:#BFD5EE;
+  border:1px solid #bdbdbd;
+  margin-bottom:1px;
+}
+
+
 .hotel-listado-info {
-	float: right; margin-top: 8px; width: 460px;
+  float: right; margin-top: 8px; width: 460px;
 }
 .hotel-listado-superior {
-	display: inline-block; width: 460px;
+  display: inline-block; width: 460px;
 }
 .hotel-precio {
-	float: right; 
-	font-size: 11px; 
-	color: rgb(51, 51, 51); 
-	font-weight: bold; 
-	text-align: right;
+  float: right; 
+  font-size: 11px; 
+  color: rgb(51, 51, 51); 
+  font-weight: bold; 
+  text-align: right;
 }
 .hotel-precio span {
-	color:#95AB04;
-	font-size:17px;
+  color:#95AB04;
+  font-size:17px;
 }
 .hotel-listado-descripcion {
-	color: rgb(40, 40, 40); 
-	font-size: 11px; 
-	text-align: justify;
-	margin:7px 0;
+  color: rgb(40, 40, 40); 
+  font-size: 11px; 
+  text-align: justify;
+  margin:7px 0;
 }
 .hotel-titulo {
-	font-size: 11px;
-	font-weight: bold; 
-	color:#888786;
+  font-size: 11px;
+  font-weight: bold; 
+  color:#888786;
 }
 .hotel-titulo a {
-	font-size: 15px;
-	color:#1E5A9E; 
+  font-size: 15px;
+  color:#1E5A9E; 
 }
 .hotel-titulo a:hover {
-	text-decoration:underline;
+  text-decoration:underline;
 }
 a.mashoteles {
-	padding: 6px 14px 6px 14px;
-	font: bold 12px/1.3em Verdana;
-	color: rgba(254,254,254,.96);
-	border: 1px solid rgba(155,151,109,.2);
-	background: rgba(76,158,16,.98);
-      text-decoration:none;
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-	-webkit-transition: color, background-color .2s ease-out;
-	}
+  padding: 6px 14px 6px 14px;
+  font: bold 12px/1.3em Verdana;
+  color: rgba(254,254,254,.96);
+  border: 1px solid rgba(155,151,109,.2);
+  background: rgba(76,158,16,.98);
+  text-decoration:none;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -webkit-transition: color, background-color .2s ease-out;
+}
 a.mashoteles:hover {
-	background-color: rgba(155,151,109,.85);
+  background-color: rgba(155,151,109,.85);
 }
 
 
 /** LISTADOS HOTELES **/
 
 .listados-hoteles {
-	border-top: 1px solid rgb(193, 193, 193);
-	display: inline-block;
-	padding-bottom: 5px;
-	width: 679px;
+  border-top: 1px solid rgb(193, 193, 193);
+  display: inline-block;
+  padding-bottom: 5px;
+  width: 679px;
 }
 .listados-hoteles-foto {
-	float: left;
-	margin-left: 0px;
-	display: inline-block;
-	margin-right: 6px;
-	margin-top: 8px;
-	overflow: hidden;
-	width: 150px;
+  float: left;
+  margin-left: 0px;
+  display: inline-block;
+  margin-right: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+  width: 150px;
 }
 .listados-hoteles-foto img {
-	padding:2px;
-	background:#fff;
-	border:1px solid #bdbdbd;
-	margin-bottom:1px;
+  padding:2px;
+  background:#fff;
+  border:1px solid #bdbdbd;
+  margin-bottom:1px;
 }
 .listados-hoteles-foto img:hover {
-	padding:2px;
-	background:#BFD5EE;
-	border:1px solid #bdbdbd;
-	margin-bottom:1px;
+  padding:2px;
+  background:#BFD5EE;
+  border:1px solid #bdbdbd;
+  margin-bottom:1px;
 }
 .listados-hoteles-info {
-	float: right; margin-top: 8px; width: 520px;
+  float: right; margin-top: 8px; width: 520px;
 }
 .listados-hoteles-superior {
-	display: inline-block; width: 520px;
+  display: inline-block; width: 520px;
 }
 .listados-hoteles-precio {
-	float: right; 
-	font-size: 12px; 
-	color: rgb(51, 51, 51);
-	text-align: right;
-	margin-left:20px;
+  float: right; 
+  font-size: 12px; 
+  color: rgb(51, 51, 51);
+  text-align: right;
+  margin-left:20px;
 }
 .listados-hoteles-precio span {
-	color:#95AB04;
-	font-size:18px; 
-	font-weight: bold; 
+  color:#95AB04;
+  font-size:18px; 
+  font-weight: bold; 
 }
 .listados-hoteles-precio a {
-	font-size: 11px;
-	color:#1E5A9E;
-	text-decoration:underline; 
+  font-size: 11px;
+  color:#1E5A9E;
+  text-decoration:underline; 
 }
 .listados-hoteles-precio a:hover {
-	text-decoration:none;
+  text-decoration:none;
 }
 .listados-hoteles-descripcion {
-	color: rgb(40, 40, 40); 
-	font-size: 12px; 
-	text-align: justify;
-	margin:20px 0;
+  color: rgb(40, 40, 40); 
+  font-size: 12px; 
+  text-align: justify;
+  margin:20px 0;
 }
 .listados-hoteles-descripcion a {
-	color:#1E5A9E;
-	text-decoration:underline;
+  color:#1E5A9E;
+  text-decoration:underline;
 }
 .listados-hoteles-descripcion a:hover {
-	text-decoration:none;
+  text-decoration:none;
 }
 .listados-hoteles-titulo {
-	font-size: 11px;
-	font-weight: bold; 
-	color:#888786;
+  font-size: 11px;
+  font-weight: bold; 
+  color:#888786;
 }
 .listados-hoteles-titulo a {
-	font-size: 16px;
-	color:#1E5A9E; 
+  font-size: 16px;
+  color:#1E5A9E; 
 }
 .listados-hoteles-titulo a:hover {
-	text-decoration:underline;
+  text-decoration:underline;
 }
 .listados-hoteles-titulo span a {
-	font-size: 11px;
-	color:#1E5A9E;
-	text-decoration:underline; 
+  font-size: 11px;
+  color:#1E5A9E;
+  text-decoration:underline; 
 }
 .listados-hoteles-titulo span a:hover {
-	text-decoration:none;
+  text-decoration:none;
 }
 
 .tabDispoHot{width:100%;font-size:12px;float:left;margin-bottom:10px;margin-top:5px;}
@@ -285,45 +325,45 @@ a.mashoteles:hover {
 
 /** PAGINACION **/
 div.paginacion {
-	padding: 3px;
-	margin: 3px;
-	text-align: center;
-	font-size: x-small;
+  padding: 3px;
+  margin: 3px;
+  text-align: center;
+  font-size: x-small;
 }
 
 div.paginacion a {
-	padding: 2px 5px 2px 5px;
-	margin-right: 2px;
-	border: 1px solid #ddd;
-	text-decoration: none;
-	color: #3169D9;
+  padding: 2px 5px 2px 5px;
+  margin-right: 2px;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #3169D9;
 }
 div.paginacion a:hover, div.paginacion a:active {
-	border:1px solid #767676;
-	color: #fff;
-	background-color: #3169D9;
+  border:1px solid #767676;
+  color: #fff;
+  background-color: #3169D9;
 }
 div.paginacion span.current {
-	padding: 2px 5px 2px 5px;
-	margin-right: 2px;
-	border: 1px solid #ddd;
-	font-weight: bold;
-	background-color: #4C9E10;
-	color: #FFF;
+  padding: 2px 5px 2px 5px;
+  margin-right: 2px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+  background-color: #4C9E10;
+  color: #FFF;
 }
 div.paginacion span.currentpage {
-	padding: 2px 5px 2px 5px;
-	margin-right: 2px;
-	border: 1px solid #ddd;
-	font-weight: bold;
-	background-color: #4C9E10;
-	color: #FFF;
+  padding: 2px 5px 2px 5px;
+  margin-right: 2px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+  background-color: #4C9E10;
+  color: #FFF;
 }
 div.paginacion span.disabled {
-	padding: 2px 5px 2px 5px;
-	margin-right: 2px;
-	border: 1px solid #f3f3f3;
-	color: #ccc;
+  padding: 2px 5px 2px 5px;
+  margin-right: 2px;
+  border: 1px solid #f3f3f3;
+  color: #ccc;
 }
 
 /** FICHA HOTEL **/

@@ -53,7 +53,16 @@ class adHotelTable extends Doctrine_Table
 //      echo $q->getSqlQuery(); die();
       return $q;
     }
-    
+    public function getHotelsNearby($lo, $la, $lod, $lad){
+      $q = $this->createQuery();
+      $q->where('latitude > '.($la - $lad));
+      $q->andWhere('latitude < '.($la + $lad));
+      $q->andWhere('longitude > '.($lo - $lod));
+      $q->andWhere('longitude < '.($lo + $lod));
+      $q->orderBy('latitude, longitude');
+      $q->limit(4);
+      return $q->fetchArray();
+    }
 //    public function getHotel($hid){
 //      $q = $this->createQuery('h');
 //      $q->select('h.*, d.description as description');

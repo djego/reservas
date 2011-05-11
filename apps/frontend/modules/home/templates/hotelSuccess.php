@@ -33,45 +33,21 @@
 
             <br clear="all" /><br /><p>&nbsp;</p>
 
-            <b>Distancia a puntos de interés</b>
-            <div class="puntosinteres">
-              <ul>
-                <li class="puntointeres">Aeropuerto</li>				
-                <li><a href="/madrid/cerca-de/aeropuerto-de-barajas-(mad)/24">Aeropuerto de Barajas (MAD)</a> (12.3 km)</li>
-
-                <li class="puntointeres">Estación de trenes</li>				
-                <li><a href="/madrid/cerca-de/estacion-de-atocha/26">Estación de Atocha</a> (984 m)</li>
-                <li><a href="/madrid/cerca-de/estacion-de-chamartin/25">Estación de Chamartín</a> (6.5 km)</li>
-
-                <li class="puntointeres">Centro de convenciones</li>				
-                <li><a href="/madrid/cerca-de/ifema/27">IFEMA</a> (8.9 km)</li>
-                <li><a href="/madrid/cerca-de/palacio-de-congresos/28">Palacio de Congresos</a> (4.3 km)</li>
-
-                <li class="puntointeres">Punto de referencia</li>				
-                <li><a href="/madrid/cerca-de/el-retiro/38">El Retiro</a> (1.2 km)</li>
-                <li><a href="/madrid/cerca-de/palacio-real-de-madrid/35">Palacio Real de Madrid</a> (1.3 km)</li>
-                <li><a href="/madrid/cerca-de/plaza-mayor/36">Plaza Mayor</a> (757 m)</li>
-                <li><a href="/madrid/cerca-de/puerta-del-sol/33">Puerta del Sol</a> (506 m)</li>
-                <li><a href="/madrid/cerca-de/puerta-de-alcala/37">Puerta de Alcalá</a> (999 m)</li>
-
-                <li class="puntointeres">Museo</li>				
-                <li><a href="/madrid/cerca-de/museo-thyssen-bornemisza/34">Museo Thyssen-Bornemisza</a> (330 m)</li>
-                <li><a href="/madrid/cerca-de/museo-reina-sofia/32">Museo Reina Sofía</a> (737 m)</li>
-                <li><a href="/madrid/cerca-de/museo-del-prado/29">Museo del Prado</a> (538 m)</li>
-
-                <li class="puntointeres">Teatro</li>				
-                <li><a href="/madrid/cerca-de/teatro-real/43">Teatro Real</a> (1.1 km)</li>
-
-                <li class="puntointeres">Estadio</li>				
-                <li><a href="/madrid/cerca-de/estadio-santiago-bernabeu/30">Estadio Santiago Bernabéu</a> (4.3 km)</li>
-                <li><a href="/madrid/cerca-de/estadio-vicente-calderon/31">Estadio Vicente Calderón</a> (2.4 km)</li>
-
-                <li class="puntointeres">Parque temático / Zoo</li>				
-                <li><a href="/madrid/cerca-de/zoo-aquarium/42">Zoo Aquarium</a> (5.5 km)</li>
-                <li><a href="/madrid/cerca-de/parque-warner/39">Parque Warner</a> (22.2 km)</li>
-                <li><a href="/madrid/cerca-de/faunia/40">Faunia</a> (7.6 km)</li>
-                <li><a href="/madrid/cerca-de/parque-de-atracciones/41">Parque de atracciones</a> (4.4 km)</li>
-              </ul>
+            <b>Hoteles Cercanos a <?php echo $range ?> Km</b>
+            <div class="seccion_hoteles_cercanos">
+              <?php foreach ($hotels_nearby as $hnearby): ?>
+              <div class="hotel-cercano">
+                <div class="hotel-cercano-foto">
+                <a href="<?php echo url_for('hotel_details', array('id' =>$hnearby['id'], 'slug' => $ar_slug_city[$hnearby['city_id']], 'slugh' => $hnearby['slug'])) ?>" title="<?php echo $hnearby['name'];?>">
+                  <img width="60" height="60" src="<?php echo $hnearby['small_photo'];?>">
+                </a>
+                
+              </div>
+                <a href="<?php echo url_for('hotel_details', array('id' =>$hnearby['id'], 'slug' => $ar_slug_city[$hnearby['city_id']], 'slugh' => $hnearby['slug'])) ?>" title="<?php echo $hnearby['name'];?>"><?php echo $hnearby['name'];?></a> <img alt="<?php echo $hnearby['class_and']; ?> estrellas" src="<?php echo sfConfig::get('app_s_img').$hnearby['class_and'] ?>-hotel-estrellas.png">
+                    <br>
+                    <em><?php echo $hnearby['address'];?> </em>
+              </div>
+              <?php endforeach; ?>
             </div>
 
 
@@ -122,8 +98,8 @@
           <br clear="all" />
 
           <div class="listados-hoteles-descripcion">
-            <?php foreach ($hotel->HotelDescs as $desc): ?>
-              <p><?php echo $desc->description; ?></p>
+            <?php foreach ($hotel->HotelDescs->toArray() as $desc): ?>
+             <?php  ?> <p><?php echo $desc['description']; ?></p>
             <?php endforeach; ?>
 
             <p><strong>N&uacute;mero de habitaciones:</strong> <?php echo $hotel->nr_rooms; ?></p></div>
@@ -286,7 +262,7 @@
           <div class="servicios"><h2 class="seccionHotel">Servicios <?php $hotel->name ?></h2>
             <?php foreach ($lst_service as $service): ?>
               <h4><?php echo $service['type'] ?></h4>
-              <p><?php echo $service['service'] ?>.</p>
+              <p><?php echo $service['service']?substr($service['service'],0,-2):'No hay informacion' ?>.</p>
             <?php endforeach; ?>
             <!--            <h4>Otros servicios</h4>
                         <p>Centro de negocios, Registro de entrada / salida privado, Información turística, Servicio de lavandería, Servicio de consejería.</p>					
@@ -300,27 +276,14 @@
           </div>
           <br clear="all" /><br />
           <div class="servicios"><h2 class="seccionHotel">Condiciones del hotel</h2>
-            <h5>Condiciones de cancelaci&oacute;n</h5>
-            <p>Si cancelas o modificas hasta 3 día(s) antes de la fecha de llegada: GRATIS, el hotel no efectuará ningún cargo. Si cancelas o modificas fuera de plazo o si no te presentas: el hotel cargará la primera noche.</p>
+            <?php foreach ($aditional_info as $ainfo): ?>
+                      <h5><?php echo $ainfo->DescType->name ?></h5>
+            <p><?php echo $ainfo->description ?></p>
 
-            <h5>Condiciones sobre niños y camas supletorias</h5>
-            <p>Se admiten niños de todas las edades. Los menores de 12 años GRATIS utilizando las camas existentes.<br />
-              Los menores de 2 años pagan 20 EUR por persona y noche en cuna.<br />
-              Número máximo de camas supletorias en la habitación: 0<br />
-              Número máximo de cunas en habitación doble 2.</p>					
-
-            <h5>Impuestos y cargos especiales</h5>
-            <p>8.00 % IVA incluido(s). Suplemento por servicio no aplicable.
-              No hay ningún impuesto municipal ni tasa turística .</p>
-
-            <h5>Mascotas y animales de compa&ntilde;&iacute;a</h5>
-            <p>No se admiten.</p>
-
-            <h5>Tarjetas de crédito aceptadas</h5>
-            <p>American Express, Visa, Euro/Mastercard.<br />
-              El hotel se reserva el derecho de comprobar la validez de las tarjetas de crédito antes de la fecha de llegada. </p>
-
-
+            <?php endforeach;?>
+            <h5>Otros datos </h5>
+            <p><b>Hora de entrada:</b> Desde las <?php echo ($hotel->chkin_to)?$hotel->chkin_from.' hasta las '.$hotel->chkin_to:$hotel->chkin_from ?> horas. </p>
+            <p><b>Hora de salida:</b> <?php echo ($hotel->chkout_from)?'Desde las '.$hotel->chkout_from.' hasta las '.$hotel->chkout_to:'Hasta las '.$hotel->chkout_to ?> horas. </p>
           </div>
           <br clear="all" /><br />
 
