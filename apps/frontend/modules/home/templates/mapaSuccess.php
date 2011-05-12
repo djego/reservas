@@ -2,7 +2,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title><?php echo $ciudad .' - '. $hotel?></title>
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAVYTF-_X7joojDMWeD242FxRGyT7uKw_fFtjsBeb0MI08yT3hKxRcwATMifsNmoOnGE958nQFvCbn4Q"  type="text/javascript"></script>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<?php echo sfConfig::get('app_key_map');?>"  type="text/javascript"></script>
     <script type="text/javascript">
       function initialize() {
         if (GBrowserIsCompatible()) {

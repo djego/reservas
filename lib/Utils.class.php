@@ -168,6 +168,16 @@ class Utils {
     return $d;
   }
 
+  public static function limpiarcdata($str) {
+      $str = str_replace("<![CDATA[","",$str);
+      $str = str_replace("]]>","",$str);
+      echo $str;
+      $dom = new DOMDocument;
+      $dom->preserveWhitespace = false;
+      $dom->loadXML($str);
+           return $dom;
+  }
+
 }
 
 ?>

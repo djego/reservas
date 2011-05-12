@@ -4,5 +4,5 @@ all:
     param:
       dsn: 'mysql:host=localhost;dbname=andorra'
       username: root
-      password: 'mysql'
+      password: ''
       encoding: utf8

@@ -175,8 +175,7 @@ class homeActions extends sfActions {
       $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
     }
     $this->form_dis = new searchForm($param_initial);
-    $this->form_pro = new searchProForm($param_initial);
-
+    $this->search_form = new newSearchForm($param_initial);
     if ($request->isMethod('post')) {
       $val_dispo = $request->getParameter('search_dispo');
       $this->form_dis->bind($val_dispo);
@@ -186,8 +185,9 @@ class homeActions extends sfActions {
         // Cuartos disponibles
         $fecha_entrada = $this->changeFormatDate($data_dispo['fecha_entrada']);
         $fecha_salida = $this->changeFormatDate($data_dispo['fecha_salida']);
-        $parame = "languagecodes=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
+        $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id.'&detail_level=1';
         $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
+//        print_r($ar_rooms);die();
         if($ar_rooms == NULL) {
           $this->lst_rooms = false;
         }else {
@@ -210,6 +210,7 @@ class homeActions extends sfActions {
   }
 
   public function executeHotelResult(sfWebRequest $request) {
+    
 
     $this->ar_slug_city = $this->getArraySlugCity();
     $hid = $request->getParameter('id');
@@ -250,33 +251,7 @@ class homeActions extends sfActions {
 
   }
 
-  public function executeSearch(sfWebRequest $request) {
-    $this->form = new searchForm($this->getUser()->getAttribute('searching'));
-    $param_search = $request->getParameter('search');
-    $this->form->bind($param_search);
-    if ($this->form->isValid()) {
-      $this->getUser()->setAttribute('searching', $this->form->getValues());
-      $ar_date = $this->changeFormatDate($param_search);
-      if (!$param_search['ciudad'])
-        $this->redirect('homepage');
-      $q_name = strtoupper($param_search['ciudad']);
-      $param = "languagecodes=es&countrycodes=ad";
-      $lst_city = $this->data->fetchRcp('bookings.getCities', $param);
-      foreach ($lst_city as $city) {
-        $city_name = strtoupper($city['name']);
-        if (strpos($city_name, $q_name) > -1) {
 
-          $param = "arrival_date=" . $ar_date['ini'] . "&departure_date=" . $ar_date['fin'] . "&city_ids=" . $city['city_id'];
-          if ($lst_hoteles = $this->data->fetchRcp('bookings.getHotelAvailability', $param)) {
-            $ar_cities[] = $city;
-          }
-        }
-
-        ///echo $city['name'].'<br>';
-      }
-      $this->lst_ciudad = $ar_cities;
-    }
-  }
 
   public function executeMapa(sfWebRequest $request) {
     $this->la = $request->getParameter('la');

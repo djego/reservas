@@ -282,11 +282,13 @@ class Migration {
 
 
   public static function migRooms() {
+    $lst_hotel = Doctrine::getTable('adHotel')->findAll()->toArray();
+    foreach ($lst_hotel as $hotel) {    
     $data = new fwoData();
-
     // Servicios del Hotel
-    $hotel_facilities_detail = $data->fetchRcp('bookings.getRoomTypes', 'languagecodes=es');
-    print_r($hotel_facilities_detail);die();
+    $rooms = $data->fetchRcp('bookings.getRoomTranslations', 'languagecodes=es&countrycodes=ad&hotel_ids='.$hotel['id']);
+    print_r($rooms);
+    }die();
   }
 
 }
