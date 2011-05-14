@@ -12,7 +12,7 @@
 
 
   <div align="center">
-    <button type="submit" title="Buscar hoteles">Buscar</button>
+    <button type="submit" title="Buscar hoteles" name="search_pro" value="pro">Buscar</button>
   </div>
 
   <!--    <dt>Tipo de habitaciones</dt>

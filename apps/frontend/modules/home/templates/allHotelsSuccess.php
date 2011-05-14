@@ -1,7 +1,7 @@
 <?php
-$title = $rs_city['name'].' - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
-$desc = 'Lista de hoteles en '.$rs_city['name'];
-$keyword = $rs_city['name'].', destinos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
+$title = 'Todos los hoteles - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
+$desc = 'Lista de todos los hoteles de Andorra';
+$keyword = 'Todos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
 $sf_response->addMeta('title', $title);
 $sf_response->addMeta('description', $desc);
 $sf_response->addMeta('keywords', $keyword);
@@ -14,7 +14,7 @@ $sf_response->addMeta('keywords', $keyword);
 
       <div class="home-content2">
         <div class="navegacion">
-          <a href="<?php echo url_for('homepage'); ?>" title="Hoteles en Andorra">Andorra Hoteles</a> > <?php echo $rs_city['name']; ?></div>
+          <a href="<?php echo url_for('homepage'); ?>" title="Hoteles en Andorra">Andorra Hoteles</a> > Todos los hoteles</div>
 
         <div class="listados-izq">
           <dl class="refine">
@@ -39,11 +39,10 @@ $sf_response->addMeta('keywords', $keyword);
 
 
         <div class="listados-drcha">
-          <h1 class="titulo-listados">Hoteles en <?php echo $rs_city['name']; ?></h1>
-          <span style="float: left;"><b><?php echo $pager->getNbResults() ?> hoteles
-              en <?php echo $rs_city['name']; ?></b>
+          <h1 class="titulo-listados">Todos los hoteles de Andorra</h1>
+          <span style="float: left;"><b> Todos los hoteles <?php echo $pager->getNbResults() ?> </b> 
           <?php if ($pager->haveToPaginate()): ?>  Mostrando <?php echo $pager->getFirstIndice() ?> - <?php echo $pager->getLastIndice() ?>  <?php endif; ?> |
-              Ordenar resultados por:&nbsp;</span>
+           Ordenar resultados por:&nbsp;</span>
           <form action="" method="post">
             <?php if ($filter->isCSRFProtected()) : ?>
             <?php echo $filter['_csrf_token']->render(); ?>
@@ -96,12 +95,11 @@ $sf_response->addMeta('keywords', $keyword);
           </div>
           <?php endforeach; ?>
           <!---fin anuncio hotel-->
-          
           <div align="center"><br />
-            <div class="paginacion">
+            <div class="paginacion">              
               <?php if ($pager->haveToPaginate()): ?>
                 <?php if (!$pager->isFirstPage()):?>
-                <a href="<?php echo url_for('city_hotels', array('id' => $rs_city['id'], 'slug' => $rs_city['slug'])) ?>?p=<?php echo $pager->getPreviousPage() ?>" title="P&aacute;gina anterior">
+                <a href="<?php echo url_for('all_hotel') ?>?p=<?php echo $pager->getPreviousPage() ?>" title="P&aacute;gina anterior">
                   &lt; Anterior
                 </a>
                 <?php endif; ?>
@@ -109,11 +107,11 @@ $sf_response->addMeta('keywords', $keyword);
                   <?php if ($page == $pager->getPage()): ?>
               <span class="current"><strong><?php echo $page ?></strong></span>
                   <?php else: ?>
-              <a href="<?php echo url_for('city_hotels', array('id' => $rs_city['id'], 'slug' => $rs_city['slug'])) ?>?p=<?php echo $page ?>" title="Pagina <?php echo $page ?> de hoteles" ><?php echo $page ?></a>
+              <a href="<?php echo url_for('all_hotel') ?>?p=<?php echo $page ?>" title="Pagina <?php echo $page ?> de hoteles" ><?php echo $page ?></a>
                   <?php endif; ?>
                 <?php endforeach; ?>
                 <?php if (!$pager->isLastPage()):?>
-                  <a href="<?php echo url_for('city_hotels', array('id' => $rs_city['id'], 'slug' => $rs_city['slug'])) ?>?p=<?php echo $pager->getNextPage() ?>" title="P&aacute;gina siguiente">Siguiente &gt;</a>
+                  <a href="<?php echo url_for('all_hotel') ?>?p=<?php echo $pager->getNextPage() ?>" title="P&aacute;gina siguiente">Siguiente &gt;</a>
                 <?php endif; ?>
               <?php endif; ?>
             </div>

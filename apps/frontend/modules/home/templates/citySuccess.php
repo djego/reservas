@@ -1,3 +1,12 @@
+<?php
+    $title = 'Destinos de Andorra - Ofertas de Hoteles en Andorra ';
+    $desc = 'Andorra es uno de los emplazamientos turísticos más bellos para disfrutar de la naturaleza y de la montaña, tanto en la temporada de esquí y de nieve, como en el verano, donde la nieve deja paso a una flora y vistas espectaculares.';
+    $keyword = 'destinos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
+    $sf_response->addMeta('title', $title);
+    $sf_response->addMeta('description', $desc);
+    $sf_response->addMeta('keywords', $keyword);
+
+?>
 <div class="main-container">
   <div class="main-content">
 

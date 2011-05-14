@@ -31,6 +31,7 @@ class homeActions extends sfActions {
   }
 
   public function executeCity(sfWebRequest $request) {
+
     $this->lst_cities = Doctrine::getTable('adCity')->createQuery()->orderBy('name ASC')->fetchArray();
     $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
     $this->search_form = new newSearchForm($param_initial);
@@ -64,43 +65,39 @@ class homeActions extends sfActions {
     $cid = $request->getParameter('id');
     $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
     $this->search_form = new newSearchForm();
-    if (!$orden = $request->getParameter('orden')) {
-      $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-      $query = Doctrine::getTable('adHotel')->getHotelsCity($cid);
-      $this->pager->setQuery($query);
-      $this->pager->setPage($request->getParameter('p', 1));
-      $this->pager->init();
-      $this->lst_hotel = $this->pager->getResults()->toArray();
-    } else {
-      if ($orden == 'pop')
-        $order = 'ranking';
-      if ($orden == 'opi')
-        $order = 'review_nr';
-      if ($orden == 'est')
-        $order = 'class_and';
-      if ($orden == 'pre')
-        $order = 'minrate';
-      $this->pager = new sfDoctrinePager('adHotel', 10);
-      $query = Doctrine::getTable('adHotel')->getHotelsCity($cid, $order);
-      $this->pager->setQuery($query);
-      $this->pager->setPage($request->getParameter('p', 1));
-      $this->pager->init();
-      $this->lst_hotel = $this->pager->getResults()->toArray();
+    $this->filter = new orderForm($this->getUser()->getAttribute('order'));
+    $order = $this->getUser()->getAttribute('order');
+    $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+    $query = Doctrine::getTable('adHotel')->getHotelsCity($cid, $order['order']);
+    $this->pager->setQuery($query);
+    $this->pager->setPage($request->getParameter('p', 1));
+    $this->pager->init();
+    $this->lst_hotel = $this->pager->getResults()->toArray();
+
+    if ($request->isMethod('post')) {
+      $this->filter->bind($request->getParameter('order_form'));
+      if($this->filter->isValid()) {
+        $val = $this->filter->getValues();
+        $this->getUser()->setAttribute('order', $val);
+        $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+        $query = Doctrine::getTable('adHotel')->getHotelsCity($cid, $val['order']);
+        $this->pager->setQuery($query);
+        $this->pager->setPage($request->getParameter('p', 1));
+        $this->pager->init();
+        $this->lst_hotel = $this->pager->getResults()->toArray();
+      }
     }
-
-
 
   }
 
   public function executeCityHotelsResult(sfWebRequest $request) {
-
-
-    
+    $session_order = $this->getUser()->getAttribute('order');
     $cid = $request->getParameter('id');
     $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
     $ar_session = $this->getUser()->getAttribute('search_city');
     $ar_session['destino'] = $this->rs_city['name'];
     $this->search_form = new newSearchForm($ar_session);
+    $this->filter = new orderForm($session_order);
     $search_sesion = $this->getUser()->getAttribute('search_city');
     $fecha_entrada = $this->changeFormatDate($search_sesion['fecha_entrada']);
     $fecha_salida = $this->changeFormatDate($search_sesion['fecha_salida']);
@@ -113,42 +110,46 @@ class homeActions extends sfActions {
       $ar[] = $hotel_ok['hotel_id'];
     }
 //    if (!$orden = $request->getParameter('orden')) {
+
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar, $ar_session['star'], $ar_session['facility']);
+    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar, $ar_session['star'], $ar_session['facility'],$session_order['order']);
     $this->pager->setQuery($query);
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
     $this->lst_hotel = $this->pager->getResults()->toArray();
 
-
-
-
     if($request->isMethod('post')) {
-      $ar_star = $request->getParameter('search_new');
-
-      $this->search_form->bind($ar_star);
-      if($this->search_form->isValid()) {
-        $param_search = $this->search_form->getValues();
-        $this->getUser()->setAttribute('search_city', $param_search);
+      if($request->getParameter('search_pro')) {
+        $ar_star = $request->getParameter('search_new');
+        $this->search_form->bind($ar_star);
+        if($this->search_form->isValid()) {
+          $param_search = $this->search_form->getValues();
+          $this->getUser()->setAttribute('search_city', $param_search);
 //        print_r($param_search);die();
-        $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-//        if(($ar_star['star']) && isset ($ar_star['facility'])){
-        $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$param_search['star'],$param_search['facility']);
-//        }elseif(isset ($ar_star['star'])){
-//          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$ar_star['star']);
-//        }elseif(isset ($ar_star['star'])){
-//          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$ar_star['facility']);
-//        }
-//        else{
-//          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid);
-//        }
-        $this->pager->setQuery($query);
-        $this->pager->setPage($request->getParameter('p', 1));
-        $this->pager->init();
-        $this->lst_hotel = $this->pager->getResults()->toArray();
+          $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$param_search['star'],$param_search['facility'],$session_order['order']);
+
+          $this->pager->setQuery($query);
+          $this->pager->setPage($request->getParameter('p', 1));
+          $this->pager->init();
+          $this->lst_hotel = $this->pager->getResults()->toArray();
+
+        }
+      }else {
+        $this->filter->bind($request->getParameter('order_form'));
+        if($this->filter->isValid()) {
+          $val = $this->filter->getValues();
+          $this->getUser()->setAttribute('order', $val);
+          $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$ar_session['star'],$ar_session['facility'],$val['order']);
+
+          $this->pager->setQuery($query);
+          $this->pager->setPage($request->getParameter('p', 1));
+          $this->pager->init();
+          $this->lst_hotel = $this->pager->getResults()->toArray();
+        }
 
       }
-
 //
 //      print_r($ar_star);
 //die ();
@@ -210,7 +211,7 @@ class homeActions extends sfActions {
   }
 
   public function executeHotelResult(sfWebRequest $request) {
-    
+
 
     $this->ar_slug_city = $this->getArraySlugCity();
     $hid = $request->getParameter('id');
@@ -229,7 +230,7 @@ class homeActions extends sfActions {
 
     $fecha_entrada = $this->changeFormatDate($search_sesion['fecha_entrada']);
     $fecha_salida = $this->changeFormatDate($search_sesion['fecha_salida']);
-    $parame = "languagecodes=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
+    $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
     $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
     $this->lst_rooms = $ar_rooms[0];
 
@@ -240,7 +241,7 @@ class homeActions extends sfActions {
         $this->getUser()->setAttribute('search_city',$param_search);
         $fecha_entrada = $this->changeFormatDate($param_search['fecha_entrada']);
         $fecha_salida = $this->changeFormatDate($param_search['fecha_salida']);
-        $parame = "languagecodes=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
+        $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
         $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
         $this->lst_rooms = $ar_rooms[0];
       }
@@ -251,8 +252,6 @@ class homeActions extends sfActions {
 
   }
 
-
-
   public function executeMapa(sfWebRequest $request) {
     $this->la = $request->getParameter('la');
     $this->lo = $request->getParameter('lo');
@@ -261,13 +260,6 @@ class homeActions extends sfActions {
   }
 
   protected function changeFormatDate($param_search) {
-//    $diai = str_pad($param_search['fecha-inicio']['day'], 2, "0", STR_PAD_LEFT);
-//    $mesi = str_pad($param_search['fecha-inicio']['month'], 2, "0", STR_PAD_LEFT);
-//    $diaf = str_pad($param_search['fecha-final']['day'], 2, "0", STR_PAD_LEFT);
-//    $mesf = str_pad($param_search['fecha-final']['month'], 2, "0", STR_PAD_LEFT);
-//    $ini = '2011-' . $mesi . '-' . $diai;
-//    $fin = '2011-' . $mesf . '-' . $diaf;
-
     $dat = str_replace('/', '-', $param_search);
     $data_day = substr($dat, 0, 2);
     $data_mes = substr($dat, 3, 2);
@@ -275,15 +267,6 @@ class homeActions extends sfActions {
     return $data_ano . '-' . $data_mes . '-' . $data_day;
   }
 
-  protected function changeFormatDate2($param_search) {
-    $diai = str_pad($param_search['fecha-inicio']['day'], 2, "0", STR_PAD_LEFT);
-    $mesi = str_pad($param_search['fecha-inicio']['month'], 2, "0", STR_PAD_LEFT);
-    $diaf = str_pad($param_search['fecha-final']['day'], 2, "0", STR_PAD_LEFT);
-    $mesf = str_pad($param_search['fecha-final']['month'], 2, "0", STR_PAD_LEFT);
-    $ini = '2011-' . $mesi . '-' . $diai;
-    $fin = '2011-' . $mesf . '-' . $diaf;
-    return array('ini' => $ini,'fin' => $fin);
-  }
 
   public function executeCityResult(sfWebRequest $request) {
     $this->form = new searchForm($this->getUser()->getAttribute('searching'));
@@ -320,22 +303,48 @@ class homeActions extends sfActions {
     $this->lst_photo = $ar_hotels_photo;
     $this->lst_desc = $ar_hotels_description;
   }
+  public function executeAllHotels(sfWebRequest $request) {
 
+    $this->search_form = new newSearchForm();
+    $this->filter = new orderForm($this->getUser()->getAttribute('order'));
+    $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+    $order = $this->getUser()->getAttribute('order');
+    $query = Doctrine::getTable('adHotel')->getHotelsCity('',$order['order']);
+    $this->pager->setQuery($query);
+    $this->pager->setPage($request->getParameter('p', 1));
+    $this->pager->init();
+    $this->lst_hotel = $this->pager->getResults()->toArray();
+
+    if($request->isMethod('post')) {
+      $this->filter->bind($request->getParameter('order_form'));
+      if($this->filter->isValid()) {
+        $val = $this->filter->getValues();
+        $this->getUser()->setAttribute('order', $val);
+//        print_r($val);die();
+        $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+        $query = Doctrine::getTable('adHotel')->getHotelsCity('',$val['order']);
+        $this->pager->setQuery($query);
+        $this->pager->setPage($request->getParameter('p', 1));
+        $this->pager->init();
+        $this->lst_hotel = $this->pager->getResults()->toArray();
+      }
+    }
+  }
   /*  Paginas estaticas */
 
-  public function executeNosotros() {
+  public function executeEsqui() {
 
   }
 
-  public function executeFaq() {
+  public function executeExcursiones() {
 
   }
 
-  public function executeCondicion() {
+  public function executePaquetes() {
 
   }
 
-  public function executeContacto() {
+  public function executeTurismo() {
 
   }
 

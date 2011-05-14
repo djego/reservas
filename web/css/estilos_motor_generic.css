@@ -9,6 +9,8 @@
 .motor-form-standard ul li select.select_hotel { width:260px;}
 .motor-form-standard ul li input#search_new_fecha_entrada, input#search_new_fecha_salida { width:75px; background:url(../images/calendar.png) no-repeat right;  padding-right:15px; background-color:#ffffff; cursor:pointer;}
 #search_new_fecha_entrada { width:75px; background:url(../images/calendar.png) no-repeat right;  padding-right:15px; background-color:#ffffff; cursor:pointer;}
+#search_dispo_fecha_entrada { width:75px; background:url(../images/calendar.png) no-repeat right;  padding-right:15px; background-color:#ffffff; cursor:pointer;}
+#search_dispo_fecha_salida { width:75px; background:url(../images/calendar.png) no-repeat right;  padding-right:15px; background-color:#ffffff; cursor:pointer;}
 .motor-form-standard button {background:url(../images/buscar.png) no-repeat; border:0px; width:144px; height:33px; color:#ffffff; font-size:16px; margin-top:20px; cursor:pointer;}
 .motor-form-standard ul li.tienes_codigo { font-size:11px; width:300px;}
 .motor-form-standard ul li.tienes_codigo a { color: #cfe4fb; text-decoration:underline;}

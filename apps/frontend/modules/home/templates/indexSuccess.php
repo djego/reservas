@@ -100,7 +100,7 @@
           <!---fin anuncio hotel-->
 
           <div align="center"><br /><br />
-            <a class="mashoteles" href="#" title="M&aacute;s hoteles de Andorra">M&aacute;s hoteles de Andorra</a> </div>
+            <a class="mashoteles" href="<?php echo url_for('all_hotel') ?>" title="M&aacute;s hoteles de Andorra">M&aacute;s hoteles de Andorra</a> </div>
           <p>&nbsp;</p><br clear="all" />
 
         </div>

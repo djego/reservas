@@ -1,3 +1,16 @@
+<?php
+foreach ($hotel->HotelDescs->toArray() as $desc){
+   if($desc['descriptiontype_id'] == 6) $description  = $desc['description'];
+}
+
+    $title = $hotel['name'].' - '.$hotel['city'].' - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
+    $desc = $description;
+    $keyword = $hotel['name'].', '.$hotel['city'].', destinos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
+    $sf_response->addMeta('title', $title);
+    $sf_response->addMeta('description', $desc);
+    $sf_response->addMeta('keywords', $keyword);
+
+?>
 <div class="main-container">
   <div class="main-content">
 
@@ -73,13 +86,14 @@
         $lo = $hotel['longitude'];
         $name = $hotel['name'];
         $city = $hotel['city'];
+        $aid = sfConfig::get('app_aid');
         ?>
         <div class="listados-drcha">
           <div class="fichaHotelizq"><h1><?php echo $hotel['name']; ?> <img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /></h1>
             <em><?php echo $hotel['address']; ?>, <?php echo $hotel['city']; ?></em> - <span><a title="ver mapa" href="" onclick="window.open('<?php echo url_for('mapa') ?>?la=<?php echo $la ?>&lo=<?php echo $lo ?>&ciudad=<?php echo $city ?>&hotel=<?php echo $name ?>','d_mapa','width=700,height=600,scrollbars=yes')">ver mapa</a></span></div>
 
           <div class="fichaHoteldrcha"><b>valoraci&oacute;n</b> <span><?php echo $hotel['ranking']; ?></span>
-            <br /><a title="opiniones hotel" href="" onclick="window.open('http://www.booking.com/reviewlist.es.html?tmpl=reviewlistpopup;pagename=<?php echo Utils::nameurl($hotel['url']) ?>;hrwt=1;cc1=ad;target_aid=323497;aid=323497','popup1','width=600,height=700,scrollbars=yes');">puntuaci&oacute;n sobre <?php echo $hotel['review_nr']; ?> opiniones</a>
+            <br /><a title="opiniones hotel" href="" onclick="window.open('http://www.booking.com/reviewlist.es.html?tmpl=reviewlistpopup;pagename=<?php echo Utils::nameurl($hotel['url']) ?>;hrwt=1;cc1=ad;target_aid=<?php echo $aid ?>;aid=<?php echo $aid ?>','popup1','width=600,height=700,scrollbars=yes');">puntuaci&oacute;n sobre <?php echo $hotel['review_nr']; ?> opiniones</a>
           </div>
           <br clear="all" /><br />
           <div class="fichaHotelfotos">
@@ -178,14 +192,19 @@
                             <?php endforeach; ?>
                             </ul>
                         </div>                        
-                        <p>Esta amplia habitación cuenta con una plancha de pantalones y un set de bienvenida exclusivo. Algunas habitaciones tienen balcón.</p>
-                        <h3>Equipamiento de las habitaciones</h3><p>Ducha, Teléfono, Aire acondicionado, Secador de pelo, Plancha para ropa, Balcón, Frigorífico, Equipo de planchado, Zona de estar, WC, Microondas, Lavavajillas, Lavadora, Cuarto de baño, Calefacción, Cocina, TV de pantalla plana / LCD / plasma , Entrada privada, Sofá, Suelos de baldosa / mármol, Hervidor de agua eléctrico</p><h3>Incluido en el precio</h3><p>IVA</p>        
+                       <h3>Equipamiento de las habitaciones</h3>
+                        <p><?php 
+                         $blk =  (string) $room['block_text'];
+                         $blk2 =  str_replace(']]>', '', html_entity_decode($blk));
+                                  echo str_replace('div','p',$blk2);
+                          ?>
+                        </p>
                       </div></td>
                   </tr>
                     <?php endforeach; ?>
                 </tbody>
               </table>
-              <input type="hidden" name="aid" value="323497" />
+              <input type="hidden" name="aid" value="<?php echo $aid ?>" />
               <input type="hidden" name="hotel_id" value="<?php echo $hotel['id']; ?>" />
               <input type="hidden" name="checkin" value="<?php echo $lst_rooms['arrival_date']; ?>" />
               <input type="hidden" name="interval" value="<?php echo $interval; ?>" />
