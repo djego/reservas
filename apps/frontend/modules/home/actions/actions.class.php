@@ -64,7 +64,8 @@ class homeActions extends sfActions {
   public function executeCityHotels(sfWebRequest $request) {
     $cid = $request->getParameter('id');
     $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
-    $this->search_form = new newSearchForm();
+    $param_initial = array('destino' => $this->rs_city['name'], 'fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+    $this->search_form = new newSearchForm($param_initial);
     $this->filter = new orderForm($this->getUser()->getAttribute('order'));
     $order = $this->getUser()->getAttribute('order');
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
@@ -133,6 +134,7 @@ class homeActions extends sfActions {
           $this->pager->setPage($request->getParameter('p', 1));
           $this->pager->init();
           $this->lst_hotel = $this->pager->getResults()->toArray();
+          $this->redirect('city_hotels_result', array('id' =>$this->rs_city['id'],'slug' => $this->rs_city['slug']));
 
         }
       }else {
@@ -167,7 +169,7 @@ class homeActions extends sfActions {
     $this->forward404Unless($this->hotel = Doctrine::getTable('adHotel')->find($hid));
     $this->lst_service = Doctrine::getTable('adHotelService')->getService($this->hotel->id);
     $this->range = Utils::getDistance($this->hotel->longitude - 0.002, $this->hotel->latitude - 0.002, $this->hotel->longitude + 0.002, $this->hotel->latitude + 0.002);
-    $this->hotels_nearby = Doctrine::getTable('adHotel')->getHotelsNearby($this->hotel->longitude, $this->hotel->latitude, 0.002, 0.002);
+    $this->hotels_nearby = Doctrine::getTable('adHotel')->getHotelsNearby($this->hotel->longitude, $this->hotel->latitude, 0.002, 0.002, $this->hotel['id']);
     $this->aditional_info = Doctrine::getTable('adHotelDescription')->getInfoAditional($this->hotel->id);
 //    print_r($this->aditional_info);die();
     if ($this->getUser()->getAttribute('searching_dispo')) {
@@ -212,17 +214,14 @@ class homeActions extends sfActions {
 
   public function executeHotelResult(sfWebRequest $request) {
 
-
     $this->ar_slug_city = $this->getArraySlugCity();
     $hid = $request->getParameter('id');
     $this->forward404Unless($this->hotel = Doctrine::getTable('adHotel')->find($hid));
     $this->lst_service = Doctrine::getTable('adHotelService')->getService($this->hotel->id);
     $this->range = Utils::getDistance($this->hotel->longitude - 0.002, $this->hotel->latitude - 0.002, $this->hotel->longitude + 0.002, $this->hotel->latitude + 0.002);
-    $this->hotels_nearby = Doctrine::getTable('adHotel')->getHotelsNearby($this->hotel->longitude, $this->hotel->latitude, 0.002, 0.002);
+    $this->hotels_nearby = Doctrine::getTable('adHotel')->getHotelsNearby($this->hotel->longitude, $this->hotel->latitude, 0.002, 0.002, $this->hotel['id']);
     $this->aditional_info = Doctrine::getTable('adHotelDescription')->getInfoAditional($this->hotel->id);
 //    print_r($this->aditional_info);die();
-
-
 
     // Cuartos disponibles
     $search_sesion = $this->getUser()->getAttribute('search_city');

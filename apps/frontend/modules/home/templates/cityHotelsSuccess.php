@@ -1,7 +1,7 @@
 <?php
-$title = $rs_city['name'].' - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
-$desc = 'Lista de hoteles en '.$rs_city['name'];
-$keyword = $rs_city['name'].', destinos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
+$title = $rs_city['name'].' - Ofertas de Hoteles en '.$rs_city['name'];
+$desc = 'Hoteles en '.$rs_city['name'].'. Selección de hoteles de '.$rs_city['name'].' para que puedas reservar tu hotel al mejor precio y disfrutar del turismo en Andorra. ';
+$keyword = $rs_city['name'].', hoteles, hotel, andorra, reservas, ofertas, hoteles '.$rs_city['name'];
 $sf_response->addMeta('title', $title);
 $sf_response->addMeta('description', $desc);
 $sf_response->addMeta('keywords', $keyword);
@@ -42,7 +42,7 @@ $sf_response->addMeta('keywords', $keyword);
           <h1 class="titulo-listados">Hoteles en <?php echo $rs_city['name']; ?></h1>
           <span style="float: left;"><b><?php echo $pager->getNbResults() ?> hoteles
               en <?php echo $rs_city['name']; ?></b>
-          <?php if ($pager->haveToPaginate()): ?>  Mostrando <?php echo $pager->getFirstIndice() ?> - <?php echo $pager->getLastIndice() ?>  <?php endif; ?> |
+          <?php if ($pager->haveToPaginate()): ?> - Mostrando <?php echo $pager->getFirstIndice() ?> - <?php echo $pager->getLastIndice() ?>  <?php endif; ?> |
               Ordenar resultados por:&nbsp;</span>
           <form action="" method="post">
             <?php if ($filter->isCSRFProtected()) : ?>

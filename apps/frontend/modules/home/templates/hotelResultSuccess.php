@@ -1,14 +1,13 @@
 <?php
-foreach ($hotel->HotelDescs->toArray() as $desc){
-   if($desc['descriptiontype_id'] == 6) $description  = $desc['description'];
+foreach ($hotel->HotelDescs->toArray() as $desc) {
+  if($desc['descriptiontype_id'] == 6) $description  = substr($desc['description'],0,160).'...';
 }
-
-    $title = $hotel['name'].' - '.$hotel['city'].' - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
-    $desc = $description;
-    $keyword = $hotel['name'].', '.$hotel['city'].', destinos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
-    $sf_response->addMeta('title', $title);
-    $sf_response->addMeta('description', $desc);
-    $sf_response->addMeta('keywords', $keyword);
+$title = $hotel['name'].' - '.$hotel['city'].' - Reserva este hotel de Andorra';
+$desc = $description;
+$keyword = $hotel['name'].', '.$hotel['city'].', hotel, andorra, reservar '.$hotel['name'].', ofertas, precios';
+$sf_response->addMeta('title', $title);
+$sf_response->addMeta('description', $desc);
+$sf_response->addMeta('keywords', $keyword);
 
 ?>
 <div class="main-container">

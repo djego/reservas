@@ -1,10 +1,10 @@
 <?php
-    $title = $rs_city['name'].' - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
-    $desc = 'Lista de hoteles en '.$rs_city['name'];
-    $keyword = $rs_city['name'].', destinos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
-    $sf_response->addMeta('title', $title);
-    $sf_response->addMeta('description', $desc);
-    $sf_response->addMeta('keywords', $keyword);
+$title = $rs_city['name'].' - Ofertas de Hoteles en '.$rs_city['name'];
+$desc = 'Hoteles en '.$rs_city['name'].'. Selección de hoteles de '.$rs_city['name'].' para que puedas reservar tu hotel al mejor precio y disfrutar del turismo en Andorra. ';
+$keyword = $rs_city['name'].', hoteles, hotel, andorra, reservas, ofertas, hoteles '.$rs_city['name'];
+$sf_response->addMeta('title', $title);
+$sf_response->addMeta('description', $desc);
+$sf_response->addMeta('keywords', $keyword);
 
 ?>
 <div class="main-container">
@@ -18,9 +18,9 @@
 
         <div class="listados-izq">
           <dl class="refine">
-          <form action="" method="post">
-            <?php include_partial('search_pro', array('search_form' => $search_form))?>
-          </form>
+            <form action="" method="post">
+              <?php include_partial('search_pro', array('search_form' => $search_form))?>
+            </form>
           </dl>
 
           <br clear="all" />
@@ -40,15 +40,15 @@
           <h1 class="titulo-listados">Hoteles en <?php echo $rs_city['name']; ?></h1>
           <span style="float: left;"><b><?php echo $pager->getNbResults() ?> hoteles
               en <?php echo $rs_city['name']; ?></b>
-          <?php if ($pager->haveToPaginate()): ?>  Mostrando <?php echo $pager->getFirstIndice() ?> - <?php echo $pager->getLastIndice() ?>  <?php endif; ?> |
-              Ordenar resultados por:&nbsp;</span>
+            <?php if ($pager->haveToPaginate()): ?> - Mostrando <?php echo $pager->getFirstIndice() ?> - <?php echo $pager->getLastIndice() ?>  <?php endif; ?> |
+            Ordenar resultados por:&nbsp;</span>
           <form action="" method="post">
             <?php if ($filter->isCSRFProtected()) : ?>
-            <?php echo $filter['_csrf_token']->render(); ?>
+              <?php echo $filter['_csrf_token']->render(); ?>
             <?php endif; ?>
             <?php echo $filter['order']->render(array('onchange' => 'submit()')); ?>
             <br />
-          <br />
+            <br />
           </form>
 
           <!---anuncio hotel--> 
@@ -105,7 +105,7 @@
                     $ar_rooms = $data->fetchRcp('bookings.getBlockAvailability', "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $hotel['id']);
                     foreach ($ar_rooms[0]['block'] as $key => $room):
                       ?>
-                  <?php if($key < 4): ?>
+                      <?php if($key < 4): ?>
                   <tr class="separHab">
                     <td class="hTipo">
                       <a href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => $rs_city['slug'], 'slugh' => $hotel['slug'])) ?>" title="<?php echo $room['name'] ?>"><?php echo $room['name'] ?></a>
@@ -114,26 +114,26 @@
 
                       <img width="60" height="10" src="<?php echo sfConfig::get('app_s_img') ?>persons_<?php echo $room['max_occupancy'] ?>L.png" alt="<?php echo $room['max_occupancy'] ?> personas">
                     </td>
-                        <?php
-                        if (count($room['incremental_price']) >= 6) {
-                          $text = 'Disponible';
-                          $class = 'dispohab';
-                        } else {
-                          $text = 'Sólo quedan ' . count($room['incremental_price']) . ' habitaciones';
-                          $class = 'PocasHab';
-                        }
-                        ?>
+                          <?php
+                          if (count($room['incremental_price']) >= 6) {
+                            $text = 'Disponible';
+                            $class = 'dispohab';
+                          } else {
+                            $text = 'Sólo quedan ' . count($room['incremental_price']) . ' habitaciones';
+                            $class = 'PocasHab';
+                          }
+                          ?>
                     <td class="colDispo">
                       <a class="<?php echo $class ?>" href="" title="<?php echo $text ?>"><?php echo $text ?></a>
                     </td>
                     <td class="hPrecio">
-                          <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?>
+                            <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?>
                       <span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?> &nbsp;€</span><br/>
-                          <?php endif; ?>
+                            <?php endif; ?>
                       <span class="colOferta"><?php echo $room['min_price'][0]['price']; ?> &nbsp;€</span>
                     </td>
                   </tr>
-                  <?php endif;?>
+                      <?php endif;?>
                     <?php endforeach; ?>
 
 
@@ -148,9 +148,9 @@
             <div class="paginacion">
               <?php if ($pager->haveToPaginate()): ?>
                 <?php if (!$pager->isFirstPage()):?>
-                <a href="<?php echo url_for('city_hotels_result', array('id' => $rs_city['id'], 'slug' => $rs_city['slug'])) ?>?p=<?php echo $pager->getPreviousPage() ?>" title="P&aacute;gina anterior">
-                  &lt; Anterior
-                </a>
+              <a href="<?php echo url_for('city_hotels_result', array('id' => $rs_city['id'], 'slug' => $rs_city['slug'])) ?>?p=<?php echo $pager->getPreviousPage() ?>" title="P&aacute;gina anterior">
+                &lt; Anterior
+              </a>
                 <?php endif; ?>
                 <?php foreach ($pager->getLinks() as $page): ?>
                   <?php if ($page == $pager->getPage()): ?>
@@ -160,7 +160,7 @@
                   <?php endif; ?>
                 <?php endforeach; ?>
                 <?php if (!$pager->isLastPage()):?>
-                  <a href="<?php echo url_for('city_hotels_result', array('id' => $rs_city['id'], 'slug' => $rs_city['slug'])) ?>?p=<?php echo $pager->getNextPage() ?>" title="P&aacute;gina siguiente">Siguiente &gt;</a>
+              <a href="<?php echo url_for('city_hotels_result', array('id' => $rs_city['id'], 'slug' => $rs_city['slug'])) ?>?p=<?php echo $pager->getNextPage() ?>" title="P&aacute;gina siguiente">Siguiente &gt;</a>
                 <?php endif; ?>
               <?php endif; ?>
             </div>

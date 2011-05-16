@@ -89,12 +89,13 @@ class adHotelTable extends Doctrine_Table
       return $q;
     }
 
-    public function getHotelsNearby($lo, $la, $lod, $lad){
+    public function getHotelsNearby($lo, $la, $lod, $lad, $hid){
       $q = $this->createQuery();
       $q->where('latitude > '.($la - $lad));
       $q->andWhere('latitude < '.($la + $lad));
       $q->andWhere('longitude > '.($lo - $lod));
       $q->andWhere('longitude < '.($lo + $lod));
+      $q->andWhereNotIn('id', array($hid));
       $q->orderBy('latitude, longitude');
       $q->limit(4);
       return $q->fetchArray();

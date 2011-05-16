@@ -1,14 +1,13 @@
 <?php
-foreach ($hotel->HotelDescs->toArray() as $desc){
-   if($desc['descriptiontype_id'] == 6) $description  = $desc['description'];
+foreach ($hotel->HotelDescs->toArray() as $desc) {
+  if($desc['descriptiontype_id'] == 6) $description  = substr($desc['description'],0,160).'...';
 }
-
-    $title = $hotel['name'].' - '.$hotel['city'].' - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
-    $desc = $description;
-    $keyword = $hotel['name'].', '.$hotel['city'].', destinos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
-    $sf_response->addMeta('title', $title);
-    $sf_response->addMeta('description', $desc);
-    $sf_response->addMeta('keywords', $keyword);
+$title = $hotel['name'].' - '.$hotel['city'].' - Reserva este hotel de Andorra';
+$desc = $description;
+$keyword = $hotel['name'].', '.$hotel['city'].', hotel, andorra, reservar '.$hotel['name'].', ofertas, precios';
+$sf_response->addMeta('title', $title);
+$sf_response->addMeta('description', $desc);
+$sf_response->addMeta('keywords', $keyword);
 
 ?>
 <div class="main-container">
@@ -39,8 +38,8 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
 
               <div align="center"><button type="submit" title="Buscar hoteles">Buscar</button></div>
             </form>
-            
-            
+
+
 
           </dl>
 
@@ -107,13 +106,13 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
               foreach ($hotel->RoomPhotos as $room_photo): ?>
                 <?php $ar[$room_photo->photo_id] = array('big' => $room_photo->big_photo, 'sma' => $room_photo->small_photo); ?>
               <?php endforeach; ?>
-<?php foreach ($ar as $room_photo): ?>
+              <?php foreach ($ar as $room_photo): ?>
               <li>
                 <a href="<?php echo $room_photo['big']; ?>" class="preview" title="<?php echo $hotel->name ?>">
                   <img src="<?php echo $room_photo['sma']; ?>" alt="<?php echo $hotel->name ?>" width="60" height="60"/>
                 </a>
               </li>
-<?php endforeach; ?>
+              <?php endforeach; ?>
             </ul>
           </div>
           <br clear="all" />
@@ -121,7 +120,7 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
           <div class="listados-hoteles-descripcion">
             <?php foreach ($hotel->HotelDescs->toArray() as $desc): ?>
               <?php  ?> <p><?php echo $desc['description']; ?></p>
-<?php endforeach; ?>
+            <?php endforeach; ?>
 
             <p><strong>N&uacute;mero de habitaciones:</strong> <?php echo $hotel->nr_rooms; ?></p></div>
 
@@ -133,12 +132,12 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
               $ini = Utils::getFormattedDate($lst_rooms['arrival_date'], '%d/%m/%Y');
               $fin = Utils::getFormattedDate($lst_rooms['departure_date'], '%d/%m/%Y');
               $interval = $fin - $ini;
-    ?>
+              ?>
           <div class="disponibilidadHotel">Habitaciones disponibles del <span><?php echo $ini ?></span> al <span><?php echo $fin ?></span>.(<a style='cursor: pointer;' onclick="muestra_oculta('modificar-fechas')">modificar fechas</a>)</div>
-    <?php } else { ?>
+              <?php } else { ?>
           <div style="color: #FF1325;font-size: 14px;margin-top: 10px; padding: 10px;">No existe disponibilidad para estas  (<a style='cursor: pointer;' onclick="muestra_oculta('modificar-fechas')">modificar fechas</a>)</div>
 
-    <?php } ?>
+              <?php } ?>
           <div id="modificar-fechas" class="modificarfechas" style="display:none">
             <p>Selecciona las fechas para comprabar la disponibilidad: </p> <br />
             <form action="" method="post">
@@ -151,13 +150,13 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
                     <span>Fecha de entrada:</span>
                   </td>
                   <td valign="top">
-  <?php echo $form_dis['fecha_entrada']->render(array('size' => '11')) ?>
+                      <?php echo $form_dis['fecha_entrada']->render(array('size' => '11')) ?>
                   </td>
                   <td colspan="3">
                     <span>Fecha de salida:</span>
                   </td>
                   <td valign="top">
-  <?php echo $form_dis['fecha_salida']->render(array('size' => '11')) ?>
+                      <?php echo $form_dis['fecha_salida']->render(array('size' => '11')) ?>
                   </td>
                   <td>
                     &nbsp; &nbsp; <button type="submit" title="Buscar">Buscar</button>
@@ -167,7 +166,7 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
               </table>
             </form>
           </div>
-  <?php if ($lst_rooms): ?>
+            <?php if ($lst_rooms): ?>
           <div>
             <form action="https://secure.booking.com/book.html" method="get">
               <table summary="Disponibilidad" class="tabDispoHot">
@@ -179,7 +178,7 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
                     <th class="hPrecio">Precio final</th>
                     <th class="hotelHabitaciones">Número de habitaciones</th>
                   </tr>
-    <?php foreach ($lst_rooms['block'] as $room):?>
+                      <?php foreach ($lst_rooms['block'] as $room):?>
                   <tr class="separHab">
                     <td class="hTipo">
                       <span><?php echo $room['name']; ?></span><br />
@@ -195,22 +194,22 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
                           }else {
                             $text = 'Sólo quedan '.count($room['incremental_price']).' habitaciones';
                             $class = 'PocasHab';
-      } ?>
+                          } ?>
 
                     <td class="colDispo">
                       <a title="Disponible" href="" class="<?php echo $class ?>"><?php echo $text ?></a>
                     </td>
                     <td class="hPrecio">
-      <?php if($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']   ): ?><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?> &nbsp;€</span><?php endif; ?>
+                            <?php if($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']   ): ?><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?> &nbsp;€</span><?php endif; ?>
 
                       <span class="colOferta"><?php echo $room['min_price'][0]['price']; ?> &nbsp;€</span>
                     </td>
                     <td class="hotelHabitaciones">
                       <select name="nr_rooms_<?php echo $room['block_id']; ?>" class="comboPrecio" id="nr_rooms_<?php echo $room['block_id']; ?>">
                         <option value="0">0</option>
-                       <?php foreach ($room['incremental_price'] as $key => $val):?>
+                              <?php foreach ($room['incremental_price'] as $key => $val):?>
                         <option value="<?php echo ($key+1) ?>"><?php echo ($key+1).'('.$val['price'].')' ?>€</option>
-                        <?php endforeach; ?>
+                              <?php endforeach; ?>
                       </select>
                     </td>
                   </tr>
@@ -219,22 +218,22 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
                       <div id="habitacion<?php echo $room['block_id']; ?>" class="detallesHabitaciones" style="display:none">
                         <div class="detallesimagenes">
                           <ul>
-                            <?php foreach($room['photos'] as $foto):?>
+                                  <?php foreach($room['photos'] as $foto):?>
                             <li><a href="<?php echo  $foto['url_original'] ?>" title="<?php echo  $hotel['name'] ?>" class="preview"><img alt="<?php echo  $hotel['name'] ?>" src="<?php echo  $foto['url_square60'] ?>" width="60" height="60"/></a></li>
-                            <?php endforeach; ?>
-                            </ul>
+                                  <?php endforeach; ?>
+                          </ul>
                         </div>                         
                         <h3>Equipamiento de las habitaciones</h3>
                         <p><?php 
-                         $blk =  (string) $room['block_text'];
-                         $blk2 =  str_replace(']]>', '', html_entity_decode($blk));
-                                  echo str_replace('div','p',$blk2);
-                          ?>
+                                $blk =  (string) $room['block_text'];
+                                $blk2 =  str_replace(']]>', '', html_entity_decode($blk));
+                                echo str_replace('div','p',$blk2);
+                                ?>
                         </p>
-                        
+
                       </div></td>
                   </tr>
-    <?php endforeach; ?>
+                      <?php endforeach; ?>
                 </tbody>
               </table>
               <input type="hidden" name="aid" value="<?php echo $aid ?>" />
@@ -249,28 +248,28 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
             </form>
           </div>
             <?php endif; ?>
-<?php else: ?>
-          <div class="disponibilidadHotel">¿Cuándo quieres alojarte en el Hotel <?php echo $hotel['name'] ?>?</div>
+          <?php else: ?>
+          <div class="disponibilidadHotel">¿Cuándo quieres alojarte en <?php echo $hotel['name'] ?>?</div>
 
           <div id="modificar-fechas" class="modificarfechas">
             <p>Selecciona las fechas para comprabar la disponibilidad: </p> <br />
             <form action="" method="post">
                 <?php if ($form_dis->isCSRFProtected()) : ?>
                   <?php echo $form_dis['_csrf_token']->render(); ?>
-  <?php endif; ?>
+                <?php endif; ?>
               <table border="0" cellpadding="0" cellspacing="4">
                 <tr>
                   <td colspan="2">
                     <span>Fecha de entrada:</span>
                   </td>
                   <td valign="top">
-  <?php echo $form_dis['fecha_entrada']->render(array('size' => '11')) ?>
+                      <?php echo $form_dis['fecha_entrada']->render(array('size' => '11')) ?>
                   </td>
                   <td colspan="3">
                     <span>Fecha de salida:</span>
                   </td>
                   <td valign="top">
-  <?php echo $form_dis['fecha_salida']->render(array('size' => '11')) ?>
+                      <?php echo $form_dis['fecha_salida']->render(array('size' => '11')) ?>
                   </td>
                   <td>
                     &nbsp; &nbsp; <button type="submit" title="Buscar">Buscar</button>
@@ -281,14 +280,14 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
             </form>
 
           </div>
-<?php endif; ?>
+          <?php endif; ?>
           <br clear="all" /><br />
 
           <div class="servicios"><h2 class="seccionHotel">Servicios <?php $hotel->name ?></h2>
-<?php foreach ($lst_service as $service): ?>
+            <?php foreach ($lst_service as $service): ?>
             <h4><?php echo $service['type'] ?></h4>
             <p><?php echo $service['service']?substr($service['service'],0,-2):'No hay informacion' ?>.</p>
-<?php endforeach; ?>
+            <?php endforeach; ?>
             <!--            <h4>Otros servicios</h4>
                         <p>Centro de negocios, Registro de entrada / salida privado, Información turística, Servicio de lavandería, Servicio de consejería.</p>					
 
@@ -301,11 +300,11 @@ foreach ($hotel->HotelDescs->toArray() as $desc){
           </div>
           <br clear="all" /><br />
           <div class="servicios"><h2 class="seccionHotel">Condiciones del hotel</h2>
-<?php foreach ($aditional_info as $ainfo): ?>
+            <?php foreach ($aditional_info as $ainfo): ?>
             <h5><?php echo $ainfo->DescType->name ?></h5>
             <p><?php echo $ainfo->description ?></p>
 
-<?php endforeach;?>
+            <?php endforeach;?>
             <h5>Otros datos </h5>
             <p><b>Hora de entrada:</b> Desde las <?php echo ($hotel->chkin_to)?$hotel->chkin_from.' hasta las '.$hotel->chkin_to:$hotel->chkin_from ?> horas. </p>
             <p><b>Hora de salida:</b> <?php echo ($hotel->chkout_from)?'Desde las '.$hotel->chkout_from.' hasta las '.$hotel->chkout_to:'Hasta las '.$hotel->chkout_to ?> horas. </p>
