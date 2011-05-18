@@ -1,8 +1,6 @@
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
-
-
 # pages statics
 esqui:
   url: /esqui-andorra
@@ -20,6 +18,9 @@ excursiones:
 all_hotel:
   url: /hoteles-andorra
   param: { module: home, action: allHotels }
+filter_checks:
+  url: /filtros/:chk
+  param: { module: home, action: filterCheck }
 mapa:
   url: /mapa
   param: { module: home, action: mapa }

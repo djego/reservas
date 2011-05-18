@@ -303,8 +303,9 @@ class homeActions extends sfActions {
     $this->lst_desc = $ar_hotels_description;
   }
   public function executeAllHotels(sfWebRequest $request) {
+    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+    $this->search_form = new newSearchForm($param_initial);
 
-    $this->search_form = new newSearchForm();
     $this->filter = new orderForm($this->getUser()->getAttribute('order'));
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
     $order = $this->getUser()->getAttribute('order');
@@ -351,4 +352,9 @@ class homeActions extends sfActions {
     $this->search_form = new newSearchForm($param_initial);
   }
 
+  public function executeFilterCheck(sfWebRequest $request) {
+
+    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+    $this->search_form = new newSearchForm($param_initial);
+  }
 }
