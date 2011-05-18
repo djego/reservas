@@ -5,20 +5,20 @@
 
 # pages statics
 esqui:
-  url: /esqui-andorra.html
+  url: /esqui-andorra
   param: { module: home, action: esqui }
 paquetes:
-  url: /paquetes-turisticos.html
+  url: /paquetes-turisticos
   param: { module: home, action: paquetes }
 turismo:
-  url: /turismo-andorra.html
+  url: /turismo-andorra
   param: { module: home, action: turismo }
 excursiones:
-  url: /excursiones-actividades.html
+  url: /excursiones-actividades
   param: { module: home, action: excursiones }
 # pages dinamics
 all_hotel:
-  url: /todos-los-hoteles.html
+  url: /hoteles-andorra
   param: { module: home, action: allHotels }
 mapa:
   url: /mapa

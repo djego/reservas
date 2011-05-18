@@ -11,4 +11,13 @@ hotelResultSuccess:
   stylesheets: [%app_s_css%reservaria.css]
 mapaSuccess:
   has_layout: false
-indexSuccess:
+
+excursionesSuccess:
+  layout: layout_exc
+esquiSuccess:
+  layout: layout_esq
+paquetesSuccess:
+  layout: layout_paq
+turismoSuccess:  
+  layout: layout_turi
+  

@@ -332,19 +332,23 @@ class homeActions extends sfActions {
   /*  Paginas estaticas */
 
   public function executeEsqui() {
-
+    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+    $this->search_form = new newSearchForm($param_initial);
   }
 
   public function executeExcursiones() {
-
+    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+    $this->search_form = new newSearchForm($param_initial);
   }
 
   public function executePaquetes() {
-
+    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+    $this->search_form = new newSearchForm($param_initial);
   }
 
   public function executeTurismo() {
-
+    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+    $this->search_form = new newSearchForm($param_initial);
   }
 
 }
