@@ -19,7 +19,7 @@ $sf_response->addMeta('keywords', $keyword);
         <div class="listados-izq">
           <dl class="refine">
             <form action="<?php echo url_for('search_city')?>" method="post">
-              <?php include_partial('search_pro', array('search_form' => $search_form))?>
+              <?php include_partial('search_pro', array('search_form' => $search_form,'star_sesion' => $star_sesion, 'facil_session' => $facil_session))?>
             </form>
           </dl>
 

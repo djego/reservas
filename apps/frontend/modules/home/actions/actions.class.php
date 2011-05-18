@@ -17,6 +17,14 @@ class homeActions extends sfActions {
    */
   public function preExecute() {
     $this->data = new fwoData();
+    $star_sesion = array('all' =>'all','star_1' => '','star_2' => '','star_3' => '','star_4' => '','star_5' => '');
+    $facil_sesion = array('all' =>'all','facil_1' => '','facil_2' => '','facil_3' => '','facil_4' => '','facil_5' => '','facil_6' =>'','facil_7'=>'','facil_8'=>'');
+    if(!$this->getUser()->getAttribute('star_session')){
+      $this->getUser()->setAttribute('star_session',$star_sesion);
+    }
+    if(!$this->getUser()->getAttribute('facil_session')){
+      $this->getUser()->setAttribute('facil_session',$facil_sesion);
+    }
   }
 
   public function executeIndex(sfWebRequest $request) {
@@ -305,11 +313,13 @@ class homeActions extends sfActions {
   public function executeAllHotels(sfWebRequest $request) {
     $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
     $this->search_form = new newSearchForm($param_initial);
-
+    $this->star_sesion = $this->getUser()->getAttribute('star_session');
+    $this->facil_session = $this->getUser()->getAttribute('facil_session');
+//    print_r($this->star_sesion);
     $this->filter = new orderForm($this->getUser()->getAttribute('order'));
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
     $order = $this->getUser()->getAttribute('order');
-    $query = Doctrine::getTable('adHotel')->getHotelsCity('',$order['order']);
+    $query = Doctrine::getTable('adHotel')->getHotelsCity('',$order['order'],$this->star_sesion, $this->facil_session);
     $this->pager->setQuery($query);
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
@@ -352,9 +362,89 @@ class homeActions extends sfActions {
     $this->search_form = new newSearchForm($param_initial);
   }
 
-  public function executeFilterCheck(sfWebRequest $request) {
-
-    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
-    $this->search_form = new newSearchForm($param_initial);
+  public function executeAllstar(sfWebRequest $request) {
+     $fil = $request->getParameter('chk');
+     $star_filter = $this->getUser()->getAttribute('star_session');
+     $star_filter['all'] = $fil;
+     $star_filter['star_1'] = '';
+     $star_filter['star_2'] = '';
+     $star_filter['star_3'] = '';
+     $star_filter['star_4'] = '';
+     $star_filter['star_5'] = '';
+     $this->getUser()->setAttribute('star_session',$star_filter);
+     $this->redirect($request->getReferer());
   }
+  
+  public function executeOnestar(sfWebRequest $request) {
+     $fil = $request->getParameter('chk');
+//     var_dump($fil);die();
+     $star_filter = $this->getUser()->getAttribute('star_session');
+     $star_filter['star_1'] = $fil?$fil:'';
+     $star_filter['all'] = '';
+     $this->getUser()->setAttribute('star_session',$star_filter);
+     
+     $this->redirect($request->getReferer());
+  }
+
+  public function executeTwostar(sfWebRequest $request) {
+     $fil = $request->getParameter('chk');
+     $star_filter = $this->getUser()->getAttribute('star_session');
+     $star_filter['star_2'] = $fil?$fil:'';
+     $star_filter['all'] = '';
+     $this->getUser()->setAttribute('star_session',$star_filter);
+     $this->redirect($request->getReferer());
+  }
+  public function executeThreestar(sfWebRequest $request) {
+     $fil = $request->getParameter('chk');
+     $star_filter = $this->getUser()->getAttribute('star_session');
+     $star_filter['star_3'] = $fil?$fil:'';
+     $star_filter['all'] = '';
+     $this->getUser()->setAttribute('star_session',$star_filter);
+     $this->redirect($request->getReferer());
+  }
+  public function executeFourstar(sfWebRequest $request) {
+     $fil = $request->getParameter('chk');
+     $star_filter = $this->getUser()->getAttribute('star_session');
+     $star_filter['star_4'] = $fil?$fil:'';
+     $star_filter['all'] = '';
+     $this->getUser()->setAttribute('star_session',$star_filter);
+     $this->redirect($request->getReferer());
+  }
+  public function executeFivestar(sfWebRequest $request) {
+     $fil = $request->getParameter('chk');
+     
+     $star_filter = $this->getUser()->getAttribute('star_session');
+     $star_filter['star_5'] = $fil?$fil:'';
+     $star_filter['all'] = '';
+     $this->getUser()->setAttribute('star_session',$star_filter);
+     $this->redirect($request->getReferer());
+  } 
+  
+  public function executeAllfacil(sfWebRequest $request) {
+     $fil = $request->getParameter('chk');
+     $facil_filter = $this->getUser()->getAttribute('facil_session');
+     $facil_filter['all'] = 'all';
+     $facil_filter['facil_1'] = '';
+     $facil_filter['facil_2'] = '';
+     $facil_filter['facil_3'] = '';
+     $facil_filter['facil_4'] = '';
+     $facil_filter['facil_5'] = '';
+     $facil_filter['facil_6'] = '';
+     $facil_filter['facil_7'] = '';
+     $facil_filter['facil_8'] = '';
+     $this->getUser()->setAttribute('facil_session',$facil_filter);
+     $this->redirect($request->getReferer());
+  }
+  
+  public function executeFacil(sfWebRequest $request) {
+     $fil = $request->getParameter('chk');
+     $cls = $request->getParameter('cls');
+//     echo $cls;
+//          die ();
+     $facil_filter = $this->getUser()->getAttribute('facil_session');
+     $facil_filter[$cls] = $fil?$fil:'';
+     $facil_filter['all'] = '';
+     $this->getUser()->setAttribute('facil_session',$facil_filter);
+     $this->redirect($request->getReferer());
+  }  
 }

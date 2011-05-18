@@ -1,4 +1,155 @@
 $(function(){
+  $('#star_all').click(function(){
+    $('#star_1').removeAttr('checked');
+    $('#star_2').removeAttr('checked');
+    $('#star_3').removeAttr('checked');
+    $('#star_4').removeAttr('checked');
+    $('#star_5').removeAttr('checked');    
+    if($(this).attr('checked') == true){
+      window.location = 'home/allstar?chk='+$(this).val();
+    }else{        
+      window.location = 'home/allstar';
+    }
+  });
+  $('#star_1').click(function(){
+      $('#star_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/onestar?chk='+$(this).val();
+      }else{        
+        window.location = 'home/onestar';
+      }
+  });
+  $('#star_2').click(function(){
+      $('#star_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/onestar?chk='+$(this).val();
+      }else{        
+        window.location = 'home/onestar';
+      }
+  });
+  $('#star_3').click(function(){
+      $('#star_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/onestar?chk='+$(this).val();
+      }else{        
+        window.location = 'home/onestar';
+      }
+  });
+  $('#star_4').click(function(){
+      $('#star_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/onestar?chk='+$(this).val();
+      }else{        
+        window.location = 'home/onestar';
+      }
+  });
+  $('#star_5').click(function(){
+      $('#star_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/onestar?chk='+$(this).val();
+      }else{        
+        window.location = 'home/onestar'; 
+      }
+  });
+  
+  
+  $('#facil_all').click(function(){
+    $('#facil_1').removeAttr('checked');
+    $('#facil_2').removeAttr('checked');
+    $('#facil_3').removeAttr('checked');
+    $('#facil_4').removeAttr('checked');
+    $('#facil_5').removeAttr('checked');    
+    $('#facil_6').removeAttr('checked');    
+    $('#facil_7').removeAttr('checked');    
+    $('#facil_8').removeAttr('checked');    
+            
+    window.location = 'home/allfacil';
+  
+  });
+  $('#facil_1').click(function(){
+      var name = $(this).attr('name');
+      $('#facil_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/facil?chk='+$(this).val()+'&cls='+name;
+      }else{        
+        window.location = 'home/facil?cls='+name;
+      }
+  });
+  $('#facil_2').click(function(){
+      var name = $(this).attr('name');
+      $('#facil_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/facil?chk='+$(this).val()+'&cls='+name;
+      }else{        
+        window.location = 'home/facil?cls='+name;
+      }
+  });
+  $('#facil_3').click(function(){
+      var name = $(this).attr('name');
+      $('#facil_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/facil?chk='+$(this).val()+'&cls='+name;
+      }else{        
+        window.location = 'home/facil?cls='+name;
+      }
+  });
+  $('#facil_4').click(function(){
+      var name = $(this).attr('name');
+      $('#facil_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/facil?chk='+$(this).val()+'&cls='+name;
+      }else{        
+        window.location = 'home/facil?cls='+name;
+      }
+  });
+  $('#facil_5').click(function(){
+      var name = $(this).attr('name');
+      $('#facil_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/facil?chk='+$(this).val()+'&cls='+name;
+      }else{        
+        window.location = 'home/facil?cls='+name;
+      }
+  });
+  $('#facil_6').click(function(){
+      var name = $(this).attr('name');
+      $('#facil_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/facil?chk='+$(this).val()+'&cls='+name;
+      }else{        
+        window.location = 'home/facil?cls='+name;
+      }
+  });
+  $('#facil_7').click(function(){
+      var name = $(this).attr('name');
+      $('#facil_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/facil?chk='+$(this).val()+'&cls='+name;
+      }else{        
+        window.location = 'home/facil';
+      }
+  });
+  $('#facil_8').click(function(){
+      var name = $(this).attr('name');
+      $('#facil_all').removeAttr('checked');
+      if($(this).attr('checked') == true){
+        window.location = 'home/facil?chk='+$(this).val()+'&cls='+name;
+      }else{        
+        window.location = 'home/facil?cls='+name;
+      }
+  });
+    
+$.fn.actionCheckBox = function(check_active){
+  
+  return this.each(function(){
+    var $this = $(this);
+    $this.click(function(){
+      $(check_active).attr('checked',$this.attr('checked'));
+    });
+  });   
+}
+  
+  
   var aFinMes = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
 
   function finMes(nMes, nAno){

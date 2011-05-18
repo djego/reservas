@@ -28,17 +28,36 @@ class adHotelTable extends Doctrine_Table
 //      echo $q->getSqlQuery(); die();
       return $q->fetchArray();
     }
-    public function getHotelsCity($cid = '', $order = ''){
+    public function getHotelsCity($cid = '', $order = '', $star = array(), $facility = array()){
+      unset($facility['all']);
+//      print_r($facility);die();
       $q = $this->createQuery('h');
       $q->select('h.*, d.description as description');
       $q->innerJoin('h.HotelDescs as d');
       $q->where('d.descriptiontype_id = 6');
+      $star_cad = '';
+      foreach ($star as $s){
+       if($s){
+         if($s == 'all'){
+           $star_cad.='';
+         }else $star_cad.= 'h.class_and = '.$s.' OR ';
+       }
+      }
+      substr($star_cad,0,-4)?$q->andWhere(substr($star_cad,0,-4)):''; 
+      $faci_cad='';
+      foreach ($facility as $f){
+        if($f){
+           $faci_cad.= 'd.description like "%'.$f.'%" OR ';
+        }
+      }
+      substr($faci_cad,0,-4)?$q->andWhere(substr($faci_cad,0,-4)):'';
+      
       if($cid != '') $q->andWhere('h.city_id = ?',$cid);
       if($order == 'pop') $q->orderBy('h.review_nr DESC');
       elseif($order == 'opi') $q->orderBy('h.ranking DESC');
       elseif($order == 'est') $q->orderBy('h.class_and DESC');
       elseif($order == 'pre') $q->orderBy('h.minrate ASC');
-      else $q->orderBy('h.review_nr DESC');
+      else $q->orderBy('h.name ASC');
 //      echo $q->getSqlQuery(); die();
       return $q;
     }
