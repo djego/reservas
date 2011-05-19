@@ -78,8 +78,7 @@ class adHotelTable extends Doctrine_Table
     }
 
     public function getHotelsCityResult2($cid,$htids,$star = array(),$facility = array(),$order=''){
-      
-//      echo substr($star_cad,0,-4);die();
+      unset($facility['all']);
       $q = $this->createQuery('h');
       $q->select('h.*, d.description as description');
       $q->innerJoin('h.HotelDescs as d');
@@ -87,19 +86,21 @@ class adHotelTable extends Doctrine_Table
       $q->andWhereIn('h.id',$htids);
       $q->andWhere('h.city_id = ?',$cid);
       $star_cad = '';
-      if(count($star)>0){
-         foreach ($star as $s){
-           $star_cad.= 'h.class_and = '.$s.' OR ';
-        }
-        $q->andWhere(substr($star_cad,0,-4));
+      foreach ($star as $s){
+       if($s){
+         if($s == 'all'){
+           $star_cad.='';
+         }else $star_cad.= 'h.class_and = '.$s.' OR ';
+       }
       }
+      substr($star_cad,0,-4)?$q->andWhere(substr($star_cad,0,-4)):'';
       $faci_cad='';
-      if(count($facility)>0){
-         foreach ($facility as $f){
+      foreach ($facility as $f){
+        if($f){
            $faci_cad.= 'd.description like "%'.$f.'%" OR ';
         }
-        $q->andWhere(substr($faci_cad,0,-4));
       }
+      substr($faci_cad,0,-4)?$q->andWhere(substr($faci_cad,0,-4)):'';
       if($order == 'pop') $q->orderBy('h.review_nr DESC');
       elseif($order == 'opi') $q->orderBy('h.ranking DESC');
       elseif($order == 'est') $q->orderBy('h.class_and DESC');

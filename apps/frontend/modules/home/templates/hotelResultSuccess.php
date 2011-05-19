@@ -124,15 +124,45 @@ $sf_response->addMeta('keywords', $keyword);
 
           <br clear="all" /><br />
           <h2 class="seccionHotel">Disponibilidad del hotel</h2>
-          <?php
-          if ($lst_rooms) {
-            $ini = Utils::getFormattedDate($lst_rooms['arrival_date'], '%d/%m/%Y');
-            $fin = Utils::getFormattedDate($lst_rooms['departure_date'], '%d/%m/%Y');
-            $interval = $fin - $ini;
-            ?>
-          <div class="disponibilidadHotel">Habitaciones disponibles del <span><?php echo $ini ?></span> al <span><?php echo $fin ?></span></div>
-            <?php }  ?>
+           <?php
+            if ($lst_rooms) {
+              $ini = Utils::getFormattedDate($lst_rooms['arrival_date'], '%d/%m/%Y');
+              $fin = Utils::getFormattedDate($lst_rooms['departure_date'], '%d/%m/%Y');
+              $interval = $fin - $ini;
+              ?>
+          <div class="disponibilidadHotel">Habitaciones disponibles del <span><?php echo $ini ?></span> al <span><?php echo $fin ?></span>.(<a style='cursor: pointer;' onclick="muestra_oculta('modificar-fechas')">modificar fechas</a>)</div>
+              <?php } else { ?>
+          <div style="color: #FF1325;font-size: 14px;margin-top: 10px; padding: 10px;">No existe disponibilidad para estas  (<a style='cursor: pointer;' onclick="muestra_oculta('modificar-fechas')">modificar fechas</a>)</div>
 
+              <?php } ?>
+            <div id="modificar-fechas" class="modificarfechas" style="display:none">
+            <p>Selecciona las fechas para comprabar la disponibilidad: </p> <br />
+            <form action="" method="post">
+                <?php if ($form_dis->isCSRFProtected()) : ?>
+                  <?php echo $form_dis['_csrf_token']->render(); ?>
+                <?php endif; ?>
+              <table border="0" cellpadding="0" cellspacing="4">
+                <tr>
+                  <td colspan="2">
+                    <span>Fecha de entrada:</span>
+                  </td>
+                  <td valign="top">
+                      <?php echo $form_dis['fecha_entrada']->render(array('size' => '11')) ?>
+                  </td>
+                  <td colspan="3">
+                    <span>Fecha de salida:</span>
+                  </td>
+                  <td valign="top">
+                      <?php echo $form_dis['fecha_salida']->render(array('size' => '11')) ?>
+                  </td>
+                  <td>
+                    &nbsp; &nbsp; <button name="bot_disp" value="dispo" type="submit" title="Buscar">Buscar</button>
+                  </td>
+                </tr>
+
+              </table>
+            </form>
+          </div>
 
           <?php if ($lst_rooms): ?>
           <div>

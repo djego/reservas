@@ -51,15 +51,15 @@
       <label for="star_2">2 estrellas</label> 
     </dd>
     <dd>
-      <input <?php echo  $star_sesion['star_3']?'checked="checked"':''; ?>  id="star_3" type="checkbox" name="star_3" value="1" />
+      <input <?php echo  $star_sesion['star_3']?'checked="checked"':''; ?>  id="star_3" type="checkbox" name="star_3" value="3" />
       <label for="star_3">3 estrella</label> 
     </dd>
     <dd>
-      <input <?php echo  $star_sesion['star_4']?'checked="checked"':''; ?>  id="star_4" type="checkbox" name="star_4" value="2" />
+      <input <?php echo  $star_sesion['star_4']?'checked="checked"':''; ?>  id="star_4" type="checkbox" name="star_4" value="4" />
       <label for="star_4">4 estrellas</label> 
     </dd>
     <dd>
-      <input <?php echo  $star_sesion['star_5']?'checked="checked"':''; ?>  id="star_5" type="checkbox" name="star_5" value="1" />
+      <input <?php echo  $star_sesion['star_5']?'checked="checked"':''; ?>  id="star_5" type="checkbox" name="star_5" value="5" />
       <label for="star_5">5 estrella</label> 
     </dd>
 

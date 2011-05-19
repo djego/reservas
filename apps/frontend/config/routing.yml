@@ -19,8 +19,8 @@ all_hotel:
   url: /hoteles-andorra
   param: { module: home, action: allHotels }
 filter_checks:
-  url: /filtros/:chk
-  param: { module: home, action: filterCheck }
+  url: /estrellas/:chk
+  param: { module: home, action: allstar }
 mapa:
   url: /mapa
   param: { module: home, action: mapa }

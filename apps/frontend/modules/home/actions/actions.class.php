@@ -19,10 +19,10 @@ class homeActions extends sfActions {
     $this->data = new fwoData();
     $star_sesion = array('all' =>'all','star_1' => '','star_2' => '','star_3' => '','star_4' => '','star_5' => '');
     $facil_sesion = array('all' =>'all','facil_1' => '','facil_2' => '','facil_3' => '','facil_4' => '','facil_5' => '','facil_6' =>'','facil_7'=>'','facil_8'=>'');
-    if(!$this->getUser()->getAttribute('star_session')){
+    if(!$this->getUser()->getAttribute('star_session')) {
       $this->getUser()->setAttribute('star_session',$star_sesion);
     }
-    if(!$this->getUser()->getAttribute('facil_session')){
+    if(!$this->getUser()->getAttribute('facil_session')) {
       $this->getUser()->setAttribute('facil_session',$facil_sesion);
     }
   }
@@ -70,6 +70,8 @@ class homeActions extends sfActions {
   }
 
   public function executeCityHotels(sfWebRequest $request) {
+    $this->star_sesion = $this->getUser()->getAttribute('star_session');
+    $this->facil_session = $this->getUser()->getAttribute('facil_session');
     $cid = $request->getParameter('id');
     $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
     $param_initial = array('destino' => $this->rs_city['name'], 'fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
@@ -77,7 +79,7 @@ class homeActions extends sfActions {
     $this->filter = new orderForm($this->getUser()->getAttribute('order'));
     $order = $this->getUser()->getAttribute('order');
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-    $query = Doctrine::getTable('adHotel')->getHotelsCity($cid, $order['order']);
+    $query = Doctrine::getTable('adHotel')->getHotelsCity($cid, $order['order'],$this->star_sesion,$this->facil_session);
     $this->pager->setQuery($query);
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
@@ -89,7 +91,7 @@ class homeActions extends sfActions {
         $val = $this->filter->getValues();
         $this->getUser()->setAttribute('order', $val);
         $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-        $query = Doctrine::getTable('adHotel')->getHotelsCity($cid, $val['order']);
+        $query = Doctrine::getTable('adHotel')->getHotelsCity($cid, $val['order'],$this->star_sesion,$this->facil_session);
         $this->pager->setQuery($query);
         $this->pager->setPage($request->getParameter('p', 1));
         $this->pager->init();
@@ -104,6 +106,8 @@ class homeActions extends sfActions {
     $cid = $request->getParameter('id');
     $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
     $ar_session = $this->getUser()->getAttribute('search_city');
+    $this->star_sesion = $this->getUser()->getAttribute('star_session');
+    $this->facil_session = $this->getUser()->getAttribute('facil_session');
     $ar_session['destino'] = $this->rs_city['name'];
     $this->search_form = new newSearchForm($ar_session);
     $this->filter = new orderForm($session_order);
@@ -119,47 +123,28 @@ class homeActions extends sfActions {
       $ar[] = $hotel_ok['hotel_id'];
     }
 //    if (!$orden = $request->getParameter('orden')) {
-
+//    print_r($this->star_sesion);die();
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar, $ar_session['star'], $ar_session['facility'],$session_order['order']);
+    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar, $this->star_sesion, $this->facil_session, $session_order['order']);
     $this->pager->setQuery($query);
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
     $this->lst_hotel = $this->pager->getResults()->toArray();
 
     if($request->isMethod('post')) {
-      if($request->getParameter('search_pro')) {
-        $ar_star = $request->getParameter('search_new');
-        $this->search_form->bind($ar_star);
-        if($this->search_form->isValid()) {
-          $param_search = $this->search_form->getValues();
-          $this->getUser()->setAttribute('search_city', $param_search);
-//        print_r($param_search);die();
-          $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$param_search['star'],$param_search['facility'],$session_order['order']);
+      $this->filter->bind($request->getParameter('order_form'));
+      if($this->filter->isValid()) {
+        $val = $this->filter->getValues();
+        $this->getUser()->setAttribute('order', $val);
+        $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+        $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$this->star_sesion,$this->facil_session,$val['order']);
 
-          $this->pager->setQuery($query);
-          $this->pager->setPage($request->getParameter('p', 1));
-          $this->pager->init();
-          $this->lst_hotel = $this->pager->getResults()->toArray();
-          $this->redirect('city_hotels_result', array('id' =>$this->rs_city['id'],'slug' => $this->rs_city['slug']));
-
-        }
-      }else {
-        $this->filter->bind($request->getParameter('order_form'));
-        if($this->filter->isValid()) {
-          $val = $this->filter->getValues();
-          $this->getUser()->setAttribute('order', $val);
-          $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-          $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar,$ar_session['star'],$ar_session['facility'],$val['order']);
-
-          $this->pager->setQuery($query);
-          $this->pager->setPage($request->getParameter('p', 1));
-          $this->pager->init();
-          $this->lst_hotel = $this->pager->getResults()->toArray();
-        }
-
+        $this->pager->setQuery($query);
+        $this->pager->setPage($request->getParameter('p', 1));
+        $this->pager->init();
+        $this->lst_hotel = $this->pager->getResults()->toArray();
       }
+
 //
 //      print_r($ar_star);
 //die ();
@@ -204,11 +189,8 @@ class homeActions extends sfActions {
         }else {
           $this->lst_rooms = $ar_rooms[0];
         }
-
       }
-
     }
-
   }
 
   protected function getArraySlugCity() {
@@ -234,6 +216,7 @@ class homeActions extends sfActions {
     // Cuartos disponibles
     $search_sesion = $this->getUser()->getAttribute('search_city');
     $this->search_form = new newSearchForm($search_sesion);
+    $this->form_dis = new searchForm($search_sesion);
 
     $fecha_entrada = $this->changeFormatDate($search_sesion['fecha_entrada']);
     $fecha_salida = $this->changeFormatDate($search_sesion['fecha_salida']);
@@ -242,18 +225,25 @@ class homeActions extends sfActions {
     $this->lst_rooms = $ar_rooms[0];
 
     if($request->isMethod('post')) {
-      $this->search_form->bind($request->getParameter('search_new'));
-      if($this->search_form->isValid()) {
-        $param_search = $this->search_form->getValues();
-        $this->getUser()->setAttribute('search_city',$param_search);
-        $fecha_entrada = $this->changeFormatDate($param_search['fecha_entrada']);
-        $fecha_salida = $this->changeFormatDate($param_search['fecha_salida']);
-        $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
-        $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
-        $this->lst_rooms = $ar_rooms[0];
+      if($request->getParameter('bot_disp') == 'dispo') {
+        $this->form_dis->bind($request->getParameter('search_dispo'));
+        if($this->form_dis->isValid()) {
+          $param_search = $this->form_dis->getValues();
+          $this->getUser()->setAttribute('search_city',$param_search);
+          $this->redirect($request->getReferer());
+        }
+      }else {
+        $this->search_form->bind($request->getParameter('search_new'));
+        if($this->search_form->isValid()) {
+          $param_search = $this->search_form->getValues();
+          $this->getUser()->setAttribute('search_city',$param_search);
+          $fecha_entrada = $this->changeFormatDate($param_search['fecha_entrada']);
+          $fecha_salida = $this->changeFormatDate($param_search['fecha_salida']);
+          $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
+          $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
+          $this->lst_rooms = $ar_rooms[0];
+        }
       }
-
-
     }
 
 
@@ -363,88 +353,55 @@ class homeActions extends sfActions {
   }
 
   public function executeAllstar(sfWebRequest $request) {
-     $fil = $request->getParameter('chk');
-     $star_filter = $this->getUser()->getAttribute('star_session');
-     $star_filter['all'] = $fil;
-     $star_filter['star_1'] = '';
-     $star_filter['star_2'] = '';
-     $star_filter['star_3'] = '';
-     $star_filter['star_4'] = '';
-     $star_filter['star_5'] = '';
-     $this->getUser()->setAttribute('star_session',$star_filter);
-     $this->redirect($request->getReferer());
-  }
-  
-  public function executeOnestar(sfWebRequest $request) {
-     $fil = $request->getParameter('chk');
-//     var_dump($fil);die();
-     $star_filter = $this->getUser()->getAttribute('star_session');
-     $star_filter['star_1'] = $fil?$fil:'';
-     $star_filter['all'] = '';
-     $this->getUser()->setAttribute('star_session',$star_filter);
-     
-     $this->redirect($request->getReferer());
+    $fil = $request->getParameter('chk');
+    $star_filter = $this->getUser()->getAttribute('star_session');
+    $star_filter['all'] = $fil;
+    $star_filter['star_1'] = '';
+    $star_filter['star_2'] = '';
+    $star_filter['star_3'] = '';
+    $star_filter['star_4'] = '';
+    $star_filter['star_5'] = '';
+    $this->getUser()->setAttribute('star_session',$star_filter);
+    $this->redirect($request->getReferer());
   }
 
-  public function executeTwostar(sfWebRequest $request) {
-     $fil = $request->getParameter('chk');
-     $star_filter = $this->getUser()->getAttribute('star_session');
-     $star_filter['star_2'] = $fil?$fil:'';
-     $star_filter['all'] = '';
-     $this->getUser()->setAttribute('star_session',$star_filter);
-     $this->redirect($request->getReferer());
+  public function executeOnestar(sfWebRequest $request) {
+    $fil = $request->getParameter('chk');
+    $cls = $request->getParameter('cls');
+//     var_dump($fil);die();
+    $star_filter = $this->getUser()->getAttribute('star_session');
+    $star_filter[$cls] = $fil?$fil:'';
+    $star_filter['all'] = '';
+    $this->getUser()->setAttribute('star_session',$star_filter);
+
+    $this->redirect($request->getReferer());
   }
-  public function executeThreestar(sfWebRequest $request) {
-     $fil = $request->getParameter('chk');
-     $star_filter = $this->getUser()->getAttribute('star_session');
-     $star_filter['star_3'] = $fil?$fil:'';
-     $star_filter['all'] = '';
-     $this->getUser()->setAttribute('star_session',$star_filter);
-     $this->redirect($request->getReferer());
-  }
-  public function executeFourstar(sfWebRequest $request) {
-     $fil = $request->getParameter('chk');
-     $star_filter = $this->getUser()->getAttribute('star_session');
-     $star_filter['star_4'] = $fil?$fil:'';
-     $star_filter['all'] = '';
-     $this->getUser()->setAttribute('star_session',$star_filter);
-     $this->redirect($request->getReferer());
-  }
-  public function executeFivestar(sfWebRequest $request) {
-     $fil = $request->getParameter('chk');
-     
-     $star_filter = $this->getUser()->getAttribute('star_session');
-     $star_filter['star_5'] = $fil?$fil:'';
-     $star_filter['all'] = '';
-     $this->getUser()->setAttribute('star_session',$star_filter);
-     $this->redirect($request->getReferer());
-  } 
-  
+
   public function executeAllfacil(sfWebRequest $request) {
-     $fil = $request->getParameter('chk');
-     $facil_filter = $this->getUser()->getAttribute('facil_session');
-     $facil_filter['all'] = 'all';
-     $facil_filter['facil_1'] = '';
-     $facil_filter['facil_2'] = '';
-     $facil_filter['facil_3'] = '';
-     $facil_filter['facil_4'] = '';
-     $facil_filter['facil_5'] = '';
-     $facil_filter['facil_6'] = '';
-     $facil_filter['facil_7'] = '';
-     $facil_filter['facil_8'] = '';
-     $this->getUser()->setAttribute('facil_session',$facil_filter);
-     $this->redirect($request->getReferer());
+    $fil = $request->getParameter('chk');
+    $facil_filter = $this->getUser()->getAttribute('facil_session');
+    $facil_filter['all'] = 'all';
+    $facil_filter['facil_1'] = '';
+    $facil_filter['facil_2'] = '';
+    $facil_filter['facil_3'] = '';
+    $facil_filter['facil_4'] = '';
+    $facil_filter['facil_5'] = '';
+    $facil_filter['facil_6'] = '';
+    $facil_filter['facil_7'] = '';
+    $facil_filter['facil_8'] = '';
+    $this->getUser()->setAttribute('facil_session',$facil_filter);
+    $this->redirect($request->getReferer());
   }
-  
+
   public function executeFacil(sfWebRequest $request) {
-     $fil = $request->getParameter('chk');
-     $cls = $request->getParameter('cls');
+    $fil = $request->getParameter('chk');
+    $cls = $request->getParameter('cls');
 //     echo $cls;
 //          die ();
-     $facil_filter = $this->getUser()->getAttribute('facil_session');
-     $facil_filter[$cls] = $fil?$fil:'';
-     $facil_filter['all'] = '';
-     $this->getUser()->setAttribute('facil_session',$facil_filter);
-     $this->redirect($request->getReferer());
-  }  
+    $facil_filter = $this->getUser()->getAttribute('facil_session');
+    $facil_filter[$cls] = $fil?$fil:'';
+    $facil_filter['all'] = '';
+    $this->getUser()->setAttribute('facil_session',$facil_filter);
+    $this->redirect($request->getReferer());
+  }
 }

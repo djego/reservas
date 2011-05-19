@@ -9,6 +9,7 @@ hotelSuccess:
   javascripts: [%app_s_js%imagepreview.js, %app_s_js%search_dispo.js]
 hotelResultSuccess:
   stylesheets: [%app_s_css%reservaria.css]
+  javascripts: [%app_s_js%imagepreview.js, %app_s_js%search_dispo.js]
 mapaSuccess:
   has_layout: false
 
