@@ -59,11 +59,12 @@ $sf_response->addMeta('keywords', $keyword);
             $lo = $hotel['longitude'];
             $name = $hotel['name'];
             $city = $hotel['city'];
+            $slug_city = $ar_slug_city[$hotel['city_id']];
             $aid = sfConfig::get('app_aid');
             ?>
           <div class="listados-hoteles">
             <div class="listados-hoteles-foto">
-              <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$rs_city['slug'], 'slugh' => $hotel['slug'])) ?>">
+              <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$slug_city, 'slugh' => $hotel['slug'])) ?>">
                 <img src="<?php echo $hotel['medium_photo']; ?>" width="140" height="105"> </a>
             </div>
             <div class="listados-hoteles-info">
@@ -75,11 +76,11 @@ $sf_response->addMeta('keywords', $keyword);
                     &uacute;ltimas</a><br />
                   <br />
                   <a title="<?php echo $hotel['name']; ?>"
-                     href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$rs_city['slug'], 'slugh' => $hotel['slug'])) ?>"><img
+                     href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$slug_city, 'slugh' => $hotel['slug'])) ?>"><img
                       src="<?php echo sfConfig::get('app_s_img') ?>precios-hotel.png"
                       alt="Precios de Hotel Mena Andorra" border="0" /></a></div>
                 <div class="listados-hoteles-titulo">
-                  <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$rs_city['slug'], 'slugh' => $hotel['slug'])) ?>"><?php echo $hotel['name'] ?></a>
+                  <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$slug_city, 'slugh' => $hotel['slug'])) ?>"><?php echo $hotel['name'] ?></a>
                   <img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /> <br />
                   <em><?php echo $hotel['address']; ?>, <?php echo $hotel['city']; ?></em>
                   - <span>
@@ -88,7 +89,7 @@ $sf_response->addMeta('keywords', $keyword);
                 </div>
                 <div class="listados-hoteles-descripcion"><?php $desc = substr($hotel['description'], 0, 200);
                     echo substr($hotel['description'], 0, strripos($desc, ' ')) ?>...
-                  <a href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$rs_city['slug'], 'slugh' => $hotel['slug'])) ?>">M&aacute;s informaci&oacute;n</a>
+                  <a href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$slug_city, 'slugh' => $hotel['slug'])) ?>">M&aacute;s informaci&oacute;n</a>
                 </div>
               </div>
             </div>

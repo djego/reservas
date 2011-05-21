@@ -301,6 +301,7 @@ class homeActions extends sfActions {
     $this->lst_desc = $ar_hotels_description;
   }
   public function executeAllHotels(sfWebRequest $request) {
+    $this->ar_slug_city = $this->getArraySlugCity();
     $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
     $this->search_form = new newSearchForm($param_initial);
     $this->star_sesion = $this->getUser()->getAttribute('star_session');
