@@ -31,11 +31,25 @@ class homeActions extends sfActions {
 //    $lst_ciudades = $this->data->fetchRcp('bookings.getHotels', 'hotel_ids=220588');
     $this->ar_slug_city = $this->getArraySlugCity();
 //    print_r($this->ar_slug_city);die();
-    $this->lst_hotel = Doctrine::getTable('adHotel')->getHotelsMain();
-    $this->lst_city = Doctrine::getTable('adCity')->getCitiesMain();
+//    $this->lst_hotel = Doctrine::getTable('adHotel')->getHotelsMain();
+//    $this->lst_city = Doctrine::getTable('adCity')->getCitiesMain();
 
-    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
-    $this->search_form = new newSearchForm($param_initial);
+//    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+//    $this->search_form = new newSearchForm($param_initial);
+    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
+    $this->search_form = new searchHotelForm($param_initial);
+    if ($request->isMethod('post')) {
+      $params = $request->getParameter('search');
+//    print_r($params);die();
+      $this->search_form->bind($params);
+      if ($this->search_form->isValid()) {
+        $value = $this->search_form->getValues();
+        $this->getUser()->setAttribute('search_date', $value);
+        $this->redirect('hotels_result');
+      }
+    }
+
+
   }
 
   public function executeCity(sfWebRequest $request) {
@@ -101,20 +115,18 @@ class homeActions extends sfActions {
 
   }
 
-  public function executeCityHotelsResult(sfWebRequest $request) {
+  public function executeHotelsResult(sfWebRequest $request) {
     $session_order = $this->getUser()->getAttribute('order');
-    $cid = $request->getParameter('id');
-    $this->forward404Unless($this->rs_city = Doctrine::getTable('adCity')->find($cid)->toArray());
-    $ar_session = $this->getUser()->getAttribute('search_city');
+
+    $ar_session = $this->getUser()->getAttribute('search_date');
     $this->star_sesion = $this->getUser()->getAttribute('star_session');
     $this->facil_session = $this->getUser()->getAttribute('facil_session');
-    $ar_session['destino'] = $this->rs_city['name'];
-    $this->search_form = new newSearchForm($ar_session);
+//    print_r($ar_session);die();
+    $this->search_form = new searchHotelForm($ar_session);
     $this->filter = new orderForm($session_order);
-    $search_sesion = $this->getUser()->getAttribute('search_city');
-    $fecha_entrada = $this->changeFormatDate($search_sesion['fecha_entrada']);
-    $fecha_salida = $this->changeFormatDate($search_sesion['fecha_salida']);
-    $param = "arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&city_ids=" . $this->rs_city['id'];
+    $fecha_entrada = $this->changeFormatDate($ar_session['fecha-inicio']);
+    $fecha_salida = $this->changeFormatDate($ar_session['fecha-final']);
+    $param = "arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&city_ids=-1456928";
     $lst_hoteles_ok = $this->data->fetchRcp('bookings.getHotelAvailability', $param);
     $this->fecha_entrada = $fecha_entrada;
     $this->fecha_salida = $fecha_salida;
@@ -125,7 +137,7 @@ class homeActions extends sfActions {
 //    if (!$orden = $request->getParameter('orden')) {
 //    print_r($this->star_sesion);die();
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2($cid, $ar, $this->star_sesion, $this->facil_session, $session_order['order']);
+    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2('-1456928', $ar, $this->star_sesion, $this->facil_session, $session_order['order']);
     $this->pager->setQuery($query);
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
@@ -160,6 +172,8 @@ class homeActions extends sfActions {
     $this->ar_slug_city = $this->getArraySlugCity();
     $hid = $request->getParameter('id');
     $this->forward404Unless($this->hotel = Doctrine::getTable('adHotel')->find($hid));
+    // Agregando visita
+    $this->getUser()->addViewHotel($this->hotel);
     $this->lst_service = Doctrine::getTable('adHotelService')->getService($this->hotel->id);
     $this->range = Utils::getDistance($this->hotel->longitude - 0.002, $this->hotel->latitude - 0.002, $this->hotel->longitude + 0.002, $this->hotel->latitude + 0.002);
     $this->hotels_nearby = Doctrine::getTable('adHotel')->getHotelsNearby($this->hotel->longitude, $this->hotel->latitude, 0.002, 0.002, $this->hotel['id']);
@@ -168,10 +182,10 @@ class homeActions extends sfActions {
     if ($this->getUser()->getAttribute('searching_dispo')) {
       $param_initial = $this->getUser()->getAttribute('searching_dispo');
     } else {
-      $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
+      $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
     }
     $this->form_dis = new searchForm($param_initial);
-    $this->search_form = new newSearchForm($param_initial);
+    $this->search_form = new searchHotelForm($param_initial);
     if ($request->isMethod('post')) {
       $val_dispo = $request->getParameter('search_dispo');
       $this->form_dis->bind($val_dispo);
@@ -214,12 +228,12 @@ class homeActions extends sfActions {
 //    print_r($this->aditional_info);die();
 
     // Cuartos disponibles
-    $search_sesion = $this->getUser()->getAttribute('search_city');
-    $this->search_form = new newSearchForm($search_sesion);
+    $search_sesion = $this->getUser()->getAttribute('search_date');
+    $this->search_form = new searchHotelForm($search_sesion);
     $this->form_dis = new searchForm($search_sesion);
 
-    $fecha_entrada = $this->changeFormatDate($search_sesion['fecha_entrada']);
-    $fecha_salida = $this->changeFormatDate($search_sesion['fecha_salida']);
+    $fecha_entrada = $this->changeFormatDate($search_sesion['fecha-inicio']);
+    $fecha_salida = $this->changeFormatDate($search_sesion['fecha-final']);
     $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
     $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
     $this->lst_rooms = $ar_rooms[0];
@@ -257,11 +271,12 @@ class homeActions extends sfActions {
   }
 
   protected function changeFormatDate($param_search) {
-    $dat = str_replace('/', '-', $param_search);
-    $data_day = substr($dat, 0, 2);
-    $data_mes = substr($dat, 3, 2);
-    $data_ano = substr($dat, 6, 4);
-    return $data_ano . '-' . $data_mes . '-' . $data_day;
+
+    $day = str_pad($param_search['day'], 2, "0", STR_PAD_LEFT);
+    $mon = substr($param_search['month'],0,2);
+    $year = substr($param_search['month'],3,4);
+
+    return $year.'-'.$mon.'-'.$day;
   }
 
 
@@ -302,8 +317,8 @@ class homeActions extends sfActions {
   }
   public function executeAllHotels(sfWebRequest $request) {
     $this->ar_slug_city = $this->getArraySlugCity();
-    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
-    $this->search_form = new newSearchForm($param_initial);
+    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
+    $this->search_form = new searchHotelForm($param_initial);
     $this->star_sesion = $this->getUser()->getAttribute('star_session');
     $this->facil_session = $this->getUser()->getAttribute('facil_session');
 //    print_r($this->star_sesion);
@@ -317,6 +332,7 @@ class homeActions extends sfActions {
     $this->lst_hotel = $this->pager->getResults()->toArray();
 
     if($request->isMethod('post')) {
+//      print_r($request->getParameter('search'));
       $this->filter->bind($request->getParameter('order_form'));
       if($this->filter->isValid()) {
         $val = $this->filter->getValues();

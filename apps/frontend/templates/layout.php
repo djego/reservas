@@ -11,24 +11,12 @@
     <div class="cabecera">
       <div class="cabecera-logo">
         <div class="logo">
-          <a href="<?php echo url_for('homepage');?>" title="Hoteles en Andorra"><img src="<?php echo sfConfig::get('app_s_img');?>/logo.png" alt="Hoteles en Andorra" title="Hoteles en Andorra" border="0"></a>
+          <a href="<?php echo url_for('homepage'); ?>" title="Hoteles en París">
+            <img src="<?php echo sfConfig::get('app_s_img')?>logo.png" alt="Hoteles en París" title="Hoteles en París" border="0" /></a>
+          <h2>Ofertas de hoteles en Par&iacute;s - Reserva tu hotel</h2>
         </div>
-        <div class="mensaje">
-			Las mejores <strong>ofertas de hoteles en Andorra</strong>.
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-superior">
-      <div class="menu">
-        <ul>
-          <li class="inicio"><a href="<?php echo url_for('homepage');?>" title="Andorra Hoteles">INICIO</a></li>
-          <li class="destino"><a href="<?php echo url_for('city'); ?>" title="Destinos de Andorra">DESTINOS DE ANDORRA</a></li>
-          <li class="actividades"><a href="<?php echo url_for('excursiones'); ?>" title="Excursiones y Actividades en Andorra">EXCURSIONES Y ACTIVIDADES</a></li>
-          <li class="paquetes"><a href="<?php echo url_for('paquetes'); ?>" title="Paquetes tur&iacute;sticos">PAQUETES TURISTICOS</a></li>
-          <li class="turismo"><a href="<?php echo url_for('turismo'); ?>" title="Turismo en Andorra">TURISMO EN ANDORRA</a></li>
-          <li class="esqui"><a href="<?php echo url_for('esqui'); ?>" title="Esqu&iacute; en Andorra">ESQUI</a></li>
-        </ul>
+        <?php include_slot('mensaje') ?>
+                                
       </div>
     </div>
 
@@ -37,11 +25,12 @@
     <div class="pie">
       <div class="footer">
         <div class="izq">
-			© <a href="http://www.andorrahoteles.com/"><strong>Andorra Hoteles</strong></a> - Guía de hoteles de Andorra para que reserves al mejor precio.</div>
+			© <a href="http://www.parishoteles.net/"><strong>Par&iacute;s Hoteles</strong></a> - Ofertas y reservas de hoteles en Par&iacute;s.</div>
         <div class="drcha">
           <a href="http://www.booking.com/general.es.html?aid=334634;tmpl=docs/customer_service" title="Atenci&oacute;n al cliente" rel="nofollow">Atenci&oacute;n al cliente</a> |
           <a href="http://www.booking.com/general.es.html?aid=334634;tmpl=docs/privacy-policy" title="Pol&iacute;tica de privacidad" rel="nofollow">Política de privacidad</a> |
-          <a href="http://www.booking.com/general.es.html?aid=334634;tmpl=docs/terms-and-conditions" title="T&eacute;rminos y condiciones" rel="nofollow">T&eacute;rminos y condiciones</a>
+          <a href="http://www.booking.com/general.es.html?aid=334634;tmpl=docs/terms-and-conditions" title="T&eacute;rminos y condiciones" rel="nofollow">T&eacute;rminos y condiciones</a> |
+          <a href="http://www.parishoteles.net/enlaces/" title="Enlaces de interés">Enlaces</a>
         </div>
       </div>
     </div>

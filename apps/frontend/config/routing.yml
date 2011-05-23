@@ -2,21 +2,21 @@
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
 # pages statics
-esqui:
-  url: /esqui-andorra
-  param: { module: home, action: esqui }
-paquetes:
-  url: /paquetes-turisticos
-  param: { module: home, action: paquetes }
-turismo:
-  url: /turismo-andorra
-  param: { module: home, action: turismo }
-excursiones:
-  url: /excursiones-actividades
-  param: { module: home, action: excursiones }
+#esqui:
+#  url: /esqui-andorra
+#  param: { module: home, action: esqui }
+#paquetes:
+#  url: /paquetes-turisticos
+#  param: { module: home, action: paquetes }
+#turismo:
+#  url: /turismo-andorra
+#  param: { module: home, action: turismo }
+#excursiones:
+#  url: /excursiones-actividades
+#  param: { module: home, action: excursiones }
 # pages dinamics
 all_hotel:
-  url: /hoteles-andorra
+  url: /hoteles-paris
   param: { module: home, action: allHotels }
 filter_checks:
   url: /estrellas/:chk
@@ -38,9 +38,9 @@ city_hotels:
   url:   /:id/:slug.html
   param: { module: home, action: cityHotels }
 
-city_hotels_result:
-  url:   /busqueda/:id/:slug.html
-  param: { module: home, action: cityHotelsResult }
+hotels_result:
+  url:   /busqueda-hoteles
+  param: { module: home, action: hotelsResult }
 hotel_details_result:
   url:   /busqueda/:id/:slug/:slugh.html
   param: { module: home, action: hotelResult }

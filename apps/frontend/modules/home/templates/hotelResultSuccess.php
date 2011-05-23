@@ -1,39 +1,57 @@
 <?php
-foreach ($hotel->HotelDescs->toArray() as $desc) {
-  if($desc['descriptiontype_id'] == 6) $description  = substr($desc['description'],0,160).'...';
-}
-$title = $hotel['name'].' - '.$hotel['city'].' - Reserva este hotel de Andorra';
-$desc = $description;
-$keyword = $hotel['name'].', '.$hotel['city'].', hotel, andorra, reservar '.$hotel['name'].', ofertas, precios';
-$sf_response->addMeta('title', $title);
-$sf_response->addMeta('description', $desc);
-$sf_response->addMeta('keywords', $keyword);
+//foreach ($hotel->HotelDescs->toArray() as $desc) {
+//  if($desc['descriptiontype_id'] == 6) $description  = substr($desc['description'],0,160).'...';
+//}
+//$title = $hotel['name'].' - '.$hotel['city'].' - Reserva este hotel de Andorra';
+//$desc = $description;
+//$keyword = $hotel['name'].', '.$hotel['city'].', hotel, andorra, reservar '.$hotel['name'].', ofertas, precios';
+//$sf_response->addMeta('title', $title);
+//$sf_response->addMeta('description', $desc);
+//$sf_response->addMeta('keywords', $keyword);
 
 ?>
+<?php slot('mensaje') ?>
+<div class="mensaje">
+  <strong><?php echo $hotel['name'] ?></strong> (París)
+  <br />
+  <a href="http://www.parishoteles.net/audioguias-de-paris/" title="Audioguias de Paris">
+    <embed width="468" height="60" src="images/paris-468x60.swf?clickTAG=http://www.parishoteles.net/audioguias-de-paris/"></embed>
+  </a>
+
+</div>
+<?php end_slot(); ?>
 <div class="main-container">
   <div class="main-content">
+  <div class="navegacion">
+      <div style="float:left;"><a href="<?php echo url_for('homepage');  ?>" title="Hoteles en París">Par&iacute;s Hoteles</a> > <?php echo $hotel['name'] ?></div>
+      <div style="float:right;">
+        Ver precios en&nbsp;
+        <select class="comboDivisa" onchange="window.location.replace(this.value)" name="divisas">
+          <option value="/include/currency.php?moneda=CZK">Corona checa (CZK)</option><option value="/include/currency.php?moneda=DKK">Corona danesa (DKK)</option><option value="/include/currency.php?moneda=NOK">Corona noruega (NOK)</option><option value="/include/currency.php?moneda=SEK">Corona sueca (SEK)</option><option value="/include/currency.php?moneda=AUD">Dólar australiano (AUD)</option><option value="/include/currency.php?moneda=CAD">Dólar canadiense (CAD)</option><option value="/include/currency.php?moneda=SGD">Dólar de Singapur (SGD)</option><option value="/include/currency.php?moneda=USD">Dólar EEUU (US$)</option><option selected="selected" value="EUR">Euro (€)</option><option value="/include/currency.php?moneda=HUF">Florín húngaro (HUF)</option><option value="/include/currency.php?moneda=CHF">Franco suizo (CHF)</option><option value="/include/currency.php?moneda=GBP">Libra esterlina (£)</option><option value="/include/currency.php?moneda=MXN">Peso mexicano (MXN)</option><option value="/include/currency.php?moneda=BRL">Real brasileño (R$)</option><option value="/include/currency.php?moneda=RUB">Rublo ruso (RUB)</option><option value="/include/currency.php?moneda=INR">Rupia india (INR)</option><option value="/include/currency.php?moneda=JPY">Yen japonés (¥)</option><option value="/include/currency.php?moneda=PLN">Zlotych polaco (PLN)</option></select>
 
+      </div>
+    </div>
     <div class="home-under">
-
-      <div class="home-content2">
-        <div class="navegacion">
-          <a href="<?php echo url_for('homepage');  ?>" title="Hoteles en Andorra">Andorra Hoteles</a>
-          > <a href="<?php echo url_for('city_hotels', array('id' => $hotel['city_id'], 'slug' => $ar_slug_city[$hotel['city_id']])) ?>" title="Hoteles en <?php echo $hotel['city'] ?>">Hoteles en <?php echo $hotel['city'] ?></a> > <?php echo $hotel['name'] ?></div>
-
+      <div class="home-content">
         <div class="listados-izq">
-
-          <b>B&uacute;squeda de disponibilidad</b>
-          <br />&nbsp;
-
+          <dl class="refine2">
+            <h3>Buscar disponibilidad</h3>
+          </dl>
           <dl class="refine">
             <form action="" method="post">
               <?php if ($search_form->isCSRFProtected()) : ?>
                 <?php echo $search_form['_csrf_token']->render(); ?>
               <?php endif; ?>
               <dt>Fecha de entrada:</dt>
-              <dd><?php echo $search_form['fecha_entrada']->render() ?></dd>
+              <dd>
+                <?php echo $search_form['fecha-inicio']->render() ?>
+                <img src="<?php echo sfConfig::get('app_s_img')?>calendar.png" alt="Calendario" />
+              </dd>
               <dt>Fecha de salida:</dt>
-              <dd><?php echo $search_form['fecha_salida']->render() ?></dd>
+              <dd>
+                <?php echo $search_form['fecha-final']->render() ?>
+                <img src="<?php echo sfConfig::get('app_s_img')?>calendar.png" alt="Calendario" />
+              </dd>
 
               <div align="center"><button type="submit" title="Buscar hoteles">Buscar</button></div>
             </form>
@@ -45,11 +63,15 @@ $sf_response->addMeta('keywords', $keyword);
           <b>Ubicaci&oacute;n del hotel</b>
 
           <img title="<?php echo $hotel['name']?>, Situación del hotel" alt="<?php echo $hotel['name']?>, Situación del hotel"
-               src="http://maps.google.com/staticmap?center=<?php echo $hotel['latitude'] ?>,<?php echo $hotel['longitude'] ?>&amp;zoom=14&amp;format=png8&amp;maptype=roadmap&amp;size=200x200&amp;markers=<?php echo $hotel['latitude'] ?>,<?php echo $hotel['longitude'] ?>,blue&amp;key=<?php echo sfConfig::get('app_key_map');?>" class="miniMapa">
+               src="http://maps.google.com/staticmap?center=<?php echo $hotel['latitude'] ?>,<?php echo $hotel['longitude'] ?>&amp;zoom=14&amp;format=png8&amp;maptype=roadmap&amp;size=200x150&amp;markers=<?php echo $hotel['latitude'] ?>,<?php echo $hotel['longitude'] ?>,blue&amp;key=<?php echo sfConfig::get('app_key_map');?>" class="miniMapa">
 
           <br clear="all" /><br /><p>&nbsp;</p>
 
-          <b>Hoteles Cercanos a <?php echo $range ?> Km</b>
+          <?php include_partial('destinos');?>
+          <?php include_partial('hotel_history',array('histo_hotel' => $sf_user->getHotelHistory()))?>
+          
+          <br clear="all" />
+          <div class="ventajas">Hoteles más cercanos</div>
           <div class="seccion_hoteles_cercanos">
             <?php foreach ($hotels_nearby as $hnearby): ?>
             <div class="hotel-cercano">

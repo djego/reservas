@@ -139,9 +139,14 @@ class Utils {
 
   public static function sumaDia($fecha, $dia) {
     list($day, $mon, $year) = explode('/', $fecha);
+    $x = date('d/m/Y', mktime(0, 0, 0, $mon, $day + $dia, $year));
+    list($day, $mon, $year) = explode('/', $x);
+    return array('day' => $day,'month' => $mon.'-'.$year);
+  }
+  public static function sumaMes($fecha, $dia) {
+    list($day, $mon, $year) = explode('/', $fecha);
     return date('d/m/Y', mktime(0, 0, 0, $mon, $day + $dia, $year));
   }
-
   public static function nameurl($detalle) {
     $deur = explode("/", $detalle);
     $nombrehotel = explode(".", $deur[5]);

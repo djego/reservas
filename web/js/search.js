@@ -137,7 +137,7 @@ $(function(){
       if($(this).attr('checked') == true){
         window.location = hostname+'home/facil?chk='+$(this).val()+'&cls='+name;
       }else{        
-        window.location = hostname+'home/facil';
+        window.location = hostname+'home/facil?cls='+name;
       }
   });
   $('#facil_8').click(function(){

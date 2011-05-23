@@ -33,8 +33,8 @@ class adHotelTable extends Doctrine_Table
 //      print_r($facility);die();
       $q = $this->createQuery('h');
       $q->select('h.*, d.description as description');
-      $q->innerJoin('h.HotelDescs as d');
-      $q->where('d.descriptiontype_id = 6');
+      $q->leftJoin('h.HotelDescs as d');
+//      $q->where('d.descriptiontype_id = 6');
       $star_cad = '';
       foreach ($star as $s){
        if($s){
