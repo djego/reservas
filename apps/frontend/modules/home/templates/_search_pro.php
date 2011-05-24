@@ -2,23 +2,23 @@
 <dt>Filtrar por estrellas</dt>
 <dd>
   <input <?php echo  $star_sesion['star_1']?'checked="checked"':''; ?>  id="star_1" type="checkbox" name="star_1" value="1" />
-  <label for="star_1"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>1-hotel-estrellas.png" alt="1 estrella" width="66" height="12" /> </span></label>
+  <label for="star_1"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>1-hotel-estrellas.png" alt="1 estrella" width="66" height="12" /> (<?php echo $num_hotels[1]?> hoteles)</span></label>
 </dd>
 <dd>
   <input <?php echo  $star_sesion['star_2']?'checked="checked"':''; ?>  id="star_2" type="checkbox" name="star_2" value="2" />
-  <label for="star_2"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>2-hotel-estrellas.png" alt="1 estrella" width="66" height="12" /></span></label>
+  <label for="star_2"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>2-hotel-estrellas.png" alt="1 estrella" width="66" height="12" /> (<?php echo $num_hotels[2]?> hoteles)</span></label>
 </dd>
 <dd>
   <input <?php echo  $star_sesion['star_3']?'checked="checked"':''; ?>  id="star_3" type="checkbox" name="star_3" value="3" />
-  <label for="star_3"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>3-hotel-estrellas.png" alt="1 estrella" width="66" height="12" />3 estrella</span></label>
+  <label for="star_3"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>3-hotel-estrellas.png" alt="1 estrella" width="66" height="12" /> (<?php echo $num_hotels[3]?> hoteles)</span></label>
 </dd>
 <dd>
   <input <?php echo  $star_sesion['star_4']?'checked="checked"':''; ?>  id="star_4" type="checkbox" name="star_4" value="4" />
-  <label for="star_4"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>4-hotel-estrellas.png" alt="1 estrella" width="66" height="12" />4 estrellas</span></label>
+  <label for="star_4"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>4-hotel-estrellas.png" alt="1 estrella" width="66" height="12" /> (<?php echo $num_hotels[4]?> hoteles)</span></label>
 </dd>
 <dd>
   <input <?php echo  $star_sesion['star_5']?'checked="checked"':''; ?>  id="star_5" type="checkbox" name="star_5" value="5" />
-  <label for="star_5"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>5-hotel-estrellas.png" alt="1 estrella" width="66" height="12" />5 estrella</span></label>
+  <label for="star_5"><span><img src="<?php echo sfConfig::get('app_s_img'); ?>5-hotel-estrellas.png" alt="1 estrella" width="66" height="12" /> (<?php echo $num_hotels[5]?> hoteles)</span></label>
 </dd>
 
 

@@ -4,7 +4,7 @@
 # default values
 all:
   max_hotels: 20
-  key_map: ABQIAAAAVYTF-_X7joojDMWeD242FxS90m8B0hyWzqHSA9l0P_XtJwOVXhScDeNX-PzHZ2GN4PInQ-IdDkJ4Nw
+  key_map: ABQIAAAAVYTF-_X7joojDMWeD242FxR6RC8zgb2ZGsU4r30MfO7rUTulBRRcQsfjpHEUPXY5cSedlXpbiHC97Q
   aid: 334634
 
 

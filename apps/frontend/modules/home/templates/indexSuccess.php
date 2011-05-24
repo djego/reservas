@@ -80,11 +80,11 @@
           </div>
           <br clear="all" />
           <h2>Hoteles en Par&iacute;s para todos los bolsillos</h2>
-          <a href="<?php echo url_for('all_hotel');?>" title="Hoteles en Paris de 1 estrella"><img src="<?php echo sfConfig::get('app_s_img')?>1-hotel-estrellas.png" alt="1 estrella" width="66" height="12" />&nbsp; (2 hoteles)</a><br />
-          <a href="<?php echo url_for('all_hotel');?>" title="Hoteles en Paris de 2 estrellas"><img src="<?php echo sfConfig::get('app_s_img')?>2-hotel-estrellas.png" alt="2 estrellas" width="66" height="12" />&nbsp; (5 hoteles)</a><br />
-          <a href="<?php echo url_for('all_hotel');?>" title="Hoteles en Paris de 3 estrellas"><img src="<?php echo sfConfig::get('app_s_img')?>3-hotel-estrellas.png" alt="3 estrellas" width="66" height="12" />&nbsp; (180 hoteles)</a><br />
-          <a href="<?php echo url_for('all_hotel');?>" title="Hoteles en Paris de 4 estrellas"><img src="<?php echo sfConfig::get('app_s_img')?>4-hotel-estrellas.png" alt="4 estrellas" width="66" height="12" />&nbsp;  (1174 hoteles)</a><br />
-          <a href="<?php echo url_for('all_hotel');?>" title="Hoteles en Paris de 5 estrellas"><img src="<?php echo sfConfig::get('app_s_img')?>5-hotel-estrellas.png" alt="5 estrella" width="66" height="12" />&nbsp;  (32 hoteles)</a><br />
+          <a href="home/starHotel?star=1" title="Hoteles en Paris de 1 estrella"><img src="<?php echo sfConfig::get('app_s_img')?>1-hotel-estrellas.png" alt="1 estrella" width="66" height="12" />&nbsp; (<?php echo $ar_num_hotels[1] ?> hoteles)</a><br />
+          <a href="home/starHotel?star=2" title="Hoteles en Paris de 2 estrellas"><img src="<?php echo sfConfig::get('app_s_img')?>2-hotel-estrellas.png" alt="2 estrellas" width="66" height="12" />&nbsp; (<?php echo $ar_num_hotels[2] ?> hoteles)</a><br />
+          <a href="home/starHotel?star=3" title="Hoteles en Paris de 3 estrellas"><img src="<?php echo sfConfig::get('app_s_img')?>3-hotel-estrellas.png" alt="3 estrellas" width="66" height="12" />&nbsp; (<?php echo $ar_num_hotels[3] ?> hoteles)</a><br />
+          <a href="home/starHotel?star=4" title="Hoteles en Paris de 4 estrellas"><img src="<?php echo sfConfig::get('app_s_img')?>4-hotel-estrellas.png" alt="4 estrellas" width="66" height="12" />&nbsp;  (<?php echo $ar_num_hotels[4] ?> hoteles)</a><br />
+          <a href="home/starHotel?star=5" title="Hoteles en Paris de 5 estrellas"><img src="<?php echo sfConfig::get('app_s_img')?>5-hotel-estrellas.png" alt="5 estrella" width="66" height="12" />&nbsp;  (<?php echo $ar_num_hotels[5] ?> hoteles)</a><br />
         </div>
         <br clear="all" /><br clear="all" />
         <div class="otroslugares"><strong>Otros destinos de Par&iacute;s donde reservar tu hotel:</strong> <br />· 

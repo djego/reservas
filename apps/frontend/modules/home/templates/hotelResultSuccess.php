@@ -158,27 +158,36 @@
 
               <?php } ?>
             <div id="modificar-fechas" class="modificarfechas" style="display:none">
-            <p>Selecciona las fechas para comprabar la disponibilidad: </p> <br />
+            <p>Selecciona las fechas para comprabar la disponibilidad: </p> 
             <form action="" method="post">
                 <?php if ($form_dis->isCSRFProtected()) : ?>
                   <?php echo $form_dis['_csrf_token']->render(); ?>
                 <?php endif; ?>
-              <table border="0" cellpadding="0" cellspacing="4">
+              <table cellspacing="4" cellpadding="0" border="0">
                 <tr>
-                  <td colspan="2">
+                  <td colspan="3">
                     <span>Fecha de entrada:</span>
-                  </td>
-                  <td valign="top">
-                      <?php echo $form_dis['fecha_entrada']->render(array('size' => '11')) ?>
                   </td>
                   <td colspan="3">
                     <span>Fecha de salida:</span>
                   </td>
+                </tr>
+                <tr>
                   <td valign="top">
-                      <?php echo $form_dis['fecha_salida']->render(array('size' => '11')) ?>
+                      <?php echo $form_dis['fecha-inicio']->render() ?>
+                  </td>
+                  <td style="padding-left: 2px;">
+                    <img src="<?php echo sfConfig::get('app_s_img')?>calendar.png">
+                  </td>
+                  <td>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; </td>
+                  <td valign="top">
+                      <?php echo $form_dis['fecha-final']->render() ?>
+                  </td>
+                  <td style="padding-left: 2px;">
+                    <img src="<?php echo sfConfig::get('app_s_img')?>calendar.png">
                   </td>
                   <td>
-                    &nbsp; &nbsp; <button name="bot_disp" value="dispo" type="submit" title="Buscar">Buscar</button>
+                    &nbsp; &nbsp; <button type="submit" title="Buscar">Buscar</button>
                   </td>
                 </tr>
 

@@ -1,510 +1,510 @@
-*{margin:0;padding:0;}
-body { margin:0px; font-family: Arial; font-size:12px; background:#FCF6FC url(../images/bg-fondo.gif) repeat-x;}
-a { color:#1E5A9E; text-decoration:none;}
-a:hover { text-decoration:underline;}
-p{margin-bottom:10px;}
-
-/** CABECERA **/
-.cabecera { color: #6C6C6C; background-color:#DD9BE3;}
-.cabecera .cabecera-logo {width:960px; height:89px; margin-left:auto; margin-right:auto; background-color:#fff;}
-.cabecera .cabecera-logo .logo img {margin-top:10px; margin-left:8px;}
-.cabecera .cabecera-logo .logo { float:left; width:290px;}
-.cabecera .cabecera-logo .logo h2 {
-float:left;
-font-family:Arial, Helvetica, sans-serif;
-font-size:11px;
-text-align:left;
-font-weight:normal;
-color:#C3C1C1;
-margin:0px;
-margin-left:25px;
-padding:0px 0px 0px 0px;
-}
-
-.cabecera .cabecera-logo .mensaje { float:right; width:600px;  height:89px; font-size:11px; line-height:18px; text-align:right; margin-top:2px; margin-right:10px; }
-
-#dvnavicontainer
-{
-float:right;
-width:410px;
-font-size:11px;
-margin:0px;
-padding:0px 0px 0px 0px;
-}
-#dvnavicontainer img
-{
-float:left;
-margin:0px;
-padding:0px 0px 0px 0px;
-}
-#tabs1 {
-        float:left;
-	  background:#E6E6E6;
-        font-size:11px;
-        line-height:normal;
-	  font-family:Helvetica, sans-serif;
-	  font-weight:bold;
-	  padding-top:6px; 
-	  padding-bottom:5px;
-	  height:22px;
-	  margin:0px;
-	  line-height:normal;
-	  
-	   /*   height:100%;Fix for MSIE peekaboo bug */
-	 
-      }
-    #tabs1 ul {
-	  margin:0;
-	 list-style:none;
-	  float:left;
-	 padding:0px;
-	 
-      }
-    #tabs1 li {
-      display:inline;
-      margin:0;
-      padding:0;
-	  voice-family:"\"}\"";
-	  line-height:16px;
-	  height:25px;
-	  float:left;
-	  
-	  
-      }
-    #tabs1 a {
-      float:left;
-      background:url("../images/tableft1.gif") no-repeat left top;
-      margin:0;
-      padding:0 0 0 4px;
-      text-decoration:none;
-	  
-      }
-    #tabs1 a span {
-      float:left;
-      display:block;
-      background:url("../images/tabright1.gif") no-repeat right top;
-	  color:#2C1C0F;
-      padding:3px 9px 6px 5px; 
-	  voice-family:"\"}\"";
-	  padding-top:2px;
-     
-      }
-
-
-/** CONTENIDO **/
-.main-content { background:#ffffff; width:960px; margin-left:auto; margin-right:auto; }
-.main-container .main-content { background:#ffffff; min-height:400px; width:960px; margin-left:auto; margin-right:auto;}
-
-/** FOOTER **/
-.pie {height:45px;background-color:#003f81;}
-.pie .footer {width:940px; margin-left:auto; margin-right:auto;  padding-left:10px; padding-top:15px; padding-right:10px; color:#fff; font-size:12px;}
-.pie .footer a {color:#cbe0f2; text-decoration:underline;}
-.pie .footer a:hover {color:#cbe0f2; text-decoration:none;}
-.pie .footer .izq { float:left;}
-.pie .footer .drcha { float:right;}
-
-.main-container .main-content .home-under .home-content { padding-top:15px; padding-left:15px; padding-right:15px; }
-
-
-.main-container .main-content .home-under .home-content .listados-izq { width:210px; float:left; padding-right:20px; }
-.main-container .main-content .home-under .home-content .listados-drcha  {width:697px; float:right;}
-.main-container .main-content .home-under .home-content .titulo-listados { font-size:20px; color:#BA6817; font-weight:bolder; padding-bottom:4px; margin-bottom:4px;} 
-
-
-.ventajas { margin-top:20px; font-size:13px; color:#373737; font-weight:bolder; padding-bottom:5px; border-bottom:1px #b1b1b1 dotted; margin-bottom:5px; }
-.ventajas2 { margin-left: 5px; } 
-.ventajas2 li { font-size:12px; color:#373737; font-weight:normal; padding: 3px 0px 0 20px; background: url(../images/ventajas.png) 0 4px no-repeat; list-style:none; }
-
-
-
-.destinos { font-size:12px;}
-.destinos img { margin-right:10px;}
-.destinos a { color: #1d60c5; font-size:16px;}
-.destinos a:hover { text-decoration:underline;}
-.masdestinos a { color: #4C9E10; font-size:12px; text-decoration:underline;}
-.masdestinos a:hover { text-decoration:none;}
-
-.navegacion { background-color: #135D9D; margin-top:0px; margin-bottom:0px; color: #E3E3E3; padding: 4px; padding-left: 15px; height:17px; }
-.navegacion a { font-weight: bold; color: #F3EFF3; }
-.navegacion a:hover { text-decoration:underline; }
-
-.hotel-listado {
-	border-top: 1px dotted rgb(193, 193, 193);
-	display: inline-block;
-	padding-bottom: 5px;
-	width: 579px;
-}
-.hotel-listado-foto {
-	float: left;
-	margin-left: 0px;
-	display: inline-block;
-	margin-right: 6px;
-	margin-top: 8px;
-	overflow: hidden;
-	width: 110px;
-}
-.hotel-listado-foto img {
-	padding:2px;
-	background:#fff;
-	border:1px solid #bdbdbd;
-	margin-bottom:1px;
-}
-.hotel-listado-foto img:hover {
-	padding:2px;
-	background:#BFD5EE;
-	border:1px solid #bdbdbd;
-	margin-bottom:1px;
-}
-.hotel-listado-info {
-	float: right; margin-top: 8px; width: 460px;
-}
-.hotel-listado-superior {
-	display: inline-block; width: 460px;
-}
-.hotel-precio {
-	float: right; 
-	font-size: 11px; 
-	color: rgb(51, 51, 51); 
-	font-weight: bold; 
-	text-align: right;
-}
-.hotel-precio span {
-	color:#95AB04;
-	font-size:17px;
-}
-.hotel-listado-descripcion {
-	color: rgb(40, 40, 40); 
-	font-size: 11px; 
-	text-align: justify;
-	margin:7px 0;
-}
-.hotel-titulo {
-	font-size: 11px;
-	font-weight: bold; 
-	color:#888786;
-}
-.hotel-titulo a {
-	font-size: 15px;
-	color:#1E5A9E; 
-}
-.hotel-titulo a:hover {
-	text-decoration:underline;
-}
-a.mashoteles {
-	padding: 6px 14px 6px 14px;
-	font: bold 12px/1.3em Verdana;
-	color: rgba(254,254,254,.96);
-	border: 1px solid rgba(155,151,109,.2);
-	background: rgba(76,158,16,.98);
-      text-decoration:none;
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-	-webkit-transition: color, background-color .2s ease-out;
-	}
-a.mashoteles:hover {
-	background-color: rgba(155,151,109,.85);
-}
-
-
-/** LISTADOS HOTELES **/
-
-.listados-hoteles {
-	border-top: 1px solid rgb(31, 90, 192);
-	display: inline-block;
-	padding-bottom: 5px;
-	width: 697px;
-}
-.listados-hoteles-foto {
-	float: left;
-	margin-left: 0px;
-	display: inline-block;
-	margin-right: 6px;
-	margin-top: 8px;
-	overflow: hidden;
-	width: 150px;
-}
-.listados-hoteles-foto img {
-	padding:2px;
-	background:#fff;
-	border:1px solid #bdbdbd;
-	margin-bottom:1px;
-}
-.listados-hoteles-foto img:hover {
-	padding:2px;
-	background:#BFD5EE;
-	border:1px solid #bdbdbd;
-	margin-bottom:1px;
-}
-.listados-hoteles-info {
-	float: right; margin-top: 8px; width: 540px;
-}
-.listados-hoteles-superior {
-	display: inline-block; width: 540px;
-}
-.listados-hoteles-precio {
-	float: right; 
-	font-size: 12px; 
-	color: rgb(51, 51, 51);
-	text-align: right;
-	margin-left:20px;
-}
-.listados-hoteles-precio span {
-	color:#95AB04;
-	font-size:18px; 
-	font-weight: bold; 
-}
-.listados-hoteles-precio a {
-	font-size: 11px;
-	color:#1E5A9E;
-	text-decoration:underline; 
-}
-.listados-hoteles-precio a:hover {
-	text-decoration:none;
-}
-.listados-hoteles-descripcion {
-	color: rgb(40, 40, 40); 
-	font-size: 12px; 
-	text-align: justify;
-	margin:20px 0;
-}
-.listados-hoteles-descripcion a {
-	color:#1E5A9E;
-	text-decoration:underline;
-}
-.listados-hoteles-descripcion a:hover {
-	text-decoration:none;
-}
-.listados-hoteles-titulo {
-	font-size: 11px;
-	font-weight: bold; 
-	color:#888786;
-}
-.listados-hoteles-titulo a {
-	font-size: 16px;
-	color:#1E5A9E; 
-}
-.listados-hoteles-titulo a:hover {
-	text-decoration:underline;
-}
-.listados-hoteles-titulo span a {
-	font-size: 11px;
-	color:#1E5A9E;
-	text-decoration:underline; 
-}
-.listados-hoteles-titulo span a:hover {
-	text-decoration:none;
-}
-
-.tabDispoHot{width:100%;font-size:12px;float:left;margin-bottom:10px;margin-top:5px;}
-.tabDispoHot th{color:#3A3A3A;background-color:#E6EAFD;font-weight:bold;font-style:italic;padding:5px;}
-.tabDispoHot td{padding:2px 0;}
-.separHab td{border-bottom: 1px dotted rgb(193, 193, 193);}
-.colPerson{width:75px;text-align:center;}
-.colDispo{width:125px;text-align:center;font-weight:bold;}
-.colDispo a{font-weight:bold;}
-.unahab{font-weight:bold;color:#990000;}
-.dispohab{color:#30B322;}
-.PocasHab{color:#990000;}
-.precioTarifa{text-decoration:line-through;}
-.colOferta{font-weight:bold;color:#000;font-size:16px;}
-.hPrecio{width:85px;text-align:right;}
-.hTipo{width:330px;text-align:left; }
-.hTipo span { font-weight:bold; color:#4A4948; }
-.hTipo a{font-weight:bold; color:#1E5A9E; text-decoration:underline;}
-.hTipo a:hover {text-decoration:none;}
-.hotelHabitaciones{width:100px;text-align:center;}
-.masHabitaciones{float: left; margin-bottom: 10px;}
-.masHabitaciones a{color:#9A520B;text-decoration:underline;}
-.masHabitaciones a:hover{text-decoration:none;}
-
-.buscador {
-	height: 240px;
-	background-color: #2971BB;
-	margin-top:0px;
-}
-.buscador h1{font-size:20px; text-align:left; margin-top:10px; color:#F4F4F4; margin-bottom: 5px; margin-left:20px;
-text-shadow: 0 1px 1px rgba(80,80,80,.75);}
-
-.refineHome{width:250px;margin-top:0px; margin-left:20px;background:#2971BB;border:0px solid #D1D0D0;padding-bottom:5px; font-size:13px;}
-.refineHome dt{padding:10px 0 4px 9px; font-weight: bold; color:#D0D0D0;}
-.refineHome dt span{font-weight: normal; font-size:12px; color:#D0D0D0;}
-.refineHome dd{display:block;overflow:hidden;height:1%;padding-left:10px;}.refineHome dd label,.sort label{color:#069;text-decoration:none;cursor:pointer;}.refineHome dd label:hover,.sort label:hover{color:#F06;}.refineHome dd label{float:left;}
-.refineHome dd span{color:#999;text-decoration:none;cursor:default;}
-.refineHome dd span:hover{color:#F06;text-decoration:none;cursor:default;}
-.refineHome dd span.counter{float:right;margin-right:10px;}.refineHome dd.check-all label{font-weight:bold;color:#333;}.refineHome dd.check-all label span{font-weight:normal;}
-.refineHome input{float:left;margin-right:10px;}.refineHome input.price{float:none;width:30px;margin:0;border:0;background:#EBEAEA;text-align:center;color:#069;}
-.refineHome select{font-size:14px;margin-right:3px;padding:4px;}
-.refineHome button {background:url(../images/buscar2.png) no-repeat; border:0px; width:143px; height:31px; color:#ffffff; font-size:14px; margin-top:10px; cursor:pointer;}
-
-
-
-.refine{width:210px;background:#EBEAEA;border:1px solid #D1D0D0;padding-bottom:10px; font-size:13px;}.refine dt{padding:10px 0 4px 9px; font-weight: bold;}
-.refine2{width:210px;background:#fff;border:0px solid #D1D0D0;padding-bottom:4px; font-size:13px; border-bottom:0px;}
-.refine2 h3{font-size:16px; text-align:left; margin-top:4px; color:#A6A7A6;}
-.refine dd{display:block;overflow:hidden;height:1%;padding-left:10px;}.refine dd label,.sort label{color:#069;text-decoration:none;cursor:pointer;}.refine dd label:hover,.sort label:hover{color:#F06;}.refine dd label{float:left;}
-.refine dd span{color:#999;text-decoration:none;cursor:default;}
-.refine dd span:hover{color:#F06;text-decoration:none;cursor:default;}
-.refine dd span.counter{float:right;margin-right:10px;}.refine dd.check-all label{font-weight:bold;color:#333;}.refine dd.check-all label span{font-weight:normal;}
-.refine input{float:left;margin-right:10px;}.refine input.price{float:none;width:30px;margin:0;border:0;background:#EBEAEA;text-align:center;color:#069;}
-.refine select{font-size:13px;margin-right:1px;padding:2px;}
-.grey-borders dt,.grey-borders dd{display:inline;margin:0 10px 0 0;}
-.refine button {background:url(../images/buscar2.png) no-repeat; border:0px; width:143px; height:31px; color:#ffffff; font-size:14px; margin-top:15px; cursor:pointer;}
-
-.hoteles-cercanos{width:600px;float:left;margin-bottom:10px;text-align:justify;}
-.hoteles-cercanos ul{list-style:none;}
-.hoteles-cercanos h2{font-size:16px; text-align:left; margin-bottom:10px; color:#135D9D;}
-#hotelesCercanos, #hotelesCercanos ul{width:100%;}
-#hotelesCercanos img{float:left;border:1px solid #505050;margin-right:5px;}
-#hotelesCercanos li{width:180px;margin:0 10px 10px 0;float:left; }
-#hotelesCercanos li a{color:#B1440E; font-weight:bold;}
-
-.lateralHome{width:330px;float:right;
-}
-.lateralHome h2{font-size:14px; text-align:left; margin-bottom:10px; color:#616160;}
-.lateralHome h2 span{color:#4B9F07;}
-.lateralHome a:hover{text-decoration:none;font-weight:bold;color:#BF440E;}
-.lateralHome img{border:0px;}
-.ofertas {
-	border: 1px #E6EDF6 solid;
-	background-color: #E6EDF6;
-	padding: 8px 8px 8px 8px;
-    	border-top-left-radius: 8px;
-   	border-top-right-radius: 8px;
-    	border-bottom-right-radius: 8px;
-   	border-bottom-left-radius: 8px;
-
-}
-.otroslugares {
-	color: #4A4A49;
-	border: 1px #DDDDDC solid;
-	background-color: #FDFDE7;
-	padding: 8px 8px 8px 8px;
-    	border-top-left-radius: 8px;
-   	border-top-right-radius: 8px;
-    	border-bottom-right-radius: 8px;
-   	border-bottom-left-radius: 8px;
-
-}
-
-
-/** PAGINACION **/
-div.paginacion {
-	padding: 3px;
-	margin: 3px;
-	text-align: center;
-	font-size: x-small;
-}
-
-div.paginacion a {
-	padding: 2px 5px 2px 5px;
-	margin-right: 2px;
-	border: 1px solid #ddd;
-	text-decoration: none;
-	color: #3169D9;
-}
-div.paginacion a:hover, div.paginacion a:active {
-	border:1px solid #767676;
-	color: #fff;
-	background-color: #3169D9;
-}
-div.paginacion span.current {
-	padding: 2px 5px 2px 5px;
-	margin-right: 2px;
-	border: 1px solid #ddd;
-	font-weight: bold;
-	background-color: #4C9E10;
-	color: #FFF;
-}
-div.paginacion span.currentpage {
-	padding: 2px 5px 2px 5px;
-	margin-right: 2px;
-	border: 1px solid #ddd;
-	font-weight: bold;
-	background-color: #4C9E10;
-	color: #FFF;
-}
-div.paginacion span.disabled {
-	padding: 2px 5px 2px 5px;
-	margin-right: 2px;
-	border: 1px solid #f3f3f3;
-	color: #ccc;
-}
-
-/** FICHA HOTEL **/
-.fichaHotelizq { width:575px; float:left; padding-right:7px;}
-.fichaHotelizq h1 {font-size:20px; color:#BA6817; font-weight:bolder; margin-bottom:2px; padding-bottom:2px;}
-.fichaHotelizq span a { font-size: 12px; color:#1E5A9E; text-decoration:underline; }
-.fichaHotelizq span a:hover { text-decoration:none;}
-.fichaHoteldrcha {width:93px; float:right; padding-left:2px; text-align:right;}
-.fichaHoteldrcha span { color:#95AB04; font-size:20px; font-weight: bold; }
-.fichaHoteldrcha a { font-size: 11px; color:#1E5A9E; text-decoration:underline; }
-.fichaHoteldrcha a:hover { text-decoration:none; }
-.fichaHotelfotos {float:left; margin-right:5px;}
-.fichaHotelfotos img{border:1px solid #444;max-width:215px;max-height:188px;}
-#fichaHotelfotosMini li{float:left;height:64px;text-align:right;width:64px;list-style:none;}
-#fichaHotelfotosMini img{border:1px solid #444;}
-.preview { cursor:pointer; }
-#preview {color:#dddddd;background:#222222;border: 1px solid #333333;padding:1px;text-align:left;display:none;}
-.disponibilidadHotel {margin-top:10px;color:#4C9E10;font-size:14px;padding:10px;padding-bottom:10px;}
-.disponibilidadHotel span {font-weight:bolder;}
-.disponibilidadHotel a {font-size: 12px;color:#1E5A9E; text-decoration:underline; }
-.disponibilidadHotel a:hover {text-decoration:none; }
-.modificarfechas{background-color:#EBEAEA;border:1px solid #BFBFBF;padding:5px;margin-bottom:15px; color:#363635;}
-.modificarfechas span {font-weight:bolder;color:#3B4043;}
-.detallesHabitaciones{background-color:#EEF5FA;border:1px solid #C9E2F5;padding:5px;margin-bottom:15px; color:#363635;}
-.detallesHabitaciones h3{color:#965616;}
-.detallesimagenes{clear:both;overflow:auto;width:100%;margin-bottom:10px;}
-.detallesimagenes li{float:left;margin-right:10px;list-style:none;}
-.detallesimagenes img{border:1px solid #494948;}
-.seccionHotel {color:#2F5887;border-bottom-color:#BA6817;border-bottom-style:solid;border-width:1px;font-size:17px;background-color:#EBEAEA;padding:2px;padding-bottom:4px;padding:4px;}
-.servicios h4 {margin-top:20px;margin-bottom:5px;font-size:16px;color:#41850F;}
-.servicios h5 {margin-top:20px;margin-bottom:5px;font-size:14px;color:#A63E19; border-bottom: 1px dotted rgb(193, 193, 193);}
-
-.puntosdeinteres{font-size:16px; text-align:left; margin-top:10px; color:#A6A7A6;}
-.puntosinteres{background:#EBEAEA; border:1px solid #d1d0d0;margin:10px 0;padding:10px;  }
-.puntosinteres ul{margin-bottom:10px;list-style:none;}
-.puntointeres{font-size:13px;font-weight:bold;margin-top:13px;margin-bottom:3px;color:#333332;}
-.puntosinteres a {color:#1E5A9E;}
-.puntosinteres a:hover {color:#4C9E10;text-decoration:underline;}
-
-/*  Agregado  Hoteles cercanos */
-.seccion_hoteles_cercanos{
-  float: left;
-  font-size: 11px;
-  margin-top: 5px;
-}
-
-.hotel-cercano {
-    color: #888786;
-    float: left;
-    font-size: 11px;
-    font-weight: bold;
-    float: left;
-    margin-bottom: 10px;
-}
-
-.hotel-cercano-foto {
-  float: left;
-  margin-left: 0px;
-  display: inline-block;
-  margin-right: 6px;
-  overflow: hidden;
-}
-.hotel-cercano-foto img {
-  padding:2px;
-  background:#fff;
-  border:1px solid #bdbdbd;
-  margin-bottom:1px;
-}
-.hotel-cercano-foto img:hover {
-  padding:2px;
-  background:#BFD5EE;
-  border:1px solid #bdbdbd;
-  margin-bottom:1px;
-}
-
-
-
-
-
+*{margin:0;padding:0;}
+body { margin:0px; font-family: Arial; font-size:12px; background:#FCF6FC url(../images/bg-fondo.gif) repeat-x;}
+a { color:#1E5A9E; text-decoration:none;}
+a:hover { text-decoration:underline;}
+p{margin-bottom:10px;}
+
+/** CABECERA **/
+.cabecera { color: #6C6C6C; background-color:#DD9BE3;}
+.cabecera .cabecera-logo {width:960px; height:89px; margin-left:auto; margin-right:auto; background-color:#fff;}
+.cabecera .cabecera-logo .logo img {margin-top:10px; margin-left:8px;}
+.cabecera .cabecera-logo .logo { float:left; width:290px;}
+.cabecera .cabecera-logo .logo h2 {
+float:left;
+font-family:Arial, Helvetica, sans-serif;
+font-size:11px;
+text-align:left;
+font-weight:normal;
+color:#C3C1C1;
+margin:0px;
+margin-left:25px;
+padding:0px 0px 0px 0px;
+}
+
+.cabecera .cabecera-logo .mensaje { float:right; width:600px;  height:89px; font-size:11px; line-height:18px; text-align:right; margin-top:2px; margin-right:10px; }
+
+#dvnavicontainer
+{
+float:right;
+width:410px;
+font-size:11px;
+margin:0px;
+padding:0px 0px 0px 0px;
+}
+#dvnavicontainer img
+{
+float:left;
+margin:0px;
+padding:0px 0px 0px 0px;
+}
+#tabs1 {
+        float:left;
+	  background:#E6E6E6;
+        font-size:11px;
+        line-height:normal;
+	  font-family:Helvetica, sans-serif;
+	  font-weight:bold;
+	  padding-top:6px; 
+	  padding-bottom:5px;
+	  height:22px;
+	  margin:0px;
+	  line-height:normal;
+	  
+	   /*   height:100%;Fix for MSIE peekaboo bug */
+	 
+      }
+    #tabs1 ul {
+	  margin:0;
+	 list-style:none;
+	  float:left;
+	 padding:0px;
+	 
+      }
+    #tabs1 li {
+      display:inline;
+      margin:0;
+      padding:0;
+	  voice-family:"\"}\"";
+	  line-height:16px;
+	  height:25px;
+	  float:left;
+	  
+	  
+      }
+    #tabs1 a {
+      float:left;
+      background:url("../images/tableft1.gif") no-repeat left top;
+      margin:0;
+      padding:0 0 0 4px;
+      text-decoration:none;
+	  
+      }
+    #tabs1 a span {
+      float:left;
+      display:block;
+      background:url("../images/tabright1.gif") no-repeat right top;
+	  color:#2C1C0F;
+      padding:3px 9px 6px 5px; 
+	  voice-family:"\"}\"";
+	  padding-top:2px;
+     
+      }
+
+
+/** CONTENIDO **/
+.main-content { background:#ffffff; width:960px; margin-left:auto; margin-right:auto; }
+.main-container .main-content { background:#ffffff; min-height:400px; width:960px; margin-left:auto; margin-right:auto;}
+
+/** FOOTER **/
+.pie {height:45px;background-color:#003f81;}
+.pie .footer {width:940px; margin-left:auto; margin-right:auto;  padding-left:10px; padding-top:15px; padding-right:10px; color:#fff; font-size:12px;}
+.pie .footer a {color:#cbe0f2; text-decoration:underline;}
+.pie .footer a:hover {color:#cbe0f2; text-decoration:none;}
+.pie .footer .izq { float:left;}
+.pie .footer .drcha { float:right;}
+
+.main-container .main-content .home-under .home-content { padding-top:15px; padding-left:15px; padding-right:15px; }
+
+
+.main-container .main-content .home-under .home-content .listados-izq { width:210px; float:left; padding-right:20px; }
+.main-container .main-content .home-under .home-content .listados-drcha  {width:697px; float:right;}
+.main-container .main-content .home-under .home-content .titulo-listados { font-size:20px; color:#BA6817; font-weight:bolder; padding-bottom:4px; margin-bottom:4px;} 
+
+
+.ventajas { margin-top:20px; font-size:13px; color:#373737; font-weight:bolder; padding-bottom:5px; border-bottom:1px #b1b1b1 dotted; margin-bottom:5px; }
+.ventajas2 { margin-left: 5px; } 
+.ventajas2 li { font-size:12px; color:#373737; font-weight:normal; padding: 3px 0px 0 20px; background: url(../images/ventajas.png) 0 4px no-repeat; list-style:none; }
+
+
+
+.destinos { font-size:12px;}
+.destinos img { margin-right:10px;}
+.destinos a { color: #1d60c5; font-size:16px;}
+.destinos a:hover { text-decoration:underline;}
+.masdestinos a { color: #4C9E10; font-size:12px; text-decoration:underline;}
+.masdestinos a:hover { text-decoration:none;}
+
+.navegacion { background-color: #135D9D; margin-top:0px; margin-bottom:0px; color: #E3E3E3; padding: 4px; padding-left: 15px; height:20px; }
+.navegacion a { font-weight: bold; color: #F3EFF3; }
+.navegacion a:hover { text-decoration:underline; }
+
+.hotel-listado {
+	border-top: 1px dotted rgb(193, 193, 193);
+	display: inline-block;
+	padding-bottom: 5px;
+	width: 579px;
+}
+.hotel-listado-foto {
+	float: left;
+	margin-left: 0px;
+	display: inline-block;
+	margin-right: 6px;
+	margin-top: 8px;
+	overflow: hidden;
+	width: 110px;
+}
+.hotel-listado-foto img {
+	padding:2px;
+	background:#fff;
+	border:1px solid #bdbdbd;
+	margin-bottom:1px;
+}
+.hotel-listado-foto img:hover {
+	padding:2px;
+	background:#BFD5EE;
+	border:1px solid #bdbdbd;
+	margin-bottom:1px;
+}
+.hotel-listado-info {
+	float: right; margin-top: 8px; width: 460px;
+}
+.hotel-listado-superior {
+	display: inline-block; width: 460px;
+}
+.hotel-precio {
+	float: right; 
+	font-size: 11px; 
+	color: rgb(51, 51, 51); 
+	font-weight: bold; 
+	text-align: right;
+}
+.hotel-precio span {
+	color:#95AB04;
+	font-size:17px;
+}
+.hotel-listado-descripcion {
+	color: rgb(40, 40, 40); 
+	font-size: 11px; 
+	text-align: justify;
+	margin:7px 0;
+}
+.hotel-titulo {
+	font-size: 11px;
+	font-weight: bold; 
+	color:#888786;
+}
+.hotel-titulo a {
+	font-size: 15px;
+	color:#1E5A9E; 
+}
+.hotel-titulo a:hover {
+	text-decoration:underline;
+}
+a.mashoteles {
+	padding: 6px 14px 6px 14px;
+	font: bold 12px/1.3em Verdana;
+	color: rgba(254,254,254,.96);
+	border: 1px solid rgba(155,151,109,.2);
+	background: rgba(76,158,16,.98);
+      text-decoration:none;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-webkit-transition: color, background-color .2s ease-out;
+	}
+a.mashoteles:hover {
+	background-color: rgba(155,151,109,.85);
+}
+
+
+/** LISTADOS HOTELES **/
+
+.listados-hoteles {
+	border-top: 1px solid rgb(31, 90, 192);
+	display: inline-block;
+	padding-bottom: 5px;
+	width: 697px;
+}
+.listados-hoteles-foto {
+	float: left;
+	margin-left: 0px;
+	display: inline-block;
+	margin-right: 6px;
+	margin-top: 8px;
+	overflow: hidden;
+	width: 150px;
+}
+.listados-hoteles-foto img {
+	padding:2px;
+	background:#fff;
+	border:1px solid #bdbdbd;
+	margin-bottom:1px;
+}
+.listados-hoteles-foto img:hover {
+	padding:2px;
+	background:#BFD5EE;
+	border:1px solid #bdbdbd;
+	margin-bottom:1px;
+}
+.listados-hoteles-info {
+	float: right; margin-top: 8px; width: 540px;
+}
+.listados-hoteles-superior {
+	display: inline-block; width: 540px;
+}
+.listados-hoteles-precio {
+	float: right; 
+	font-size: 12px; 
+	color: rgb(51, 51, 51);
+	text-align: right;
+	margin-left:20px;
+}
+.listados-hoteles-precio span {
+	color:#95AB04;
+	font-size:18px; 
+	font-weight: bold; 
+}
+.listados-hoteles-precio a {
+	font-size: 11px;
+	color:#1E5A9E;
+	text-decoration:underline; 
+}
+.listados-hoteles-precio a:hover {
+	text-decoration:none;
+}
+.listados-hoteles-descripcion {
+	color: rgb(40, 40, 40); 
+	font-size: 12px; 
+	text-align: justify;
+	margin:20px 0;
+}
+.listados-hoteles-descripcion a {
+	color:#1E5A9E;
+	text-decoration:underline;
+}
+.listados-hoteles-descripcion a:hover {
+	text-decoration:none;
+}
+.listados-hoteles-titulo {
+	font-size: 11px;
+	font-weight: bold; 
+	color:#888786;
+}
+.listados-hoteles-titulo a {
+	font-size: 16px;
+	color:#1E5A9E; 
+}
+.listados-hoteles-titulo a:hover {
+	text-decoration:underline;
+}
+.listados-hoteles-titulo span a {
+	font-size: 11px;
+	color:#1E5A9E;
+	text-decoration:underline; 
+}
+.listados-hoteles-titulo span a:hover {
+	text-decoration:none;
+}
+
+.tabDispoHot{width:100%;font-size:12px;float:left;margin-bottom:10px;margin-top:5px;}
+.tabDispoHot th{color:#3A3A3A;background-color:#E6EAFD;font-weight:bold;font-style:italic;padding:5px;}
+.tabDispoHot td{padding:2px 0;}
+.separHab td{border-bottom: 1px dotted rgb(193, 193, 193);}
+.colPerson{width:75px;text-align:center;}
+.colDispo{width:125px;text-align:center;font-weight:bold;}
+.colDispo a{font-weight:bold;}
+.unahab{font-weight:bold;color:#990000;}
+.dispohab{color:#30B322;}
+.PocasHab{color:#990000;}
+.precioTarifa{text-decoration:line-through;}
+.colOferta{font-weight:bold;color:#000;font-size:16px;}
+.hPrecio{width:85px;text-align:right;}
+.hTipo{width:330px;text-align:left; }
+.hTipo span { font-weight:bold; color:#4A4948; }
+.hTipo a{font-weight:bold; color:#1E5A9E; text-decoration:underline;}
+.hTipo a:hover {text-decoration:none;}
+.hotelHabitaciones{width:100px;text-align:center;}
+.masHabitaciones{float: left; margin-bottom: 10px;}
+.masHabitaciones a{color:#9A520B;text-decoration:underline;}
+.masHabitaciones a:hover{text-decoration:none;}
+
+.buscador {
+	height: 240px;
+	background-color: #2971BB;
+	margin-top:0px;
+}
+.buscador h1{font-size:20px; text-align:left; margin-top:10px; color:#F4F4F4; margin-bottom: 5px; margin-left:20px;
+text-shadow: 0 1px 1px rgba(80,80,80,.75);}
+
+.refineHome{width:250px;margin-top:0px; margin-left:20px;background:#2971BB;border:0px solid #D1D0D0;padding-bottom:5px; font-size:13px;}
+.refineHome dt{padding:10px 0 4px 9px; font-weight: bold; color:#D0D0D0;}
+.refineHome dt span{font-weight: normal; font-size:12px; color:#D0D0D0;}
+.refineHome dd{display:block;overflow:hidden;height:1%;padding-left:10px;}.refineHome dd label,.sort label{color:#069;text-decoration:none;cursor:pointer;}.refineHome dd label:hover,.sort label:hover{color:#F06;}.refineHome dd label{float:left;}
+.refineHome dd span{color:#999;text-decoration:none;cursor:default;}
+.refineHome dd span:hover{color:#F06;text-decoration:none;cursor:default;}
+.refineHome dd span.counter{float:right;margin-right:10px;}.refineHome dd.check-all label{font-weight:bold;color:#333;}.refineHome dd.check-all label span{font-weight:normal;}
+.refineHome input{float:left;margin-right:10px;}.refineHome input.price{float:none;width:30px;margin:0;border:0;background:#EBEAEA;text-align:center;color:#069;}
+.refineHome select{font-size:14px;margin-right:3px;padding:4px;}
+.refineHome button {background:url(../images/buscar2.png) no-repeat; border:0px; width:143px; height:31px; color:#ffffff; font-size:14px; margin-top:10px; cursor:pointer;}
+
+
+
+.refine{width:210px;background:#EBEAEA;border:1px solid #D1D0D0;padding-bottom:10px; font-size:13px;}.refine dt{padding:10px 0 4px 9px; font-weight: bold;}
+.refine2{width:210px;background:#fff;border:0px solid #D1D0D0;padding-bottom:4px; font-size:13px; border-bottom:0px;}
+.refine2 h3{font-size:16px; text-align:left; margin-top:4px; color:#A6A7A6;}
+.refine dd{display:block;overflow:hidden;height:1%;padding-left:10px;}.refine dd label,.sort label{color:#069;text-decoration:none;cursor:pointer;}.refine dd label:hover,.sort label:hover{color:#F06;}.refine dd label{float:left;}
+.refine dd span{color:#999;text-decoration:none;cursor:default;}
+.refine dd span:hover{color:#F06;text-decoration:none;cursor:default;}
+.refine dd span.counter{float:right;margin-right:10px;}.refine dd.check-all label{font-weight:bold;color:#333;}.refine dd.check-all label span{font-weight:normal;}
+.refine input{float:left;margin-right:10px;}.refine input.price{float:none;width:30px;margin:0;border:0;background:#EBEAEA;text-align:center;color:#069;}
+.refine select{font-size:13px;margin-right:1px;padding:2px;}
+.grey-borders dt,.grey-borders dd{display:inline;margin:0 10px 0 0;}
+.refine button {background:url(../images/buscar2.png) no-repeat; border:0px; width:143px; height:31px; color:#ffffff; font-size:14px; margin-top:15px; cursor:pointer;}
+
+.hoteles-cercanos{width:600px;float:left;margin-bottom:10px;text-align:justify;}
+.hoteles-cercanos ul{list-style:none;}
+.hoteles-cercanos h2{font-size:16px; text-align:left; margin-bottom:10px; color:#135D9D;}
+#hotelesCercanos, #hotelesCercanos ul{width:100%;}
+#hotelesCercanos img{float:left;border:1px solid #505050;margin-right:5px;}
+#hotelesCercanos li{width:180px;margin:0 10px 10px 0;float:left; }
+#hotelesCercanos li a{color:#B1440E; font-weight:bold;}
+
+.lateralHome{width:330px;float:right;
+}
+.lateralHome h2{font-size:14px; text-align:left; margin-bottom:10px; color:#616160;}
+.lateralHome h2 span{color:#4B9F07;}
+.lateralHome a:hover{text-decoration:none;font-weight:bold;color:#BF440E;}
+.lateralHome img{border:0px;}
+.ofertas {
+	border: 1px #E6EDF6 solid;
+	background-color: #E6EDF6;
+	padding: 8px 8px 8px 8px;
+    	border-top-left-radius: 8px;
+   	border-top-right-radius: 8px;
+    	border-bottom-right-radius: 8px;
+   	border-bottom-left-radius: 8px;
+
+}
+.otroslugares {
+	color: #4A4A49;
+	border: 1px #DDDDDC solid;
+	background-color: #FDFDE7;
+	padding: 8px 8px 8px 8px;
+    	border-top-left-radius: 8px;
+   	border-top-right-radius: 8px;
+    	border-bottom-right-radius: 8px;
+   	border-bottom-left-radius: 8px;
+
+}
+
+
+/** PAGINACION **/
+div.paginacion {
+	padding: 3px;
+	margin: 3px;
+	text-align: center;
+	font-size: x-small;
+}
+
+div.paginacion a {
+	padding: 2px 5px 2px 5px;
+	margin-right: 2px;
+	border: 1px solid #ddd;
+	text-decoration: none;
+	color: #3169D9;
+}
+div.paginacion a:hover, div.paginacion a:active {
+	border:1px solid #767676;
+	color: #fff;
+	background-color: #3169D9;
+}
+div.paginacion span.current {
+	padding: 2px 5px 2px 5px;
+	margin-right: 2px;
+	border: 1px solid #ddd;
+	font-weight: bold;
+	background-color: #4C9E10;
+	color: #FFF;
+}
+div.paginacion span.currentpage {
+	padding: 2px 5px 2px 5px;
+	margin-right: 2px;
+	border: 1px solid #ddd;
+	font-weight: bold;
+	background-color: #4C9E10;
+	color: #FFF;
+}
+div.paginacion span.disabled {
+	padding: 2px 5px 2px 5px;
+	margin-right: 2px;
+	border: 1px solid #f3f3f3;
+	color: #ccc;
+}
+
+/** FICHA HOTEL **/
+.fichaHotelizq { width:575px; float:left; padding-right:7px;}
+.fichaHotelizq h1 {font-size:20px; color:#BA6817; font-weight:bolder; margin-bottom:2px; padding-bottom:2px;}
+.fichaHotelizq span a { font-size: 12px; color:#1E5A9E; text-decoration:underline; }
+.fichaHotelizq span a:hover { text-decoration:none;}
+.fichaHoteldrcha {width:93px; float:right; padding-left:2px; text-align:right;}
+.fichaHoteldrcha span { color:#95AB04; font-size:20px; font-weight: bold; }
+.fichaHoteldrcha a { font-size: 11px; color:#1E5A9E; text-decoration:underline; }
+.fichaHoteldrcha a:hover { text-decoration:none; }
+.fichaHotelfotos {float:left; margin-right:5px;}
+.fichaHotelfotos img{border:1px solid #444;max-width:215px;max-height:188px;}
+#fichaHotelfotosMini li{float:left;height:64px;text-align:right;width:64px;list-style:none;}
+#fichaHotelfotosMini img{border:1px solid #444;}
+.preview { cursor:pointer; }
+#preview {color:#dddddd;background:#222222;border: 1px solid #333333;padding:1px;text-align:left;display:none;}
+.disponibilidadHotel {margin-top:10px;color:#4C9E10;font-size:14px;padding:10px;padding-bottom:10px;}
+.disponibilidadHotel span {font-weight:bolder;}
+.disponibilidadHotel a {font-size: 12px;color:#1E5A9E; text-decoration:underline; }
+.disponibilidadHotel a:hover {text-decoration:none; }
+.modificarfechas{background-color:#EBEAEA;border:1px solid #BFBFBF;padding:5px;margin-bottom:15px; color:#363635;}
+.modificarfechas span {font-weight:bolder;color:#3B4043;}
+.detallesHabitaciones{background-color:#EEF5FA;border:1px solid #C9E2F5;padding:5px;margin-bottom:15px; color:#363635;}
+.detallesHabitaciones h3{color:#965616;}
+.detallesimagenes{clear:both;overflow:auto;width:100%;margin-bottom:10px;}
+.detallesimagenes li{float:left;margin-right:10px;list-style:none;}
+.detallesimagenes img{border:1px solid #494948;}
+.seccionHotel {color:#2F5887;border-bottom-color:#BA6817;border-bottom-style:solid;border-width:1px;font-size:17px;background-color:#EBEAEA;padding:2px;padding-bottom:4px;padding:4px;}
+.servicios h4 {margin-top:20px;margin-bottom:5px;font-size:16px;color:#41850F;}
+.servicios h5 {margin-top:20px;margin-bottom:5px;font-size:14px;color:#A63E19; border-bottom: 1px dotted rgb(193, 193, 193);}
+
+.puntosdeinteres{font-size:16px; text-align:left; margin-top:10px; color:#A6A7A6;}
+.puntosinteres{background:#EBEAEA; border:1px solid #d1d0d0;margin:10px 0;padding:10px;  }
+.puntosinteres ul{margin-bottom:10px;list-style:none;}
+.puntointeres{font-size:13px;font-weight:bold;margin-top:13px;margin-bottom:3px;color:#333332;}
+.puntosinteres a {color:#1E5A9E;}
+.puntosinteres a:hover {color:#4C9E10;text-decoration:underline;}
+
+/*  Agregado  Hoteles cercanos */
+.seccion_hoteles_cercanos{
+  float: left;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.hotel-cercano {
+    color: #888786;
+    float: left;
+    font-size: 11px;
+    font-weight: bold;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.hotel-cercano-foto {
+  float: left;
+  margin-left: 0px;
+  display: inline-block;
+  margin-right: 6px;
+  overflow: hidden;
+}
+.hotel-cercano-foto img {
+  padding:2px;
+  background:#fff;
+  border:1px solid #bdbdbd;
+  margin-bottom:1px;
+}
+.hotel-cercano-foto img:hover {
+  padding:2px;
+  background:#BFD5EE;
+  border:1px solid #bdbdbd;
+  margin-bottom:1px;
+}
+
+
+
+
+
