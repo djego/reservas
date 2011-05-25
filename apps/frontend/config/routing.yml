@@ -34,9 +34,9 @@ city:
   url:   /destinos-andorra
   param: { module: home, action: city } 
   
-city_hotels:
+tour_hotels:
   url:   /:id/:slug.html
-  param: { module: home, action: cityHotels }
+  param: { module: home, action: toursHotels }
 
 hotels_result:
   url:   /busqueda-hoteles

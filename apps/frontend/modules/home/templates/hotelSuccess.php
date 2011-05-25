@@ -48,9 +48,8 @@
 
           <br clear="all" /><br /><p>&nbsp;</p>
 
-          <?php include_partial('destinos');?>
-
-          <br clear="all" />
+          <?php include_partial('destinos',array('lst_destiny' => $lst_destiny)); ?>
+          
           <div class="ventajas">Hoteles más cercanos</div>
 
           <div class="seccion_hoteles_cercanos">

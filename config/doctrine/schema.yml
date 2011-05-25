@@ -202,6 +202,9 @@ adHotelService:
 
 tourRoom:
   tableName: tour_room
+  actAs:
+    Sluggable:
+      fields: [name]
   columns:
     id:
       type: integer(4)

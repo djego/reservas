@@ -9,7 +9,7 @@
 ?>
 <?php slot('mensaje') ?>
 <div class="mensaje">
-  Más de 1.100 <strong>Hoteles en París al mejor precio GARANTIZADO!</strong>
+  Hoteles cercanos a <strong><?php echo $tours->name; ?></strong>
   <br />
   <a href="http://www.parishoteles.net/audioguias-de-paris/" title="Audioguias de Paris">
    <embed width="468" height="60" src="images/paris-468x60.swf?clickTAG=http://www.parishoteles.net/audioguias-de-paris/"></embed>
@@ -19,7 +19,7 @@
 
 <div class="main-container">
   <div class="main-content">
-    <div class="navegacion"><div style="float:left;"><a href="<?php echo url_for('homepage'); ?>" title="Hoteles en París">Par&iacute;s Hoteles</a> > Gu&iacute;a de hoteles de Par&iacute;s</div>
+    <div class="navegacion"><div style="float:left;"><a href="<?php echo url_for('homepage'); ?>" title="Hoteles en París">Par&iacute;s Hoteles</a> > Hoteles Cercanos a <?php echo $tours->name?></div>
       <div style="float:right;">
         Ver precios en&nbsp;
         <select class="comboDivisa" onchange="window.location.replace(this.value)" name="divisas">
@@ -62,7 +62,7 @@
 
         <div class="listados-drcha">
           <h1 class="titulo-listados">Hoteles en París </h1>
-          <span style="float: left;"><b> Todos los hoteles <?php echo $pager->getNbResults() ?> </b>
+          <span style="float: left;"><b> Hoteles cerca de <?php echo $tours->name.' ('.$range.' km)'; ?>  <?php echo $pager->getNbResults() ?> </b>
             <?php if ($pager->haveToPaginate()): ?>  Mostrando <?php echo $pager->getFirstIndice() ?> - <?php echo $pager->getLastIndice() ?>  <?php endif; ?> |
             Ordenar resultados por:&nbsp;</span>
           <form action="" method="post">
@@ -80,7 +80,7 @@
             $lo = $hotel['longitude'];
             $name = $hotel['name'];
             $city = $hotel['city'];
-            $slug_city = $ar_slug_city[$hotel['city_id']];
+            $slug_city = 'paris';
             $aid = sfConfig::get('app_aid');
             ?>
           <div class="listados-hoteles">

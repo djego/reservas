@@ -28,23 +28,17 @@ class homeActions extends sfActions {
   }
 
   public function executeIndex(sfWebRequest $request) {
-    
+
 //    $parame = "languagecode=ar&arrival_date=2011-05-25&departure_date=2011-05-26&hotel_ids=51782";
 //    $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
 //    print_r($ar_rooms);
 //    die();
-  
+    $this->lst_tours = Doctrine::getTable('tourRoom')->getToursMain()->execute();
+    $this->lst_others = Doctrine::getTable('tourRoom')->getToursOthers();
+//    print_r($this->lst_tours);
+//    die();
     $this->ar_num_hotels = Doctrine::getTable('adHotel')->getNumHotels();
-//    print_r($ar_num_hotels);die();
 
-//    $lst_ciudades = $this->data->fetchRcp('bookings.getHotels', 'hotel_ids=220588');
-    $this->ar_slug_city = $this->getArraySlugCity();
-//    print_r($this->ar_slug_city);die();
-//    $this->lst_hotel = Doctrine::getTable('adHotel')->getHotelsMain();
-//    $this->lst_city = Doctrine::getTable('adCity')->getCitiesMain();
-
-//    $param_initial = array('fecha_entrada' => date('d/m/Y'), 'fecha_salida' => Utils::sumaDia(date("d/m/Y"), 1));
-//    $this->search_form = new newSearchForm($param_initial);
     $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
     $this->search_form = new searchHotelForm($param_initial);
     if ($request->isMethod('post')) {
@@ -60,13 +54,61 @@ class homeActions extends sfActions {
 
 
   }
-  public function executeStarHotel(sfWebRequest $request){
+  public function executeStarHotel(sfWebRequest $request) {
     $star = $request->getParameter('star');
     $session_star = $this->getUser()->getAttribute('star_session');
     $session_star['star_'.$star] = $star;
     $this->getUser()->setAttribute('star_session',$session_star);
     $this->redirect('all_hotel');
   }
+
+  public function executeToursHotels(sfWebRequest $request) {
+    $this->forward404Unless($this->tours = Doctrine::getTable('tourRoom')->find($request->getParameter('id')));
+    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
+    $this->search_form = new searchHotelForm($param_initial);
+    $this->star_sesion = $this->getUser()->getAttribute('star_session');
+    $this->facil_session = $this->getUser()->getAttribute('facil_session');
+    $this->filter = new orderForm($this->getUser()->getAttribute('order'));
+    $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
+    $order = $this->getUser()->getAttribute('order');
+    $query = Doctrine::getTable('adHotel')->getHotelsTour($this->tours->latitude, $this->tours->longitude, sfConfig::get('app_dis_la'), sfConfig::get('app_dis_lo'), $order['order'],$this->star_sesion, $this->facil_session);
+    $this->num_hotels = Doctrine::getTable('adHotel')->getNumHotels($this->facil_session);
+    $this->pager->setQuery($query);
+    $this->pager->setPage($request->getParameter('p', 1));
+    $this->pager->init();
+    $this->lst_hotel = $this->pager->getResults()->toArray();
+
+    $this->range = Utils::getDistance($this->tours->longitude - sfConfig::get('app_dis_lo'), $this->tours->latitude - sfConfig::get('app_dis_la'), $this->tours->longitude + sfConfig::get('app_dis_lo'), $this->tours->latitude + sfConfig::get('app_dis_la'));
+    // Destinos cercanos 
+    $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
+    $ar_lst = array();
+    foreach ($destiny as $des){
+      $ar_lst[$des['type']][] = $des;
+    }
+    $this->lst_destiny =  $ar_lst;
+    // FIn de destinos cercanos 
+    if($request->isMethod('post')) {
+      if($request->getParameter('search_button') == 'list') {
+        $params = $request->getParameter('search');
+//      print_r($params);die();
+        $this->search_form->bind($params);
+        if ($this->search_form->isValid()) {
+          $value = $this->search_form->getValues();
+          $this->getUser()->setAttribute('search_date', $value);
+          $this->redirect('hotels_result');
+        }
+      } else {
+//      print_r($request->getParameter('search'));
+        $this->filter->bind($request->getParameter('order_form'));
+        if($this->filter->isValid()) {
+          $val = $this->filter->getValues();
+          $this->getUser()->setAttribute('order', $val);
+          $this->redirect($request->getReferer());
+        }
+      }
+    }
+  }
+
 
   public function executeHotelsResult(sfWebRequest $request) {
     $session_order = $this->getUser()->getAttribute('order');
@@ -90,8 +132,16 @@ class homeActions extends sfActions {
       }
 
     }
-//    if (!$orden = $request->getParameter('orden')) {
-//    print_r($this->star_sesion);die();
+
+    // Destinos cercanos
+    $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
+    $ar_lst = array();
+    foreach ($destiny as $des){
+      $ar_lst[$des['type']][] = $des;
+    }
+    $this->lst_destiny =  $ar_lst;
+    // FIn de destinos cercanos 
+
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
     $query = Doctrine::getTable('adHotel')->getHotelsCityResult2('-1456928', $ar, $this->star_sesion, $this->facil_session, $session_order['order']);
     $this->pager->setQuery($query);
@@ -139,7 +189,14 @@ class homeActions extends sfActions {
     $this->range = Utils::getDistance($this->hotel->longitude - 0.002, $this->hotel->latitude - 0.002, $this->hotel->longitude + 0.002, $this->hotel->latitude + 0.002);
     $this->hotels_nearby = Doctrine::getTable('adHotel')->getHotelsNearby($this->hotel->longitude, $this->hotel->latitude, 0.002, 0.002, $this->hotel['id']);
     $this->aditional_info = Doctrine::getTable('adHotelDescription')->getInfoAditional($this->hotel->id);
-//    print_r($this->aditional_info);die();
+    // Destinos cercanos
+    $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
+    $ar_lst = array();
+    foreach ($destiny as $des){
+      $ar_lst[$des['type']][] = $des;
+    }
+    $this->lst_destiny =  $ar_lst;
+    // FIn de destinos cercanos 
     if ($this->getUser()->getAttribute('searching_dispo')) {
       $param_initial = $this->getUser()->getAttribute('searching_dispo');
     } else {
@@ -206,10 +263,18 @@ class homeActions extends sfActions {
 
     $fecha_entrada = $this->changeFormatDate($search_sesion['fecha-inicio']);
     $fecha_salida = $this->changeFormatDate($search_sesion['fecha-final']);
-    $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id;
+    $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id.'&detail_level=1';
     $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
+//    print_r($ar_rooms);die();
     $this->lst_rooms = $ar_rooms[0];
-
+    // Destinos cercanos
+    $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
+    $ar_lst = array();
+    foreach ($destiny as $des){
+      $ar_lst[$des['type']][] = $des;
+    }
+    $this->lst_destiny =  $ar_lst;
+    // FIn de destinos cercanos 
     if($request->isMethod('post')) {
       if($request->getParameter('search_button') == 'list') {
         $params = $request->getParameter('search');
@@ -220,12 +285,12 @@ class homeActions extends sfActions {
           $this->redirect('hotels_result');
         }
       }else {
-          $this->form_dis->bind($request->getParameter('dispo'));
-          if($this->form_dis->isValid()) {
-            $param_search = $this->form_dis->getValues();
-            $this->getUser()->setAttribute('search_date',$param_search);
-            $this->redirect($request->getReferer());
-          }
+        $this->form_dis->bind($request->getParameter('dispo'));
+        if($this->form_dis->isValid()) {
+          $param_search = $this->form_dis->getValues();
+          $this->getUser()->setAttribute('search_date',$param_search);
+          $this->redirect($request->getReferer());
+        }
 
       }
     }
@@ -266,7 +331,14 @@ class homeActions extends sfActions {
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
     $this->lst_hotel = $this->pager->getResults()->toArray();
-
+    // Destinos cercanos
+    $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
+    $ar_lst = array();
+    foreach ($destiny as $des){
+      $ar_lst[$des['type']][] = $des;
+    }
+    $this->lst_destiny =  $ar_lst;
+    // FIn de destinos cercanos 
     if($request->isMethod('post')) {
       if($request->getParameter('search_button') == 'list') {
         $params = $request->getParameter('search');

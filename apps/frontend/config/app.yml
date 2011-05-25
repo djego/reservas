@@ -6,6 +6,7 @@ all:
   max_hotels: 20
   key_map: ABQIAAAAVYTF-_X7joojDMWeD242FxR6RC8zgb2ZGsU4r30MfO7rUTulBRRcQsfjpHEUPXY5cSedlXpbiHC97Q
   aid: 334634
-
+  dis_la: 0.01
+  dis_lo: 0.01
 
 

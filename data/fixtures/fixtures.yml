@@ -3,119 +3,125 @@ tourRoom:
     name: Aeropuerto de Beauvais (BVA)
     city: paris
     type: Aeropuerto
-    latitude:   
-    longitude:
+    latitude: 49.45674385539652
+    longitude: 2.1154260635375977
   tourRoom_2:
     name: Aeropuerto Charles de Gaulle (CDG)
     city: paris
     type: Aeropuerto
-    latitude:   
-    longitude:  
+    latitude: 49.00839192183749
+    longitude: 2.5548335909843445
   tourRoom_3:
     name: Aeropuerto de Orly (ORY)
     city: paris
     type: Aeropuerto
-    latitude:   
-    longitude:
+    latitude: 48.727341517129965
+    longitude: 2.366352081298828
   tourRoom_4:
     name: París Norte (Gare du Nord)
     city: paris
     type: Estación de trenes
-    latitude:   
-    longitude:
+    latitude: 48.880426595268204
+    longitude: 2.3553121089935303
   tourRoom_5:
     name: Estación de Lyon (Gare de Lyon)
     city: paris
     type: Estación de trenes
-    latitude:   
-    longitude:  
+    latitude: 48.84470175996688
+    longitude: 2.3738569021224976
   tourRoom_6:
-    name: Palacio de Congresos
+    name: 'Palacio de Congresos'
     city: paris
     type: Centro de convenciones
-    latitude:   
-    longitude:   
+    latitude: 48.87926504823434
+    longitude: 2.283550947904587
   tourRoom_7:
-    name: Panteón
+    name: 'Panteón'
     city: paris
     type: Punto de referencia
-    latitude:   
-    longitude:
+    latitude: 48.85486103480091
+    longitude: 2.34957218170166
   tourRoom_8:
-    name: Campos Elíseos‎
+    name: 'Campos Elíseos‎'
     city: paris
     type: Punto de referencia
-    latitude:   
-    longitude: 
+    latitude: 48.86985437632628
+    longitude: 2.307582199573517
   tourRoom_9:
-    name: Torre Eiffel‎
+    name: 'Torre Eiffel‎'
     city: paris
     type: Punto de referencia
-    latitude:   
-    longitude:
+    latitude: 48.85838347087912
+    longitude: 2.2942623496055603
   tourRoom_10:
-    name: Basílica del Sacré-Coeur‎
+    name: 'Basílica del Sacré-Coeur‎'
     city: paris
     type: Punto de referencia
-    latitude:   
-    longitude: 
+    latitude: 48.886381194843935
+    longitude: 2.343059778213501
   tourRoom_11:
-    name: Catedral de Notre-Dame‎
+    name: 'Catedral de Notre-Dame‎'
     city: paris
     type: Punto de referencia
-    latitude:   
-    longitude:
+    latitude: 48.85340681055013
+    longitude: 2.34907865524292
   tourRoom_12:
     name: Arco del triunfo‎
     city: paris
     type: Punto de referencia
-    latitude:   
-    longitude: 
+    latitude: 48.87360862545944
+    longitude: 2.2951045632362366
   tourRoom_13:
     name: Museo del Louvre
     city: paris
     type: Museo
-    latitude:   
-    longitude: 
+    latitude: 48.86121218171646
+    longitude: 2.335664927959442
   tourRoom_14:
     name: Centro Pompidou
     city: paris
     type: Museo
-    latitude:   
-    longitude: 
+    latitude: 48.860523988555066
+    longitude: 2.353123426437378
   tourRoom_15:
     name: Museo de Orsay
     city: paris
     type: Museo
-    latitude:   
-    longitude: 
+    latitude: 48.86085926332856
+    longitude: 2.325676381587982
   tourRoom_16:
     name: Ópera Garnier
     city: paris
     type: Teatro
-    latitude:   
-    longitude: 
+    latitude: 48.871959119300136
+    longitude: 2.3316630721092224
   tourRoom_17:
     name: Stade de France (Saint Denis)
     city: paris
     type: Estadio
-    latitude:   
-    longitude: 
+    latitude: 48.93682219143895
+    longitude: 2.36480712890625
   tourRoom_18:
     name: Parque de los Príncipes
     city: paris
     type: Estadio
-    latitude:   
-    longitude: 
+    latitude: 48.84095240335124
+    longitude: 2.254447638988495
   tourRoom_19:
     name: Galerías Lafayette
     city: paris
     type: Centro comercial
-    latitude:   
-    longitude: 
+    latitude: 48.873255794489694
+    longitude: 2.3321914672851562
   tourRoom_20:
     name: Disneyland París
     city: paris
     type: Parque temático / Zoo
-    latitude:   
-    longitude: 
+    latitude:  48.86691676221638
+    longitude: 2.781686782836914
+  tourRoom_21:
+    name: Los Inválidos
+    city: paris
+    type: Punto de referencia
+    latitude:  48.85481162010708
+    longitude: 2.3124960064888

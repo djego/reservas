@@ -67,7 +67,7 @@
 
           <br clear="all" /><br /><p>&nbsp;</p>
 
-          <?php include_partial('destinos');?>
+          <?php include_partial('destinos',array('lst_destiny' => $lst_destiny)); ?>
           <?php include_partial('hotel_history',array('histo_hotel' => $sf_user->getHotelHistory()))?>
           
           <br clear="all" />

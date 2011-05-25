@@ -40,7 +40,7 @@
           </dl>
           <br clear="all" />
 
-          <?php include_partial('destinos')?>
+          <?php include_partial('destinos',array('lst_destiny' => $lst_destiny)); ?>
           <?php include_partial('hotel_history',array('histo_hotel' => $sf_user->getHotelHistory()))?>
           <br clear="all" />
           <div class="ventajas">Ventajas de reservar en AndorraHoteles</div>
