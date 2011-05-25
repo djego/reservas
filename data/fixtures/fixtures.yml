@@ -1,17 +1,121 @@
-# # Populate this file with data to be loaded by your ORM's *:data-load task.
-# # You can create multiple files in this directory (i.e. 010_users.yml,
-# # 020_articles.yml, etc) which will be loaded in alphabetical order.
-# # 
-# # See documentation for your ORM's *:data-load task for more information.
-# 
-# User:
-#   fabien:
-#     username: fabien
-#     password: changeme
-#     name:     Fabien Potencier
-#     email:    fabien.potencier@symfony-project.com
-#   kris:
-#     username: Kris.Wallsmith
-#     password: changeme
-#     name:     Kris Wallsmith
-#     email:    kris.wallsmith@symfony-project.com
+tourRoom:
+  tourRoom_1:
+    name: Aeropuerto de Beauvais (BVA)
+    city: paris
+    type: Aeropuerto
+    latitude:   
+    longitude:
+  tourRoom_2:
+    name: Aeropuerto Charles de Gaulle (CDG)
+    city: paris
+    type: Aeropuerto
+    latitude:   
+    longitude:  
+  tourRoom_3:
+    name: Aeropuerto de Orly (ORY)
+    city: paris
+    type: Aeropuerto
+    latitude:   
+    longitude:
+  tourRoom_4:
+    name: París Norte (Gare du Nord)
+    city: paris
+    type: Estación de trenes
+    latitude:   
+    longitude:
+  tourRoom_5:
+    name: Estación de Lyon (Gare de Lyon)
+    city: paris
+    type: Estación de trenes
+    latitude:   
+    longitude:  
+  tourRoom_6:
+    name: Palacio de Congresos
+    city: paris
+    type: Centro de convenciones
+    latitude:   
+    longitude:   
+  tourRoom_7:
+    name: Panteón
+    city: paris
+    type: Punto de referencia
+    latitude:   
+    longitude:
+  tourRoom_8:
+    name: Campos Elíseos‎
+    city: paris
+    type: Punto de referencia
+    latitude:   
+    longitude: 
+  tourRoom_9:
+    name: Torre Eiffel‎
+    city: paris
+    type: Punto de referencia
+    latitude:   
+    longitude:
+  tourRoom_10:
+    name: Basílica del Sacré-Coeur‎
+    city: paris
+    type: Punto de referencia
+    latitude:   
+    longitude: 
+  tourRoom_11:
+    name: Catedral de Notre-Dame‎
+    city: paris
+    type: Punto de referencia
+    latitude:   
+    longitude:
+  tourRoom_12:
+    name: Arco del triunfo‎
+    city: paris
+    type: Punto de referencia
+    latitude:   
+    longitude: 
+  tourRoom_13:
+    name: Museo del Louvre
+    city: paris
+    type: Museo
+    latitude:   
+    longitude: 
+  tourRoom_14:
+    name: Centro Pompidou
+    city: paris
+    type: Museo
+    latitude:   
+    longitude: 
+  tourRoom_15:
+    name: Museo de Orsay
+    city: paris
+    type: Museo
+    latitude:   
+    longitude: 
+  tourRoom_16:
+    name: Ópera Garnier
+    city: paris
+    type: Teatro
+    latitude:   
+    longitude: 
+  tourRoom_17:
+    name: Stade de France (Saint Denis)
+    city: paris
+    type: Estadio
+    latitude:   
+    longitude: 
+  tourRoom_18:
+    name: Parque de los Príncipes
+    city: paris
+    type: Estadio
+    latitude:   
+    longitude: 
+  tourRoom_19:
+    name: Galerías Lafayette
+    city: paris
+    type: Centro comercial
+    latitude:   
+    longitude: 
+  tourRoom_20:
+    name: Disneyland París
+    city: paris
+    type: Parque temático / Zoo
+    latitude:   
+    longitude: 
