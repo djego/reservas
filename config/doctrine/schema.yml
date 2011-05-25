@@ -198,4 +198,23 @@ adHotelService:
       class: adHotel
       foreignAlias: HotelServices
       local: hotel_id
-      foreign: id      
+      foreign: id
+
+tourRoom:
+  tableName: tour_room
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(250)
+      notnull: true 
+    city: 
+      type: string(100)
+    type:
+      type: string(200)
+    latitude:
+      type: string(150)             
+    longitude:
+      type: string(150)
