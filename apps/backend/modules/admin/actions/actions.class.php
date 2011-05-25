@@ -19,10 +19,10 @@ class adminActions extends sfActions {
 //    $mig_city = Migration::migCity();
 //    $mig_desc_type = Migration::migDescriptionHotelTypes();
 //    $mig_hotel = Migration::migHotel();
-//    $mig_desc = Migration::descriptionHotel();
+    $mig_desc = Migration::descriptionHotel();
 //    $mig_desc = Migration::roomPhotoHotel();
 //    $mig_room_photo = Migration::migRoomPhoto();
-    $mig_room_photo = Migration::migServices();
+//    $mig_room_photo = Migration::migServices();
 //    $mig_room_photo = Migration::migRooms();
   }
 

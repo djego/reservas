@@ -7,7 +7,7 @@
     <li><a href="<?php echo url_for('all_hotel');?>">Aeropuerto de Orly (ORY)</a></li>
 
     <li class="puntointeres">Estación de trenes</li>
-    <li><a href="<?php echo url_for('all_hotel');?>">París Norte (Gare du Nord</a></li>
+    <li><a href="<?php echo url_for('all_hotel');?>">París Norte (Gare du Nord)</a></li>
     <li><a href="<?php echo url_for('all_hotel');?>">Estación de Lyon (Gare de Lyon)</a></li>
 
     <li class="puntointeres">Centro de convenciones</li>

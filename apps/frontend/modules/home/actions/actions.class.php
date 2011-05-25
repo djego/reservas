@@ -28,7 +28,12 @@ class homeActions extends sfActions {
   }
 
   public function executeIndex(sfWebRequest $request) {
-
+    
+//    $parame = "languagecode=ar&arrival_date=2011-05-25&departure_date=2011-05-26&hotel_ids=51782";
+//    $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
+//    print_r($ar_rooms);
+//    die();
+  
     $this->ar_num_hotels = Doctrine::getTable('adHotel')->getNumHotels();
 //    print_r($ar_num_hotels);die();
 
