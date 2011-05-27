@@ -26,7 +26,7 @@
               <dt>Fecha de entrada:</dt>
               <dd>
                 <?php echo $search_form['fecha-inicio']->render()?>
-                <img id="date-pick-entrada" src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Calendario" />
+                <a id="date-pick-entrada" ><img src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Calendario" /></a>
               </dd>
 
               <dt>Fecha de salida:</dt>
@@ -94,3 +94,4 @@
     <div style="clear: both;"></div>
   </div>
 </div>
+

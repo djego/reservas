@@ -82,7 +82,10 @@ class homeActions extends sfActions {
     // Destinos cercanos
     $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
     $ar_lst = array();
+    
     foreach ($destiny as $des) {
+      $dis = Utils::getDistance($this->tours->longitude, $this->tours->latitude, $des['longitude'], $des['latitude'], 2);
+      $des['distancia'] = $dis;
       $ar_lst[$des['type']][] = $des;
     }
     $this->lst_destiny =  $ar_lst;

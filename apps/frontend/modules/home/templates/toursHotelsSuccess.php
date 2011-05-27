@@ -62,7 +62,7 @@
 
         <div class="listados-drcha">
           <h1 class="titulo-listados">Hoteles en París </h1>
-          <span style="float: left;"><b> Hoteles cerca de <?php echo $tours->name.' ('.$range.' km)'; ?>  <?php echo $pager->getNbResults() ?> </b>
+          <span style="float: left;"><b> Hoteles cerca de <?php echo $tours->name; ?>  <?php echo $pager->getNbResults() ?> </b>
             <?php if ($pager->haveToPaginate()): ?>  Mostrando <?php echo $pager->getFirstIndice() ?> - <?php echo $pager->getLastIndice() ?>  <?php endif; ?> |
             Ordenar resultados por:&nbsp;</span>
           <form action="" method="post">
@@ -82,6 +82,7 @@
             $city = $hotel['city'];
             $slug_city = 'paris';
             $aid = sfConfig::get('app_aid');
+            $distancia = Utils::getDistance($la, $lo, $tours->latitude, $tours->longitude,2)
             ?>
           <div class="listados-hoteles">
             <div class="listados-hoteles-foto">
@@ -92,17 +93,19 @@
               <div class="listados-hoteles-superior">
                 <div class="listados-hoteles-precio"><b>valoraci&oacute;n</b> <span><?php echo  $hotel['ranking']; ?></span><br />
                     <?php echo  $hotel['review_nr']; ?> opiniones<br />
-                  <a title="opiniones hotel" href="#"
-                     onclick="window.open('http://www.booking.com/reviewlist.es.html?tmpl=reviewlistpopup;pagename=<?php echo Utils::nameurl($hotel['url']) ?>;hrwt=1;cc1=fr;target_aid=<?php echo $aid ?>;aid=<?php echo $aid ?>','popup1','width=600,height=700,scrollbars=yes');">ver
+                    <a title="opiniones hotel"
+                     onclick="window.open('http://www.booking.com/reviewlist.es.html?tmpl=reviewlistpopup;pagename=<?php echo Utils::nameurl($hotel['url']) ?>;hrwt=1;cc1=fr;target_aid=<?php echo $aid ?>;aid=<?php echo $aid ?>','popup1','left=100,top=100,width=600,height=700,scrollbars=yes');">ver
                     &uacute;ltimas</a><br />
                   <br />
                   <a title="<?php echo $hotel['name']; ?>"
                      href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$slug_city, 'slugh' => $hotel['slug'])) ?>"><img
                       src="<?php echo sfConfig::get('app_s_img') ?>precios-hotel.png"
-                      alt="Precios de Hotel Mena Andorra" border="0" /></a></div>
+                      alt="Precios de Hotel Mena Andorra" border="0" />
+                  </a>
+                </div>
                 <div class="listados-hoteles-titulo">
                   <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$slug_city, 'slugh' => $hotel['slug'])) ?>"><?php echo $hotel['name'] ?></a>
-                  <img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /> <br />
+                  <?php if($hotel['class_and']): ?><img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /><?php endif; ?>  (<?php echo ($distancia*1000).' m'; ?>)<br />
                   <em><?php echo $hotel['address']; ?>, <?php echo $hotel['city']; ?></em>
                   - <span>
                     <a title="ver mapa" href="" onclick="window.open('<?php echo url_for('mapa') ?>?la=<?php echo $la ?>&lo=<?php echo $lo ?>&ciudad=<?php echo $city ?>&hotel=<?php echo $name ?>','d_mapa','width=700,height=600,scrollbars=yes')">ver mapa</a>
@@ -124,7 +127,7 @@
             <div class="paginacion">
               <?php if ($pager->haveToPaginate()): ?>
                 <?php if (!$pager->isFirstPage()):?>
-              <a href="<?php echo url_for('all_hotel') ?>?p=<?php echo $pager->getPreviousPage() ?>" title="P&aacute;gina anterior">
+              <a href="<?php echo url_for('tour_hotels',array('id' =>$tours['id'],'slug' => $tours['slug']));?>?p=<?php echo $pager->getPreviousPage() ?>" title="P&aacute;gina anterior">
                 &lt; Anterior
               </a>
                 <?php endif; ?>
@@ -132,11 +135,11 @@
                   <?php if ($page == $pager->getPage()): ?>
               <span class="current"><strong><?php echo $page ?></strong></span>
                   <?php else: ?>
-              <a href="<?php echo url_for('all_hotel') ?>?p=<?php echo $page ?>" title="Pagina <?php echo $page ?> de hoteles" ><?php echo $page ?></a>
+              <a href="<?php echo url_for('tour_hotels',array('id' =>$tours['id'],'slug' => $tours['slug']));?>?p=<?php echo $page ?>" title="Pagina <?php echo $page ?> de hoteles" ><?php echo $page ?></a>
                   <?php endif; ?>
                 <?php endforeach; ?>
                 <?php if (!$pager->isLastPage()):?>
-              <a href="<?php echo url_for('all_hotel') ?>?p=<?php echo $pager->getNextPage() ?>" title="P&aacute;gina siguiente">Siguiente &gt;</a>
+              <a href="<?php echo url_for('tour_hotels',array('id' =>$tours['id'],'slug' => $tours['slug']));?>?p=<?php echo $pager->getNextPage() ?>" title="P&aacute;gina siguiente">Siguiente &gt;</a>
                 <?php endif; ?>
               <?php endif; ?>
             </div>

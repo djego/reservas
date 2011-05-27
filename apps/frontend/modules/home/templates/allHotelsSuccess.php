@@ -102,7 +102,7 @@
                       alt="Precios de Hotel Mena Andorra" border="0" /></a></div>
                 <div class="listados-hoteles-titulo">
                   <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>$slug_city, 'slugh' => $hotel['slug'])) ?>"><?php echo $hotel['name'] ?></a>
-                  <img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /> <br />
+                  <?php if($hotel['class_and']): ?><img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /><?php endif; ?> <br />
                   <em><?php echo $hotel['address']; ?>, <?php echo $hotel['city']; ?></em>
                   - <span>
                     <a title="ver mapa" href="" onclick="window.open('<?php echo url_for('mapa') ?>?la=<?php echo $la ?>&lo=<?php echo $lo ?>&ciudad=<?php echo $city ?>&hotel=<?php echo $name ?>','d_mapa','width=700,height=600,scrollbars=yes')">ver mapa</a>
