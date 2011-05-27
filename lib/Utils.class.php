@@ -153,7 +153,7 @@ class Utils {
     return $nombrehotel[0];
   }
 
-  public static function getDistance($lat1, $long1, $lat2, $long2) {
+  public static function getDistance($lat1, $long1, $lat2, $long2,$pres = 0) {
     $earth = 6371; //km change accordingly
 //    $earth = 3960; //miles
     //Point 1 cords
@@ -169,9 +169,13 @@ class Utils {
     $sinlong = sin($dlong / 2);
     $a = ($sinlat * $sinlat) + cos($lat1) * cos($lat2) * ($sinlong * $sinlong);
     $c = 2 * asin(min(1, sqrt($a)));
-    $d = round($earth * $c);
+    if($pres) $d = round($earth * $c,$pres);
+    else $d = round($earth * $c);
     return $d;
   }
+
+ 
+
 
   public static function limpiarcdata($str) {
       $str = str_replace("<![CDATA[","",$str);

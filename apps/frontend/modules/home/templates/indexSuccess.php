@@ -26,13 +26,13 @@
               <dt>Fecha de entrada:</dt>
               <dd>
                 <?php echo $search_form['fecha-inicio']->render()?>
-                <img src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Calendario" />
+                <img id="date-pick-entrada" src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Calendario" />
               </dd>
 
               <dt>Fecha de salida:</dt>
               <dd>
                 <?php echo $search_form['fecha-final']->render()?>
-                <img src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Calendario" />
+                <img id="date-pick-salida"  src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Calendario" />
               </dd>            
             <dt>
               <input type="checkbox" name="sinFechas" value="1" /> <span>Aún no he decidido las fechas</span></dt>

@@ -4,7 +4,7 @@
     <?php foreach ($lst_destiny as $key => $destiny): ?>
     <li class="puntointeres"><?php echo $key ?></li>
     <?php foreach ($destiny as $des):?>
-    <li><a href="<?php echo url_for('tour_hotels',array('id' =>$des['id'],'slug' => $des['slug']));?>"><?php echo $des['name'];?></a></li>
+    <li><a href="<?php echo url_for('tour_hotels',array('id' =>$des['id'],'slug' => $des['slug']));?>"><?php echo $des['name'];?></a> <?php echo isset($des['distancia'])?'('.$des['distancia'].' Km)':'' ?></li>
     <?php endforeach; ?>
     <?php endforeach; ?>
     

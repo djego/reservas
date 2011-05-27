@@ -79,14 +79,14 @@ class homeActions extends sfActions {
     $this->lst_hotel = $this->pager->getResults()->toArray();
 
     $this->range = Utils::getDistance($this->tours->longitude - sfConfig::get('app_dis_lo'), $this->tours->latitude - sfConfig::get('app_dis_la'), $this->tours->longitude + sfConfig::get('app_dis_lo'), $this->tours->latitude + sfConfig::get('app_dis_la'));
-    // Destinos cercanos 
+    // Destinos cercanos
     $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
     $ar_lst = array();
-    foreach ($destiny as $des){
+    foreach ($destiny as $des) {
       $ar_lst[$des['type']][] = $des;
     }
     $this->lst_destiny =  $ar_lst;
-    // FIn de destinos cercanos 
+    // FIn de destinos cercanos
     if($request->isMethod('post')) {
       if($request->getParameter('search_button') == 'list') {
         $params = $request->getParameter('search');
@@ -136,11 +136,11 @@ class homeActions extends sfActions {
     // Destinos cercanos
     $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
     $ar_lst = array();
-    foreach ($destiny as $des){
+    foreach ($destiny as $des) {
       $ar_lst[$des['type']][] = $des;
     }
     $this->lst_destiny =  $ar_lst;
-    // FIn de destinos cercanos 
+    // FIn de destinos cercanos
 
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
     $query = Doctrine::getTable('adHotel')->getHotelsCityResult2('-1456928', $ar, $this->star_sesion, $this->facil_session, $session_order['order']);
@@ -192,11 +192,15 @@ class homeActions extends sfActions {
     // Destinos cercanos
     $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
     $ar_lst = array();
-    foreach ($destiny as $des){
+    foreach ($destiny as $des) {
+      $dis = Utils::getDistance($this->hotel->longitude, $this->hotel->latitude, $des['longitude'], $des['latitude'], 2);
+      $des['distancia'] = $dis;
       $ar_lst[$des['type']][] = $des;
     }
+//    print_r($ar_lst);
+//    die();
     $this->lst_destiny =  $ar_lst;
-    // FIn de destinos cercanos 
+    // FIn de destinos cercanos
     if ($this->getUser()->getAttribute('searching_dispo')) {
       $param_initial = $this->getUser()->getAttribute('searching_dispo');
     } else {
@@ -270,11 +274,13 @@ class homeActions extends sfActions {
     // Destinos cercanos
     $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
     $ar_lst = array();
-    foreach ($destiny as $des){
+    foreach ($destiny as $des) {
+      $dis = Utils::getDistance($this->hotel->longitude, $this->hotel->latitude, $des['longitude'], $des['latitude'], 2);
+      $des['distancia'] = $dis;
       $ar_lst[$des['type']][] = $des;
     }
     $this->lst_destiny =  $ar_lst;
-    // FIn de destinos cercanos 
+    // FIn de destinos cercanos
     if($request->isMethod('post')) {
       if($request->getParameter('search_button') == 'list') {
         $params = $request->getParameter('search');
@@ -334,11 +340,11 @@ class homeActions extends sfActions {
     // Destinos cercanos
     $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
     $ar_lst = array();
-    foreach ($destiny as $des){
+    foreach ($destiny as $des) {
       $ar_lst[$des['type']][] = $des;
     }
     $this->lst_destiny =  $ar_lst;
-    // FIn de destinos cercanos 
+    // FIn de destinos cercanos
     if($request->isMethod('post')) {
       if($request->getParameter('search_button') == 'list') {
         $params = $request->getParameter('search');
