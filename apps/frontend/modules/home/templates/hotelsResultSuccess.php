@@ -43,13 +43,13 @@
           <?php include_partial('destinos',array('lst_destiny' => $lst_destiny)); ?>
           <?php include_partial('hotel_history',array('histo_hotel' => $sf_user->getHotelHistory()))?>
           <br clear="all" />
-          <div class="ventajas">Ventajas de reservar en AndorraHoteles</div>
+          <div class="ventajas">Tus reservas en ParisHoteles.net</div>
           <div class="ventajas2">
             <ul>
-              <li>Los mejores precios.</li>
-              <li>M&aacute;s de 200 hoteles en Andorra.</li>
+              <li>Sin cargos por gesti&oacute;n.</li>
+              <li>Los mejores precios de hotel.</li>
+              <li>M&aacute;s de 1.100 hoteles en Par&iacute;s.</li>
               <li>Disponibilidad en tiempo real.</li>
-              <li>Sin cargos por gesti&oacute;n en tus reservas.</li>
               <li>El pago se realiza en el hotel.</li>
             </ul>
           </div>

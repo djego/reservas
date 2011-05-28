@@ -89,13 +89,14 @@
           </div>
 
 
-          <div class="ventajas">Reserve en AndorraHoteles</div>
+          <br clear="all" />
+          <div class="ventajas">Tus reservas en ParisHoteles.net</div>
           <div class="ventajas2">
             <ul>
-              <li>Los mejores precios.</li>
-              <li>M&aacute;s de 200 hoteles en Andorra.</li>
+              <li>Sin cargos por gesti&oacute;n.</li>
+              <li>Los mejores precios de hotel.</li>
+              <li>M&aacute;s de 1.100 hoteles en Par&iacute;s.</li>
               <li>Disponibilidad en tiempo real.</li>
-              <li>Sin cargos por gesti&oacute;n en tus reservas.</li>
               <li>El pago se realiza en el hotel.</li>
             </ul>
           </div>
@@ -270,7 +271,7 @@
               <input type="hidden" name="interval" value="<?php echo $interval; ?>" />
               <input type="hidden" value="es" name="lang"/>
               <input type="hidden" value="1" name="stage"/>
-              <input type="hidden" value="Andorra-Hoteles" name="label"/>
+              <input type="hidden" value="ParisHoteles-net" name="label"/>
               <input type="hidden" value="booking.com" name="hostname"/>
               <div align="right"><button type="submit" title="Reservar hotel">Reservar ahora</button></div>
             </form>

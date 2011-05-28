@@ -49,7 +49,7 @@
           <br clear="all" /><br /><p>&nbsp;</p>
 
           <?php include_partial('destinos',array('lst_destiny' => $lst_destiny)); ?>
-          
+
           <div class="ventajas">Hoteles más cercanos</div>
 
           <div class="seccion_hoteles_cercanos">
@@ -68,18 +68,16 @@
             <?php endforeach; ?>
           </div>
 
-          <?php include_partial('hotel_history',array('histo_hotel' => $sf_user->getHotelHistory(),'ar_slug_city' => $ar_slug_city))?>
+          <?php include_partial('hotel_history',array('histo_hotel' => $sf_user->getHotelHistory(),'hs' => $hotel))?>
 
           <br clear="all" />
-
-
-          <div class="ventajas">Reserve en AndorraHoteles</div>
+          <div class="ventajas">Tus reservas en ParisHoteles.net</div>
           <div class="ventajas2">
             <ul>
-              <li>Los mejores precios.</li>
-              <li>M&aacute;s de 200 hoteles en Andorra.</li>
+              <li>Sin cargos por gesti&oacute;n.</li>
+              <li>Los mejores precios de hotel.</li>
+              <li>M&aacute;s de 1.100 hoteles en Par&iacute;s.</li>
               <li>Disponibilidad en tiempo real.</li>
-              <li>Sin cargos por gesti&oacute;n en tus reservas.</li>
               <li>El pago se realiza en el hotel.</li>
             </ul>
           </div>
@@ -255,7 +253,7 @@
               <input type="hidden" name="interval" value="<?php echo $interval; ?>" />
               <input type="hidden" value="es" name="lang"/>
               <input type="hidden" value="1" name="stage"/>
-              <input type="hidden" value="Andorra-Hoteles" name="label"/>
+              <input type="hidden" value="ParisHoteles-net" name="label"/>
               <input type="hidden" value="booking.com" name="hostname"/>
               <div align="right"><button type="submit" title="Reservar hotel">Reservar ahora</button></div>
             </form>
