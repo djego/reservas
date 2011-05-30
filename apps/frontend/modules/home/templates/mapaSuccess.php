@@ -6,8 +6,15 @@
     <script type="text/javascript">
       function initialize() {
         if (GBrowserIsCompatible()) {
+          var greenIcon = new GIcon(G_DEFAULT_ICON);
+          greenIcon.image = "<?php echo sfConfig::get('app_s_img') ?>hotel-h.png";
+          var markerOptions = { icon:greenIcon,
+          title: "<?php echo $ciudad .' - '. $hotel?>" };
+
           var map = new GMap2(document.getElementById("map_canvas"));
-          map.setCenter(new GLatLng(<?php echo $la; ?>, <?php echo $lo; ?>), 18);
+          var point =  new GLatLng(<?php echo $la; ?>, <?php echo $lo; ?>);
+          map.setCenter(point, 15);          
+          map.addOverlay(new GMarker(point, markerOptions));
           map.openInfoWindow(map.getCenter(),document.createTextNode("<?php echo $ciudad .' - '. $hotel?>"));
           var mapTypeControl = new GMapTypeControl();
           var topRight = new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(5,5));

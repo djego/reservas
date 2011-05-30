@@ -5,11 +5,11 @@ default:
   http_metas:
     content-type: text/html
     charset: UTF-8
-  metas:
-    title:        Paris Hoteles - Reservas de hotel
+#  metas:
+#    title:        Paris Hoteles - Reservas de hotel
 #    description:  Ofertas de hoteles en Andorra. Reservas de hoteles baratos en Andorra para que puedas disfrutar de la temporada de esquí.
 #    keywords:     hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes"
-    language:     es
+#    language:     es
     #robots:       index, follow
 
   stylesheets:    [%app_s_css%estilos.css, %app_s_css%estilos_motor_generic.css, %app_s_css%redmond/jquery-ui-1.8.12.custom.css]

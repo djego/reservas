@@ -4,15 +4,15 @@ class searchHotelForm extends sfForm {
 
 
   public static $mont = array (
-    '01' => 'Enero',
-    '02' => 'Febrero',
-    '03' => 'Marzo',
-    '04' => 'Abril',
-    '05' => 'Mayo',
-    '06' => 'Junio',
-    '07' => 'Julio',
-    '08' => 'Agosto',
-    '09' => 'Septiembre',
+    '1' => 'Enero',
+    '2' => 'Febrero',
+    '3' => 'Marzo',
+    '4' => 'Abril',
+    '5' => 'Mayo',
+    '6' => 'Junio',
+    '7' => 'Julio',
+    '8' => 'Agosto',
+    '9' => 'Septiembre',
     '10' => 'Octubre',
     '11' => 'Noviembre',
     '12' => 'Diciembre');
@@ -24,10 +24,10 @@ class searchHotelForm extends sfForm {
     $ar = array();
     for($i=0;$i<=11;$i++){
       $date =  date('m Y', mktime(0, 0, 0, date('m')+$i, date('d'), date('Y')));
-      $mes = substr($date,0,2);
+      $mes = substr($date,0,2)+0;
       $year =substr($date,3,4);
 
-      $ar[$mes.'-'.$year] = self::$mont[$mes].' '.$year;
+      $ar[$year.'-'.$mes] = self::$mont[$mes].' '.$year;
     }
 //    print_r($ar);
 //    die ();

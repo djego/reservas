@@ -2,21 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
   <head profile="http://gmpg.org/xfn/11">
     <?php include_http_metas() ?>
+    <?php include_slot('more_metas') ?>
     <?php include_metas() ?>
-    <?php include_title() ?>
+    <?php //include_title() ?>
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
+
   </head>
   <body>
     <div class="cabecera">
       <div class="cabecera-logo">
         <div class="logo">
           <a href="<?php echo url_for('homepage'); ?>" title="Hoteles en París">
-            <img src="<?php echo sfConfig::get('app_s_img')?>logo.png" alt="Hoteles en París" title="Hoteles en París" border="0" /></a>
+            <img src="<?php echo sfConfig::get('app_s_img') ?>logo.png" alt="Hoteles en París" title="Hoteles en París" border="0" /></a>
           <h2>Ofertas de hoteles en Par&iacute;s - Reserva tu hotel</h2>
         </div>
         <?php include_slot('mensaje') ?>
-                                
+
       </div>
     </div>
 
@@ -34,7 +36,19 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
 
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-19620883-13']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
   </body>
 
 </html>

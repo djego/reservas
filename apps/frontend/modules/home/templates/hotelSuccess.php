@@ -15,7 +15,7 @@
   <strong><?php echo $hotel['name'] ?></strong> (París)
   <br />
   <a href="http://www.parishoteles.net/audioguias-de-paris/" title="Audioguias de Paris">
-    <embed width="468" height="60" src="images/paris-468x60.swf?clickTAG=http://www.parishoteles.net/audioguias-de-paris/"></embed>
+    <embed width="468" height="60" src="<?php echo sfConfig::get('app_s_img')?>paris-468x60.swf?clickTAG=http://www.parishoteles.net/audioguias-de-paris/"></embed>
   </a>
 
 </div>
@@ -92,7 +92,7 @@
         $aid = sfConfig::get('app_aid');
         ?>
         <div class="listados-drcha">
-          <div class="fichaHotelizq"><h1><?php echo $hotel['name']; ?> <img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /></h1>
+          <div class="fichaHotelizq"><h1><?php echo $hotel['name']; ?> <?php if($hotel['class_and']): ?><img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /><?php endif; ?></h1>
             <em><?php echo $hotel['address']; ?>, <?php echo $hotel['city']; ?></em> - <span><a title="ver mapa" href="" onclick="window.open('<?php echo url_for('mapa') ?>?la=<?php echo $la ?>&lo=<?php echo $lo ?>&ciudad=<?php echo $city ?>&hotel=<?php echo $name ?>','d_mapa','width=700,height=600,scrollbars=yes')">ver mapa</a></span></div>
 
           <div class="fichaHoteldrcha"><b>valoraci&oacute;n</b> <span><?php echo $hotel['ranking']; ?></span>
@@ -142,40 +142,7 @@
               <?php } ?>
           <div id="modificar-fechas" class="modificarfechas" style="display:none">
             <p>Selecciona las fechas para comprabar la disponibilidad: </p>
-            <form action="" method="post">
-                <?php if ($form_dis->isCSRFProtected()) : ?>
-                  <?php echo $form_dis['_csrf_token']->render(); ?>
-                <?php endif; ?>
-              <table cellspacing="4" cellpadding="0" border="0">
-                <tr>
-                  <td colspan="3">
-                    <span>Fecha de entrada:</span>
-                  </td>
-                  <td colspan="3">
-                    <span>Fecha de salida:</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                      <?php echo $form_dis['fecha-inicio']->render() ?>
-                  </td>
-                  <td style="padding-left: 2px;">
-                    <img src="<?php echo sfConfig::get('app_s_img')?>calendar.png">
-                  </td>
-                  <td>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; </td>
-                  <td valign="top">
-                      <?php echo $form_dis['fecha-final']->render() ?>
-                  </td>
-                  <td style="padding-left: 2px;">
-                    <img src="<?php echo sfConfig::get('app_s_img')?>calendar.png">
-                  </td>
-                  <td>
-                    &nbsp; &nbsp; <button type="submit" title="Buscar">Buscar</button>
-                  </td>
-                </tr>
-
-              </table>
-            </form>
+            <?php include_partial('hsearch_dispo',array('form_dis' => $form_dis)); ?>
           </div>
             <?php if ($lst_rooms): ?>
           <div>
@@ -224,26 +191,29 @@
                       </select>
                     </td>
                   </tr>
+                  <?php $blk =  substr($room['block_text'].'',13);
+                        $blk2 = str_replace(']]>', '', html_entity_decode($blk));
+                        $block_text = str_replace('div', 'p', $blk2);
+                  ?>
                   <tr class="separacion">
-                    <td colspan="5" style="width:100%">
-                      <div id="habitacion<?php echo $room['block_id']; ?>" class="detallesHabitaciones" style="display:none">
-                        <div class="detallesimagenes">
-                          <ul>
-                                  <?php foreach($room['photos'] as $foto):?>
-                            <li><a href="<?php echo  $foto['url_original'] ?>" title="<?php echo  $hotel['name'] ?>" class="preview"><img alt="<?php echo  $hotel['name'] ?>" src="<?php echo  $foto['url_square60'] ?>" width="60" height="60"/></a></li>
-                                  <?php endforeach; ?>
-                          </ul>
-                        </div>                         
-                        <h3>Equipamiento de las habitaciones</h3>
-                        <p><?php 
-                                $blk =  (string) $room['block_text'];
-                                $blk2 =  str_replace(']]>', '', html_entity_decode($blk));
-                                echo str_replace('div','p',$blk2);
-                                ?>
-                        </p>
-
-                      </div></td>
-                  </tr>
+                      <td colspan="5" style="width:100%">
+                        <div id="habitacion<?php echo $room['block_id']; ?>" class="detallesHabitaciones" style="display:none">
+                          <div class="detallesimagenes">
+                            <ul>
+                              <?php foreach ($room['photos'] as $foto): ?>
+                                <li><a href="<?php echo $foto['url_original'] ?>" title="<?php echo $hotel['name'] ?>" class="preview"><img alt="<?php echo $hotel['name'] ?>" src="<?php echo $foto['url_square60'] ?>" width="60" height="60"/></a></li>
+                              <?php endforeach; ?>
+                            </ul>
+                          </div>
+                          <h3>Equipamiento de las habitaciones</h3>
+                          <?php if($room['block_text']): ?>
+                          <p><?php echo $block_text;?></p>
+                          <?php else: ?>
+                          <p> No hay informacion </p>
+                          <?php endif; ?>                          
+                        </div>
+                      </td>
+                    </tr>
                       <?php endforeach; ?>
                 </tbody>
               </table>
@@ -264,40 +234,7 @@
 
           <div id="modificar-fechas" class="modificarfechas">
             <p>Selecciona las fechas para comprabar la disponibilidad: </p>
-            <form action="" method="post">
-                <?php if ($form_dis->isCSRFProtected()) : ?>
-                  <?php echo $form_dis['_csrf_token']->render(); ?>
-                <?php endif; ?>
-              <table cellspacing="4" cellpadding="0" border="0">
-                <tr>
-                  <td colspan="3">
-                    <span>Fecha de entrada:</span>
-                  </td>                  
-                  <td colspan="3">
-                    <span>Fecha de salida:</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                      <?php echo $form_dis['fecha-inicio']->render() ?>
-                  </td>
-                  <td style="padding-left: 2px;">
-                    <img src="<?php echo sfConfig::get('app_s_img')?>calendar.png">
-                  </td>
-                  <td>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; </td>
-                  <td valign="top">
-                      <?php echo $form_dis['fecha-final']->render() ?>
-                  </td>
-                  <td style="padding-left: 2px;">
-                    <img src="<?php echo sfConfig::get('app_s_img')?>calendar.png">
-                  </td>
-                  <td>
-                    &nbsp; &nbsp; <button type="submit" title="Buscar">Buscar</button>
-                  </td>
-                </tr>
-
-              </table>
-            </form>
+            <?php include_partial('hsearch_dispo',array('form_dis' => $form_dis)); ?>
 
           </div>
           <?php endif; ?>

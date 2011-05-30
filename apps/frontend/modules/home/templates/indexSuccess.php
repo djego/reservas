@@ -1,4 +1,8 @@
-
+<?php slot('more_metas') ?>
+<title>Par&iacute;s Hoteles - Ofertas de Hoteles en Par&iacute;s - Reservas de hotel</title>
+<meta name="keywords" content="paris, hoteles, ofertas, hoteles paris, reservas hotel" />
+<meta name="description" content="Disponemos de más de 1.100 hoteles en París con el mejor precio GARANTIZADO. Reserva tu hotel en Par&iacute;s y disfruta haciendo turismo en una de las ciudades m&aacute;s bellas de Europa. Ofertas de hoteles en Par&iacute;s, Francia." />
+<?php end_slot(); ?>
 <?php slot('mensaje') ?>
 <div id="dvnavicontainer">
           <img src="<?php echo sfConfig::get('app_s_img')?>navi_left.jpg" alt="" />
@@ -19,26 +23,37 @@
 
         <h1>Buscar hoteles en Par&iacute;s</h1>
         <dl class="refineHome">
-          <form id="frm-refine" action="" class="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+          <form id="formulario" action="" class="fechas" method="post" accept-charset="utf-8" enctype="multipart/form-data">
             <?php if ($search_form->isCSRFProtected()) : ?>
                 <?php echo $search_form['_csrf_token']->render(); ?>
               <?php endif; ?>
               <dt>Fecha de entrada:</dt>
               <dd>
-                <?php echo $search_form['fecha-inicio']->render()?>
-                <a id="date-pick-entrada" ><img src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Calendario" /></a>
+                <?php echo $search_form['fecha-inicio']->render(array('onchange' => "checkDateOrder('formulario', 'search_fecha-inicio_day', 'search_fecha-inicio_month', 'search_fecha-final_day', 'search_fecha-final_month');"))?>
+                <a id="b_checkinCalPos" class="b_requiresJsInline" href="javascript:showCalendar('b_checkinCalPos',%20'b_calendarPopup',%20'search_fecha-inicio',%20'formulario');" title="Fecha de llegada" rel="nofollow">
+                    <img src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Fecha de llegada" />
+                </a>
               </dd>
-
               <dt>Fecha de salida:</dt>
               <dd>
                 <?php echo $search_form['fecha-final']->render()?>
-                <img id="date-pick-salida"  src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Calendario" />
-              </dd>            
+                <a id="b_checkoutCalPos" class="" href="javascript:showCalendar('b_checkoutCalPos',%20'b_calendarPopup',%20'search_fecha-final',%20'formulario');" title="Fecha de salida" rel="nofollow">
+                    <img src="<?php echo sfConfig::get('app_s_img')?>calendario.png" alt="Fecha de salida">
+                </a>
+              </dd>
             <dt>
               <input type="checkbox" name="sinFechas" value="1" /> <span>Aún no he decidido las fechas</span></dt>
 
             <div align="center"><button type="submit" title="Buscar hoteles">Buscar</button></div>
+            <div id="b_calendarPopup" class="b_popup">
+    <div id="b_calendarInner" class="b_popupInner"> </div>
+</div>
+            
           </form>
+
+
+          
+          
         </dl></div>
       <div style="float:right;">
         <img src="<?php echo sfConfig::get('app_s_img')?>hotel-paris.jpg"  alt="Hotel en Par&iacute;s" border="0" title="Hoteles en Par&iacute;s"/></div>
@@ -94,4 +109,22 @@
     <div style="clear: both;"></div>
   </div>
 </div>
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+    calendar = new Object();
+    tr = new Object();
+    tr.nextMonth = "Mes siquiente";
+    tr.prevMonth = "Mes anterior";
+    tr.closeCalendar = "Cerrar el calendario";
+    var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    var days=['Lu','Ma','Mi','Ju','Vi','Sa','Do'];
+    //--><!]]>
+</script>   
+ 
+
+
+
+
+
+
+
 

@@ -326,7 +326,7 @@ a.mashoteles:hover {
 .buscador h1{font-size:20px; text-align:left; margin-top:10px; color:#F4F4F4; margin-bottom: 5px; margin-left:20px;
 text-shadow: 0 1px 1px rgba(80,80,80,.75);}
 
-.refineHome{width:250px;margin-top:0px; margin-left:20px;background:#2971BB;border:0px solid #D1D0D0;padding-bottom:5px; font-size:13px;}
+.refineHome{width:255px;margin-top:0px; margin-left:20px;background:#2971BB;border:0px solid #D1D0D0;padding-bottom:5px; font-size:13px;}
 .refineHome dt{padding:10px 0 4px 9px; font-weight: bold; color:#D0D0D0;}
 .refineHome dt span{font-weight: normal; font-size:12px; color:#D0D0D0;}
 .refineHome dd{display:block;overflow:hidden;height:1%;padding-left:10px;}.refineHome dd label,.sort label{color:#069;text-decoration:none;cursor:pointer;}.refineHome dd label:hover,.sort label:hover{color:#F06;}.refineHome dd label{float:left;}

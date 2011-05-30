@@ -12,7 +12,7 @@
   Más de 1.100 <strong>Hoteles en París al mejor precio GARANTIZADO!</strong>
   <br />
   <a href="http://www.parishoteles.net/audioguias-de-paris/" title="Audioguias de Paris">
-   <embed width="468" height="60" src="images/paris-468x60.swf?clickTAG=http://www.parishoteles.net/audioguias-de-paris/"></embed>
+   <embed width="468" height="60" src="<?php echo sfConfig::get('app_s_img')?>paris-468x60.swf?clickTAG=http://www.parishoteles.net/audioguias-de-paris/"></embed>
   </a>
 </div>
 <?php end_slot(); ?>

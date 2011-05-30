@@ -141,7 +141,7 @@ class Utils {
     list($day, $mon, $year) = explode('/', $fecha);
     $x = date('d/m/Y', mktime(0, 0, 0, $mon, $day + $dia, $year));
     list($day, $mon, $year) = explode('/', $x);
-    return array('day' => $day,'month' => $mon.'-'.$year);
+    return array('day' => $day,'month' => $year.'-'.($mon+0));
   }
   public static function sumaMes($fecha, $dia) {
     list($day, $mon, $year) = explode('/', $fecha);

@@ -39,7 +39,7 @@ class homeActions extends sfActions {
 //    die();
     $this->ar_num_hotels = Doctrine::getTable('adHotel')->getNumHotels();
 
-    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
+    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('Y').'-'.(date('m')+0)), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
     $this->search_form = new searchHotelForm($param_initial);
     if ($request->isMethod('post')) {
       $params = $request->getParameter('search');
@@ -64,7 +64,7 @@ class homeActions extends sfActions {
 
   public function executeToursHotels(sfWebRequest $request) {
     $this->forward404Unless($this->tours = Doctrine::getTable('tourRoom')->find($request->getParameter('id')));
-    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
+    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('Y').'-'.(date('m')+0)), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
     $this->search_form = new searchHotelForm($param_initial);
     $this->star_sesion = $this->getUser()->getAttribute('star_session');
     $this->facil_session = $this->getUser()->getAttribute('facil_session');
@@ -207,7 +207,7 @@ class homeActions extends sfActions {
     if ($this->getUser()->getAttribute('searching_dispo')) {
       $param_initial = $this->getUser()->getAttribute('searching_dispo');
     } else {
-      $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
+      $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('Y').'-'.(date('m')+0)), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
     }
     $this->form_dis = new dispoForm($param_initial);
     $this->search_form = new searchHotelForm($param_initial);
@@ -315,18 +315,17 @@ class homeActions extends sfActions {
   }
 
   protected function changeFormatDate($param_search) {
-
     $day = str_pad($param_search['day'], 2, "0", STR_PAD_LEFT);
-    $mon = substr($param_search['month'],0,2);
-    $year = substr($param_search['month'],3,4);
+    $mon = str_pad(substr($param_search['month'],5,2),2,"0",STR_PAD_LEFT);
+    $year = substr($param_search['month'],0,4);
 
-    return $year.'-'.$mon.'-'.$day;
+    return  $year.'-'.$mon.'-'.$day; 
   }
 
 
   public function executeAllHotels(sfWebRequest $request) {
     $this->ar_slug_city = $this->getArraySlugCity();
-    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('m').'-'.date('Y')), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
+    $param_initial = array('fecha-inicio' => array('day' => date('d'), 'month' => date('Y').'-'.(date('m')+0)), 'fecha-final' => Utils::sumaDia(date('d/m/Y'), 1));
     $this->search_form = new searchHotelForm($param_initial);
     $this->star_sesion = $this->getUser()->getAttribute('star_session');
     $this->facil_session = $this->getUser()->getAttribute('facil_session');

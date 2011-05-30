@@ -1,10 +1,10 @@
 <?php
-//$title = 'Todos los hoteles - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
-//$desc = 'Lista de todos los hoteles de Andorra';
-//$keyword = 'Todos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
-//$sf_response->addMeta('title', $title);
-//$sf_response->addMeta('description', $desc);
-//$sf_response->addMeta('keywords', $keyword);
+$title = 'Hoteles cercanos a '.$tours->name.' - Reserva de Hoteles en Paris';
+$desc = 'Lista de todos los hoteles de Andorra';
+$keyword = $tours->name.', hoteles, hotel, paris, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas';
+$sf_response->addMeta('title', $title);
+$sf_response->addMeta('description', $desc);
+$sf_response->addMeta('keywords', $keyword);
 
 ?>
 <?php slot('mensaje') ?>
@@ -12,7 +12,7 @@
   Hoteles cercanos a <strong><?php echo $tours->name; ?></strong>
   <br />
   <a href="http://www.parishoteles.net/audioguias-de-paris/" title="Audioguias de Paris">
-   <embed width="468" height="60" src="images/paris-468x60.swf?clickTAG=http://www.parishoteles.net/audioguias-de-paris/"></embed>
+   <embed width="468" height="60" src="<?php echo sfConfig::get('app_s_img')?>paris-468x60.swf?clickTAG=http://www.parishoteles.net/audioguias-de-paris/"></embed>
   </a>
 </div>
 <?php end_slot(); ?>
