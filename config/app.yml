@@ -8,3 +8,4 @@ all:
   host_name: http://localhost/reservas/web
   dis_la: 0.02
   dis_lo: 0.02
+  root_dir: /var/www/reservas/web/

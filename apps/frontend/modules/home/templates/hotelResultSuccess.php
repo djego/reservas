@@ -176,13 +176,18 @@
                           $text = 'Sólo quedan ' . count($room['incremental_price']) . ' habitaciones';
                           $class = 'PocasHab';
                         }
+                                                 
+//                           $price_rack = $cx->Convert("EUR","USD",$room['rack_rate'][0]['price']);
+//                            $price_rack = number_format($price_rack,2);
+                             $price_rack = $room['rack_rate'][0]['price'];
+                        
                         ?>
 
                         <td class="colDispo">
                           <a title="Disponible" href="" class="<?php echo $class ?>"><?php echo $text ?></a>
                         </td>
                         <td class="hPrecio">
-    <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?> &nbsp;€</span><?php endif; ?>
+    <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?><span class="precioTarifa"><?php echo $price_rack; ?> &nbsp;€</span><?php endif; ?>
 
                           <span class="colOferta"><?php echo $room['min_price'][0]['price']; ?> &nbsp;€</span>
                         </td>

@@ -23,7 +23,25 @@
       <div style="float:right;">
         Ver precios en&nbsp;
         <select class="comboDivisa" onchange="window.location.replace(this.value)" name="divisas">
-          <option value="/include/currency.php?moneda=CZK">Corona checa (CZK)</option><option value="/include/currency.php?moneda=DKK">Corona danesa (DKK)</option><option value="/include/currency.php?moneda=NOK">Corona noruega (NOK)</option><option value="/include/currency.php?moneda=SEK">Corona sueca (SEK)</option><option value="/include/currency.php?moneda=AUD">Dólar australiano (AUD)</option><option value="/include/currency.php?moneda=CAD">Dólar canadiense (CAD)</option><option value="/include/currency.php?moneda=SGD">Dólar de Singapur (SGD)</option><option value="/include/currency.php?moneda=USD">Dólar EEUU (US$)</option><option selected="selected" value="EUR">Euro (€)</option><option value="/include/currency.php?moneda=HUF">Florín húngaro (HUF)</option><option value="/include/currency.php?moneda=CHF">Franco suizo (CHF)</option><option value="/include/currency.php?moneda=GBP">Libra esterlina (£)</option><option value="/include/currency.php?moneda=MXN">Peso mexicano (MXN)</option><option value="/include/currency.php?moneda=BRL">Real brasileño (R$)</option><option value="/include/currency.php?moneda=RUB">Rublo ruso (RUB)</option><option value="/include/currency.php?moneda=INR">Rupia india (INR)</option><option value="/include/currency.php?moneda=JPY">Yen japonés (¥)</option><option value="/include/currency.php?moneda=PLN">Zlotych polaco (PLN)</option></select>
+          <option value="/include/currency.php?moneda=CZK">Corona checa (CZK)</option>
+          <option value="/include/currency.php?moneda=DKK">Corona danesa (DKK)</option>
+          <option value="/include/currency.php?moneda=NOK">Corona noruega (NOK)</option>
+          <option value="/include/currency.php?moneda=SEK">Corona sueca (SEK)</option>
+          <option value="/include/currency.php?moneda=AUD">Dólar australiano (AUD)</option>
+          <option value="/include/currency.php?moneda=CAD">Dólar canadiense (CAD)</option>
+          <option value="/include/currency.php?moneda=SGD">Dólar de Singapur (SGD)</option>
+          <option value="/include/currency.php?moneda=USD">Dólar EEUU (US$)</option>
+          <option selected="selected" value="EUR">Euro (€)</option>
+          <option value="/include/currency.php?moneda=HUF">Florín húngaro (HUF)</option>
+          <option value="/include/currency.php?moneda=CHF">Franco suizo (CHF)</option>
+          <option value="/include/currency.php?moneda=GBP">Libra esterlina (£)</option>
+          <option value="/include/currency.php?moneda=MXN">Peso mexicano (MXN)</option>
+          <option value="/include/currency.php?moneda=BRL">Real brasileño (R$)</option>
+          <option value="/include/currency.php?moneda=RUB">Rublo ruso (RUB)</option>
+          <option value="/include/currency.php?moneda=INR">Rupia india (INR)</option>
+          <option value="/include/currency.php?moneda=JPY">Yen japonés (¥)</option>
+          <option value="/include/currency.php?moneda=PLN">Zlotych polaco (PLN)</option>
+        </select>
       </div>
     </div>
     <div class="home-under">
