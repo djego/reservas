@@ -1,14 +1,9 @@
-<?php
-//foreach ($hotel->HotelDescs->toArray() as $desc) {
-//  if($desc['descriptiontype_id'] == 6) $description  = substr($desc['description'],0,160).'...';
-//}
-//$title = $hotel['name'].' - '.$hotel['city'].' - Reserva este hotel de Andorra';
-//$desc = $description;
-//$keyword = $hotel['name'].', '.$hotel['city'].', hotel, andorra, reservar '.$hotel['name'].', ofertas, precios';
-//$sf_response->addMeta('title', $title);
-//$sf_response->addMeta('description', $desc);
-//$sf_response->addMeta('keywords', $keyword);
-?>
+<?php slot('more_metas') ?>
+<title><?php echo $hotel['name'] ?> - Reserva tu hotel en París</title>
+<meta name="keywords" content="<?php echo $hotel['name'] ?>, paris, hoteles, reservas, hotel, ofertas" />
+<meta name="description" content="<?php echo $hotel['name'] ?>. Reserva online tu hotel de París con pago directo en el hotel y sin comisiones." />
+
+<?php end_slot(); ?>
 <?php slot('mensaje') ?>
 <div class="mensaje">
   <strong><?php echo $hotel['name'] ?></strong> (París)
@@ -23,12 +18,15 @@
   <div class="main-content">
     <div class="navegacion">
       <div style="float:left;"><a href="<?php echo url_for('homepage'); ?>" title="Hoteles en París">Par&iacute;s Hoteles</a> > <?php echo $hotel['name'] ?></div>
-      <div style="float:right;">
-        Ver precios en&nbsp;
-        <select class="comboDivisa" onchange="window.location.replace(this.value)" name="divisas">
-          <option value="/include/currency.php?moneda=CZK">Corona checa (CZK)</option><option value="/include/currency.php?moneda=DKK">Corona danesa (DKK)</option><option value="/include/currency.php?moneda=NOK">Corona noruega (NOK)</option><option value="/include/currency.php?moneda=SEK">Corona sueca (SEK)</option><option value="/include/currency.php?moneda=AUD">Dólar australiano (AUD)</option><option value="/include/currency.php?moneda=CAD">Dólar canadiense (CAD)</option><option value="/include/currency.php?moneda=SGD">Dólar de Singapur (SGD)</option><option value="/include/currency.php?moneda=USD">Dólar EEUU (US$)</option><option selected="selected" value="EUR">Euro (€)</option><option value="/include/currency.php?moneda=HUF">Florín húngaro (HUF)</option><option value="/include/currency.php?moneda=CHF">Franco suizo (CHF)</option><option value="/include/currency.php?moneda=GBP">Libra esterlina (£)</option><option value="/include/currency.php?moneda=MXN">Peso mexicano (MXN)</option><option value="/include/currency.php?moneda=BRL">Real brasileño (R$)</option><option value="/include/currency.php?moneda=RUB">Rublo ruso (RUB)</option><option value="/include/currency.php?moneda=INR">Rupia india (INR)</option><option value="/include/currency.php?moneda=JPY">Yen japonés (¥)</option><option value="/include/currency.php?moneda=PLN">Zlotych polaco (PLN)</option></select>
-
-      </div>
+      <form action="<?php echo url_for('change_currency'); ?>" method="post">
+        <div style="float:right;">
+          Ver precios en&nbsp;
+          <?php if ($form_currency->isCSRFProtected()) : ?>
+            <?php echo $form_currency['_csrf_token']->render(); ?>
+          <?php endif; ?>
+          <?php echo $form_currency['moneda']->render(array('onchange' => 'submit()')); ?>
+        </div> 
+      </form>
     </div>
     <div class="home-under">
       <div class="home-content">
@@ -158,6 +156,17 @@
                       <th class="hPrecio">Precio final</th>
                       <th class="hotelHabitaciones">Número de habitaciones</th>
                     </tr>
+                    <?php $cu = $sf_user->getAttribute('currency');
+                        if($cu['moneda'] == 'EUR'){
+                          $simbol = "€";
+                        }elseif($cu['moneda'] == 'GBP'){
+                          $simbol = "£";
+                        }elseif($cu['moneda'] == 'USD'){
+                          $simbol = 'US$';
+                        }else{
+                          $simbol = $cu['moneda'];
+                        }
+                    ?>
                     <?php foreach ($lst_rooms['block'] as $room): ?>
                       <tr class="separHab">
                         <td class="hTipo">
@@ -176,10 +185,7 @@
                           $text = 'Sólo quedan ' . count($room['incremental_price']) . ' habitaciones';
                           $class = 'PocasHab';
                         }
-                                                 
-//                           $price_rack = $cx->Convert("EUR","USD",$room['rack_rate'][0]['price']);
-//                            $price_rack = number_format($price_rack,2);
-                             $price_rack = $room['rack_rate'][0]['price'];
+                          
                         
                         ?>
 
@@ -187,15 +193,15 @@
                           <a title="Disponible" href="" class="<?php echo $class ?>"><?php echo $text ?></a>
                         </td>
                         <td class="hPrecio">
-    <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?><span class="precioTarifa"><?php echo $price_rack; ?> &nbsp;€</span><?php endif; ?>
+    <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?> &nbsp;<?php echo $simbol ?></span><?php endif; ?>
 
-                          <span class="colOferta"><?php echo $room['min_price'][0]['price']; ?> &nbsp;€</span>
+                          <span class="colOferta"><?php echo $room['min_price'][0]['price']; ?> &nbsp;<?php echo $simbol ?></span>
                         </td>
                         <td class="hotelHabitaciones">
                           <select name="nr_rooms_<?php echo $room['block_id']; ?>" class="comboPrecio" id="nr_rooms_<?php echo $room['block_id']; ?>">
                             <option value="0">0</option>
                             <?php foreach ($room['incremental_price'] as $key => $val): ?>
-                              <option value="<?php echo ($key + 1) ?>"><?php echo ($key + 1) . '(' . $val['price'] . ')' ?>€</option>
+                              <option value="<?php echo ($key + 1) ?>"><?php echo ($key + 1) . '(' . $val['price'] . ')' ?><?php echo $simbol ?></option>
     <?php endforeach; ?>
                           </select>
                         </td>

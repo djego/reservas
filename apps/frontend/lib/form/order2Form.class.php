@@ -1,9 +1,9 @@
 <?php
 
-class orderForm extends sfForm
+class order2Form extends sfForm
 { 
   public function setup() {
-    $ar_order = array('pop' => 'Popularidad','opi' => 'Opinión clientes','est'=>'Estrellas','pre'=>'Precio');
+    $ar_order = array('nea' => 'Mas cercanos', 'pop' => 'Popularidad','opi' => 'Opinión clientes','est'=>'Estrellas','pre'=>'Precio');
     $this->setWidgets(array(
             'order' =>   new sfWidgetFormChoice(array('choices' => $ar_order)),
             

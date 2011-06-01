@@ -15,6 +15,9 @@
 #  url: /excursiones-actividades
 #  param: { module: home, action: excursiones }
 # pages dinamics
+change_currency:
+  url: /cambiando-moneda
+  param: { module: home, action: changeCurrency }
 all_hotel:
   url: /hoteles-paris
   param: { module: home, action: allHotels }

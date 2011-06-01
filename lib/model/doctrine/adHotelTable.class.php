@@ -90,12 +90,12 @@ class adHotelTable extends Doctrine_Table {
     unset($facility['all']);
 //      print_r($facility);die();
     $q = $this->createQuery('h');
-    $q->select('h.*, d.description as description');
+    $q->select('h.*, d.description as description, (h.latitude - '.$la.') as algo');
     $q->leftJoin('h.HotelDescs as d');
-    $q->where('latitude > '.($la - $lad));
-    $q->andWhere('latitude < '.($la + $lad));
-    $q->andWhere('longitude > '.($lo - $lod));
-    $q->andWhere('longitude < '.($lo + $lod));
+    $q->where('h.latitude > '.($la - $lad));
+    $q->andWhere('h.latitude < '.($la + $lad));
+    $q->andWhere('h.longitude > '.($lo - $lod));
+    $q->andWhere('h.longitude < '.($lo + $lod));
 //      $q->where('d.descriptiontype_id = 6');
     $star_cad = '';
     foreach ($star as $s) {
@@ -113,12 +113,13 @@ class adHotelTable extends Doctrine_Table {
       }
     }
     substr($faci_cad,0,-4)?$q->andWhere(substr($faci_cad,0,-4)):'';
-
-    if($order == 'pop') $q->orderBy('h.review_nr DESC');
+//    echo $order;die();
+    if($order == 'nea') $q->orderBy('algo DESC');
+    elseif($order == 'pop') $q->orderBy('h.review_nr DESC');
     elseif($order == 'opi') $q->orderBy('h.ranking DESC');
     elseif($order == 'est') $q->orderBy('h.class_and DESC');
     elseif($order == 'pre') $q->orderBy('h.minrate ASC');
-    else $q->orderBy('h.name ASC');
+    else $q->orderBy('algo DESC');
 //      echo $q->getSqlQuery(); die();
     return $q;
   }
