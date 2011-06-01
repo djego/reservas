@@ -57,9 +57,9 @@ class currencyExchange{
 	function getData(){
 		$olderr=error_reporting(0);
 		$this->Source="Local";
-		if(file_exists(sfConfig::get('app_root_dir').$this->localFile)){
+		if(file_exists(dirname(__FILE__).'/'.$this->localFile)){
 			// load it
-			$this->xml=@file_get_contents(sfConfig::get('app_root_dir').$this->localFile);
+			$this->xml=@file_get_contents(dirname(__FILE__).'/'.$this->localFile);
 			$this->parse();
 	
 			// check if it's a weekend
@@ -178,7 +178,7 @@ class currencyExchange{
 
 	function saveLocalCopy(){
 //          echo sfConfig::get('app_curre_xml');die();
-		$fp=fopen(sfConfig::get('app_root_dir').$this->localFile,"w") or die("failed to write file");
+		$fp=fopen(dirname(__FILE__).'/'.$this->localFile,"w") or die("failed to write file");
 		fwrite($fp,$this->xml);
 		fclose($fp);
 		$this->parse();

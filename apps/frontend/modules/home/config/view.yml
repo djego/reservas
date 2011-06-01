@@ -1,7 +1,7 @@
 ## YAML Template.
 ---
 all:
-  stylesheets: [%app_s_css%reservaria.css]
+  stylesheets: [%app_s_css%calendario.css]
   javascripts: [%app_s_js%Jfunciones.js, %app_s_js%search.js, %app_s_js%calendario.js]
 hotelSuccess:
   javascripts: [%app_s_js%imagepreview.js, %app_s_js%search_dispo.js]
@@ -10,12 +10,4 @@ hotelResultSuccess:
 mapaSuccess:
   has_layout: false
 
-excursionesSuccess:
-  layout: layout_exc
-esquiSuccess:
-  layout: layout_esq
-paquetesSuccess:
-  layout: layout_paq
-turismoSuccess:  
-  layout: layout_turi
   
