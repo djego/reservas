@@ -36,20 +36,15 @@ class homeActions extends sfActions {
 
   public function executeIndex(sfWebRequest $request) {
 
-//    $cx = new currencyExchange();
-//    $cx->getData();
-//    $price_rack = $cx->Convert("EUR", "USD", '2243');
-//    $price_rack=number_format($price_rack,2);
-//    $parame = "languagecode=ar&arrival_date=2011-05-25&departure_date=2011-05-26&hotel_ids=51782";
-//    $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
-//    print_r($ar_rooms);
-//    die();
+    
     $this->lst_tours = Doctrine::getTable('tourRoom')->getToursMain()->execute();
     $this->lst_others = Doctrine::getTable('tourRoom')->getToursOthers();
 //    print_r($this->lst_tours);
 //    die();
     $this->ar_num_hotels = Doctrine::getTable('adHotel')->getNumHotels();
-
+    if($this->getUser()->getAttribute('star_session')){
+      $this->getUser()->getAttributeHolder()->remove('star_session');
+    }
     $this->search_form = new searchHotelForm(appFrontend::fechasiniciales());
     if ($request->isMethod('post')) {
       $params = $request->getParameter('search');

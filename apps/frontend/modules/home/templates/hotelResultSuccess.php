@@ -184,8 +184,7 @@
                         } else {
                           $text = 'Sólo quedan ' . count($room['incremental_price']) . ' habitaciones';
                           $class = 'PocasHab';
-                        }
-                          
+                        }                         
                         
                         ?>
 
@@ -193,7 +192,7 @@
                           <a title="Disponible" href="" class="<?php echo $class ?>"><?php echo $text ?></a>
                         </td>
                         <td class="hPrecio">
-    <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?> &nbsp;<?php echo $simbol ?></span><?php endif; ?>
+                        <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?><span class="precioTarifa"><?php echo $room['rack_rate'][0]['price']; ?> &nbsp;<?php echo $simbol ?></span><?php endif; ?>
 
                           <span class="colOferta"><?php echo $room['min_price'][0]['price']; ?> &nbsp;<?php echo $simbol ?></span>
                         </td>
@@ -202,7 +201,7 @@
                             <option value="0">0</option>
                             <?php foreach ($room['incremental_price'] as $key => $val): ?>
                               <option value="<?php echo ($key + 1) ?>"><?php echo ($key + 1) . '(' . $val['price'] . ')' ?><?php echo $simbol ?></option>
-    <?php endforeach; ?>
+                            <?php endforeach; ?>
                           </select>
                         </td>
                       </tr>
