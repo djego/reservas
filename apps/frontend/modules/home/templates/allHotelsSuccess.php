@@ -1,11 +1,9 @@
-<?php
-//$title = 'Todos los hoteles - Destinos de Andorra - Ofertas de Hoteles en Andorra ';
-//$desc = 'Lista de todos los hoteles de Andorra';
-//$keyword = 'Todos, hoteles, hotel, andorra, reservar hotel, hoteles en, viajes, viaje, viajar, reservas, ofertas, barato, esqui, ordino, tarter, escaldes';
-//$sf_response->addMeta('title', $title);
-//$sf_response->addMeta('description', $desc);
-//$sf_response->addMeta('keywords', $keyword);
-?>
+<?php slot('more_metas') ?>
+<title>Hoteles en Par&iacute;s - Reserva tu hotel de Par&iacute;s</title>
+<meta name="keywords" content="hoteles paris, reservas, paris, hoteles, ofertas, hotel, precios" />
+<meta name="description" content="Reserva online tu hotel en París con los mejores precios garantizados. Te ofrecemos reservas sin comisiones y con pago directo en el hotel. Ofertas de hoteles de París" />
+<?php end_slot(); ?>
+
 <?php slot('mensaje') ?>
 <div class="mensaje">
   Más de 1.100 <strong>Hoteles en París al mejor precio GARANTIZADO!</strong>

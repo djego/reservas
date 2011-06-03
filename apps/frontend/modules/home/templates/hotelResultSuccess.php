@@ -236,6 +236,7 @@
                 <input type="hidden" name="hotel_id" value="<?php echo $hotel['id']; ?>" />
                 <input type="hidden" name="checkin" value="<?php echo $lst_rooms['arrival_date']; ?>" />
                 <input type="hidden" name="interval" value="<?php echo $interval; ?>" />
+                <input type="hidden" name="selected_currency" value="<?php echo $cu['moneda']; ?>" />
                 <input type="hidden" value="es" name="lang"/>
                 <input type="hidden" value="1" name="stage"/>
                 <input type="hidden" value="ParisHoteles-net" name="label"/>

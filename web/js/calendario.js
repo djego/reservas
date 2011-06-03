@@ -172,6 +172,7 @@ function goMonth(m){
   var y=td.getFullYear();
   if(m<td.getMonth()+1)y++;
   buildCal(y,m);
+  return false;
 }
 function pickDate(y,m,d,dt,frm){
   var f=calendar.calf;
@@ -202,11 +203,11 @@ function checkDateOrder(frm,ci_day,ci_month_year,co_day,co_month_year){
   }
 }
 function onmouseoutclose(e){
-//  console.log(typeof calendar.cal);
+  console.log($(e.target).parents('#b_calendarPopup').length);
   if(typeof calendar.cal == 'undefined' ){
     return false;
   }
-  if($(e.target).parents('#b_calendarInner').length == 0){
+  if($(e.target).parents('#b_calendarPopup').length == 0){
     calendar.cal.style.display='none';
   }
   
