@@ -175,7 +175,13 @@ class Utils {
   }
 
  
+  public static function changeFormatDate($param_search) {
+    $day = str_pad($param_search['day'], 2, "0", STR_PAD_LEFT);
+    $mon = str_pad(substr($param_search['month'], 5, 2), 2, "0", STR_PAD_LEFT);
+    $year = substr($param_search['month'], 0, 4);
 
+    return $year . '-' . $mon . '-' . $day;
+  }
 
   public static function limpiarcdata($str) {
       $str = str_replace("<![CDATA[","",$str);

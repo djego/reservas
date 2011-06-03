@@ -47,6 +47,10 @@ class homeActions extends sfActions {
     }
     $this->search_form = new searchHotelForm(appFrontend::fechasiniciales());
     if ($request->isMethod('post')) {
+      
+      if($request->getParameter('un_date')){
+        $this->redirect('all_hotel');
+      }
       $params = $request->getParameter('search');
 //    print_r($params);die();
       $this->search_form->bind($params);
@@ -127,8 +131,8 @@ class homeActions extends sfActions {
     $this->form_currency = new currencyForm($this->getUser()->getAttribute('currency'));
     $this->search_form = new searchHotelForm($ar_session);
     $this->filter = new orderForm($session_order);
-    $fecha_entrada = $this->changeFormatDate($ar_session['fecha-inicio']);
-    $fecha_salida = $this->changeFormatDate($ar_session['fecha-final']);
+    $fecha_entrada = Utils::changeFormatDate($ar_session['fecha-inicio']);
+    $fecha_salida = Utils::changeFormatDate($ar_session['fecha-final']);
     $param = "arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&city_ids=-1456928";
     $lst_hoteles_ok = $this->data->fetchRcp('bookings.getHotelAvailability', $param);
     $this->fecha_entrada = $fecha_entrada;
@@ -234,8 +238,8 @@ class homeActions extends sfActions {
           $data_dispo = $this->form_dis->getValues();
           $this->getUser()->setAttribute('searching_dispo', $data_dispo);
           // Cuartos disponibles
-          $fecha_entrada = $this->changeFormatDate($data_dispo['fecha-inicio']);
-          $fecha_salida = $this->changeFormatDate($data_dispo['fecha-final']);
+          $fecha_entrada = Utils::changeFormatDate($data_dispo['fecha-inicio']);
+          $fecha_salida = Utils::changeFormatDate($data_dispo['fecha-final']);
           $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id . '&detail_level=1';
           $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
 //        print_r($ar_rooms);die();
@@ -291,8 +295,8 @@ class homeActions extends sfActions {
     $this->search_form = new searchHotelForm($search_sesion);
     $this->form_dis = new dispoForm($search_sesion);
 
-    $fecha_entrada = $this->changeFormatDate($search_sesion['fecha-inicio']);
-    $fecha_salida = $this->changeFormatDate($search_sesion['fecha-final']);
+    $fecha_entrada = Utils::changeFormatDate($search_sesion['fecha-inicio']);
+    $fecha_salida = Utils::changeFormatDate($search_sesion['fecha-final']);
     $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id . '&detail_level=1';
     $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
     $curr = $this->getUser()->getAttribute('currency');

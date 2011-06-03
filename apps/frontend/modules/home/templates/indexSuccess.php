@@ -27,6 +27,7 @@
             <?php if ($search_form->isCSRFProtected()) : ?>
                 <?php echo $search_form['_csrf_token']->render(); ?>
               <?php endif; ?>
+            <?php // echo $search_form->renderGlobalErrors() ?>
               <dt>Fecha de entrada:</dt>
               <dd>
                 <?php echo $search_form['fecha-inicio']->render(array('onchange' => "checkDateOrder('formulario', 'search_fecha-inicio_day', 'search_fecha-inicio_month', 'search_fecha-final_day', 'search_fecha-final_month');"))?>
@@ -42,7 +43,7 @@
                 </a>
               </dd>
             <dt>
-              <input type="checkbox" name="sinFechas" value="1" /> <span>Aún no he decidido las fechas</span></dt>
+              <input type="checkbox" name="un_date" id="un_date" value="1" /> <span>Aún no he decidido las fechas</span></dt>
 
             <div align="center"><button type="submit" title="Buscar hoteles">Buscar</button></div>
             <div id="b_calendarPopup" class="b_popup">
