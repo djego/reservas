@@ -36,29 +36,19 @@ class homeActions extends sfActions {
 
   public function executeIndex(sfWebRequest $request) {
 
-    
+
     $this->lst_tours = Doctrine::getTable('tourRoom')->getToursMain()->execute();
     $this->lst_others = Doctrine::getTable('tourRoom')->getToursOthers();
 //    print_r($this->lst_tours);
 //    die();
     $this->ar_num_hotels = Doctrine::getTable('adHotel')->getNumHotels();
-    if($this->getUser()->getAttribute('star_session')){
+    if ($this->getUser()->getAttribute('star_session')) {
       $this->getUser()->getAttributeHolder()->remove('star_session');
     }
     $this->search_form = new searchHotelForm(appFrontend::fechasiniciales());
-    if ($request->isMethod('post')) {
-      
-      if($request->getParameter('un_date')){
-        $this->redirect('all_hotel');
-      }
-      $params = $request->getParameter('search');
-//    print_r($params);die();
-      $this->search_form->bind($params);
-      if ($this->search_form->isValid()) {
-        $value = $this->search_form->getValues();
-        $this->getUser()->setAttribute('search_date', $value);
-        $this->redirect('hotels_result');
-      }
+
+    if ($request->getParameter('un_date')) {
+      $this->redirect('all_hotel');
     }
   }
 
@@ -122,8 +112,21 @@ class homeActions extends sfActions {
   }
 
   public function executeHotelsResult(sfWebRequest $request) {
+
+    if ($params = $request->getParameter('search')) {
+//    print_r($params);die();
+      $search_form = new searchHotelForm();
+      $search_form->bind($params);
+      if ($search_form->isValid()) {
+        $value = $search_form->getValues();
+//      $this->getUser()->setAttribute('search_date', $value);
+      }
+    }
+
+
+
     $session_order = $this->getUser()->getAttribute('order');
-    $ar_session = $this->getUser()->getAttribute('search_date');
+    $ar_session = $value;
 //    print_r($ar_session);
     $this->star_sesion = $this->getUser()->getAttribute('star_session');
     $this->facil_session = $this->getUser()->getAttribute('facil_session');
@@ -159,28 +162,17 @@ class homeActions extends sfActions {
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
     $this->lst_hotel = $this->pager->getResults()->toArray();
-    
+
 //    print_r($this->lst_hotel);die();
-    
+
     $this->num_hotels = Doctrine::getTable('adHotel')->getNumHotels($this->facil_session, $ar);
 
     if ($request->isMethod('post')) {
-      if ($request->getParameter('search_button') == 'list') {
-        $params = $request->getParameter('search');
-//      print_r($params);die();
-        $this->search_form->bind($params);
-        if ($this->search_form->isValid()) {
-          $value = $this->search_form->getValues();
-          $this->getUser()->setAttribute('search_date', $value);
-          $this->redirect($request->getReferer());
-        }
-      } else {
-        $this->filter->bind($request->getParameter('order_form'));
-        if ($this->filter->isValid()) {
-          $val = $this->filter->getValues();
-          $this->getUser()->setAttribute('order', $val);
-          $this->redirect($request->getReferer());
-        }
+      $this->filter->bind($request->getParameter('order_form'));
+      if ($this->filter->isValid()) {
+        $val = $this->filter->getValues();
+        $this->getUser()->setAttribute('order', $val);
+        $this->redirect($request->getReferer());
       }
 //
 //      print_r($ar_star);
@@ -214,58 +206,61 @@ class homeActions extends sfActions {
 //    die();
     $this->lst_destiny = $ar_lst;
     // FIn de destinos cercanos
-    if ($this->getUser()->getAttribute('searching_dispo')) {
-      $param_initial = $this->getUser()->getAttribute('searching_dispo');
-    } else {
-      $param_initial = appFrontend::fechasiniciales();
-    }
+
+    $param_initial = appFrontend::fechasiniciales();
+
     $this->form_dis = new dispoForm($param_initial);
     $this->search_form = new searchHotelForm($param_initial);
-    if ($request->isMethod('post')) {
-      if ($request->getParameter('search_button') == 'list') {
+
+    if ($request->getParameter('search') || $request->getParameter('dispo')) {
+      if ($request->getParameter('search')) {
+
         $params = $request->getParameter('search');
         $this->search_form->bind($params);
         if ($this->search_form->isValid()) {
-          $value = $this->search_form->getValues();
-          $this->getUser()->setAttribute('search_date', $value);
-          $this->redirect('hotels_result');
+          $data_dispo = $this->search_form->getValues();
         }
-      } else {
+      } elseif ($request->getParameter('dispo')) {
         $val_dispo = $request->getParameter('dispo');
-//        print_r($val_dispo);die();
         $this->form_dis->bind($val_dispo);
         if ($this->form_dis->isValid()) {
           $data_dispo = $this->form_dis->getValues();
-          $this->getUser()->setAttribute('searching_dispo', $data_dispo);
-          // Cuartos disponibles
-          $fecha_entrada = Utils::changeFormatDate($data_dispo['fecha-inicio']);
-          $fecha_salida = Utils::changeFormatDate($data_dispo['fecha-final']);
-          $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id . '&detail_level=1';
-          $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
-//        print_r($ar_rooms);die();
-          if ($ar_rooms == NULL) {
-            $this->lst_rooms = false;
-          } else {           
-
-            $curr = $this->getUser()->getAttribute('currency');
-            foreach ($ar_rooms[0]['block'] as $blok) {
-              $blok['min_price'][0]['currency'] = $curr['moneda'];
-              $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2);
-              $blok['rack_rate'][0]['currency'] = $curr['moneda'];
-              $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2);
-
-              foreach ($blok['incremental_price'] as $inc) {
-                $inc['currency'] = $curr['moneda'];
-                $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2);
-                $car[] = $inc;
-              }
-              $blok['incremental_price'] = $car;
-              $ar_new_rooms[] = $blok;
-            }
-            $ar_rooms[0]['block'] = $ar_new_rooms;
-            $this->lst_rooms = $ar_rooms[0];
-          }
         }
+      }
+
+      $this->form_dis = new dispoForm($data_dispo);
+      $this->search_form = new searchHotelForm($data_dispo);
+//        $this->getUser()->setAttribute('searching_dispo', $data_dispo);
+      // Cuartos disponibles
+
+      $fecha_entrada = Utils::changeFormatDate($data_dispo['fecha-inicio']);
+      $fecha_salida = Utils::changeFormatDate($data_dispo['fecha-final']);
+
+      $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $this->hotel->id . '&detail_level=1';
+      $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
+//        print_r($ar_rooms);die();
+      if ($ar_rooms == NULL) {
+        $this->lst_rooms = false;
+      } else {
+
+        $curr = $this->getUser()->getAttribute('currency');
+        foreach ($ar_rooms[0]['block'] as $blok) {
+          $blok['min_price'][0]['currency'] = $curr['moneda'];
+          $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2);
+          $blok['rack_rate'][0]['currency'] = $curr['moneda'];
+          $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2);
+
+          foreach ($blok['incremental_price'] as $inc) {
+            $inc['currency'] = $curr['moneda'];
+            $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2);
+            $car[] = $inc;
+          }
+          $blok['incremental_price'] = $car;
+          $ar_new_rooms[] = $blok;
+        }
+        $ar_rooms[0]['block'] = $ar_new_rooms;
+        $this->lst_rooms = $ar_rooms[0];
+//          print_r($this->lst_rooms);die();
       }
     }
   }
@@ -281,6 +276,8 @@ class homeActions extends sfActions {
 
   public function executeHotelResult(sfWebRequest $request) {
 
+
+
     $this->ar_slug_city = $this->getArraySlugCity();
     $hid = $request->getParameter('id');
     $this->forward404Unless($this->hotel = Doctrine::getTable('adHotel')->find($hid));
@@ -291,7 +288,19 @@ class homeActions extends sfActions {
 //    print_r($this->aditional_info);die();
     $this->form_currency = new currencyForm($this->getUser()->getAttribute('currency'));
     // Cuartos disponibles
-    $search_sesion = $this->getUser()->getAttribute('search_date');
+
+    if ($request->getParameter('search')) {
+      $params = $request->getParameter('search');
+      unset($params['_csrf_token']);
+    } else {
+      $this->form_dis = new dispoForm();
+      $this->form_dis->bind($request->getParameter('dispo'));
+      if ($this->form_dis->isValid()) {
+        $params = $this->form_dis->getValues();
+      }
+    }
+
+    $search_sesion = $params;
     $this->search_form = new searchHotelForm($search_sesion);
     $this->form_dis = new dispoForm($search_sesion);
 
@@ -326,24 +335,6 @@ class homeActions extends sfActions {
     }
     $this->lst_destiny = $ar_lst;
     // FIn de destinos cercanos
-    if ($request->isMethod('post')) {
-      if ($request->getParameter('search_button') == 'list') {
-        $params = $request->getParameter('search');
-        $this->search_form->bind($params);
-        if ($this->search_form->isValid()) {
-          $value = $this->search_form->getValues();
-          $this->getUser()->setAttribute('search_date', $value);
-          $this->redirect('hotels_result');
-        }
-      } else {
-        $this->form_dis->bind($request->getParameter('dispo'));
-        if ($this->form_dis->isValid()) {
-          $param_search = $this->form_dis->getValues();
-          $this->getUser()->setAttribute('search_date', $param_search);
-          $this->redirect($request->getReferer());
-        }
-      }
-    }
   }
 
   public function executeMapa(sfWebRequest $request) {

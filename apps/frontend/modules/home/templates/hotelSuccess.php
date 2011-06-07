@@ -34,7 +34,7 @@
       <div class="home-content">
         <div class="listados-izq">
           <dl class="refine2">
-            <h3>Buscar disponibilidad</h3>
+            <h3>Buscar disponibilidad en <?php echo $hotel['name'] ?></h3>
           </dl>
           <dl class="refine">
             <?php include_partial('search_dispo', array('search_form' => $search_form)) ?>
@@ -126,7 +126,7 @@
 
           <br clear="all" /><br />		
           <h2 class="seccionHotel">Disponibilidad del hotel</h2>
-          <?php if ($sf_request->isMethod('post')): ?>
+          <?php if ($sf_request->getParameter('dispo') || $sf_request->getParameter('search')): ?>
             <?php
             if ($lst_rooms) {
               $ini = Utils::getFormattedDate($lst_rooms['arrival_date'], '%d/%m/%Y');

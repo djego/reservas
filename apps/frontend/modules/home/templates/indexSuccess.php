@@ -23,11 +23,11 @@
 
         <h1>Buscar hoteles en Par&iacute;s</h1>
         <dl class="refineHome">
-          <form id="formulario" action="" class="fechas" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+          <form id="formulario" action="<?php echo url_for('hotels_result') ?>" class="fechas" method="get" accept-charset="utf-8" enctype="multipart/form-data">
             <?php if ($search_form->isCSRFProtected()) : ?>
                 <?php echo $search_form['_csrf_token']->render(); ?>
               <?php endif; ?>
-            <?php // echo $search_form->renderGlobalErrors() ?>
+            <?php  echo $search_form->renderGlobalErrors() ?>
               <dt>Fecha de entrada:</dt>
               <dd>
                 <?php echo $search_form['fecha-inicio']->render(array('onchange' => "checkDateOrder('formulario', 'search_fecha-inicio_day', 'search_fecha-inicio_month', 'search_fecha-final_day', 'search_fecha-final_month');"))?>

@@ -124,7 +124,7 @@ padding:0px 0px 0px 0px;
 .masdestinos a { color: #4C9E10; font-size:12px; text-decoration:underline;}
 .masdestinos a:hover { text-decoration:none;}
 
-.navegacion { background-color: #135D9D; margin-top:0px; margin-bottom:0px; color: #E3E3E3; padding: 4px; padding-left: 15px; height:20px; }
+.navegacion { background-color: #135D9D; margin-top:0px; margin-bottom:0px; color: #E3E3E3; padding: 4px; padding-left: 15px; height:17px; }
 .navegacion a { font-weight: bold; color: #F3EFF3; }
 .navegacion a:hover { text-decoration:underline; }
 
@@ -356,7 +356,7 @@ text-shadow: 0 1px 1px rgba(80,80,80,.75);}
 .hoteles-cercanos h2{font-size:16px; text-align:left; margin-bottom:10px; color:#135D9D;}
 #hotelesCercanos, #hotelesCercanos ul{width:100%;}
 #hotelesCercanos img{float:left;border:1px solid #505050;margin-right:5px;}
-#hotelesCercanos li{width:180px;margin:0 10px 10px 0;float:left; }
+#hotelesCercanos li{text-align:left;width:180px;margin:0 10px 10px 0;float:left; }
 #hotelesCercanos li a{color:#B1440E; font-weight:bold;}
 
 .lateralHome{width:330px;float:right;
@@ -505,6 +505,10 @@ div.paginacion span.disabled {
 }
 
 
+/* Message error */
 
+.error_list li {
+    font-size:16px; color:#40B318; font-weight:bold; padding: 60px 0px 0 70px; background: url(../images/error-busqueda.gif) 0 20px no-repeat; list-style:none;
+}
 
 

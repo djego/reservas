@@ -70,7 +70,17 @@
             <br />
             <br />
           </form>
-
+           <?php 
+           
+           $ar_url_search = $sf_request->getParameter('search');
+            $ini_day = $ar_url_search['fecha-inicio']['day'];
+            $ini_month = $ar_url_search['fecha-inicio']['month'];
+            $fin_day = $ar_url_search['fecha-final']['day'];
+            $fin_month = $ar_url_search['fecha-final']['month'];
+            $csrf_token = $ar_url_search['_csrf_token'];
+            $url_search = '?search[_csrf_token]='.$csrf_token.'&search[fecha-inicio][day]='.$ini_day.'&search[fecha-inicio][month]='.$ini_month.
+            '&search[fecha-final][day]='.$fin_day.'&search[fecha-final][month]='.$fin_month;
+           ?> 
           <!---anuncio hotel--> 
           <?php foreach ($lst_hotel as $hotel): ?>
             <?php
@@ -79,10 +89,12 @@
             $name = $hotel['name'];
             $city = $hotel['city'];
             $aid = sfConfig::get('app_aid');
+            
+//            print_r($sf_request->getParameter('search'));
             ?>
             <div class="listados-hoteles">
               <div class="listados-hoteles-foto">
-                <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?>">
+                <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?><?php echo $url_search ?>">
                   <img src="<?php echo $hotel['medium_photo']; ?>" width="140" height="105"> </a>
               </div>
               <div class="listados-hoteles-info">
@@ -95,7 +107,7 @@
                     <br />
                   </div>
                   <div class="listados-hoteles-titulo">
-                    <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?>"><?php echo $hotel['name'] ?></a>
+                    <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?><?php echo $url_search ?>"><?php echo $hotel['name'] ?></a>
                     <?php if ($hotel['class_and']): ?><img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /><?php endif; ?> <br />
                     <em><?php echo $hotel['address']; ?>, <?php echo $hotel['city']; ?></em>
                     - <span>
@@ -104,7 +116,7 @@
                   </div>
                   <div class="listados-hoteles-descripcion"><?php $desc = substr($hotel['description'], 0, 200);
                   echo substr($hotel['description'], 0, strripos($desc, ' ')) ?>...
-                    <a href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?>">M&aacute;s informaci&oacute;n</a>
+                    <a href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?><?php echo $url_search ?>">M&aacute;s informaci&oacute;n</a>
                   </div>
                 </div>
               </div>
@@ -143,7 +155,7 @@
                       <?php if ($key < 4): ?>
                         <tr class="separHab">
                           <td class="hTipo">
-                            <a href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?>" title="<?php echo $room['name'] ?>"><?php echo $room['name'] ?></a>
+                            <a href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?><?php echo $url_search ?>" title="<?php echo $room['name'] ?>"><?php echo $room['name'] ?></a>
                           </td>
                           <td class="colPerson">
 
@@ -183,7 +195,7 @@
             <div class="paginacion">
               <?php if ($pager->haveToPaginate()): ?>
                 <?php if (!$pager->isFirstPage()): ?>
-                  <a href="<?php echo url_for('hotels_result') ?>?p=<?php echo $pager->getPreviousPage() ?>" title="P&aacute;gina anterior">
+                  <a href="<?php echo url_for('hotels_result') ?><?php echo $url_search ?>&p=<?php echo $pager->getPreviousPage() ?>" title="P&aacute;gina anterior">
                     &lt; Anterior
                   </a>
                 <?php endif; ?>
@@ -191,11 +203,11 @@
                   <?php if ($page == $pager->getPage()): ?>
                     <span class="current"><strong><?php echo $page ?></strong></span>
                   <?php else: ?>
-                    <a href="<?php echo url_for('hotels_result') ?>?p=<?php echo $page ?>" title="Pagina <?php echo $page ?> de hoteles" ><?php echo $page ?></a>
+                    <a href="<?php echo url_for('hotels_result') ?><?php echo $url_search ?>&p=<?php echo $page ?>" title="Pagina <?php echo $page ?> de hoteles" ><?php echo $page ?></a>
                   <?php endif; ?>
                 <?php endforeach; ?>
                 <?php if (!$pager->isLastPage()): ?>
-                  <a href="<?php echo url_for('hotels_result') ?>?p=<?php echo $pager->getNextPage() ?>" title="P&aacute;gina siguiente">Siguiente &gt;</a>
+                  <a href="<?php echo url_for('hotels_result') ?><?php echo $url_search ?>&p=<?php echo $pager->getNextPage() ?>" title="P&aacute;gina siguiente">Siguiente &gt;</a>
                 <?php endif; ?>
               <?php endif; ?>
             </div>

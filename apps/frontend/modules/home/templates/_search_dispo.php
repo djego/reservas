@@ -1,4 +1,4 @@
-<form id="formulario" action="" class="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+<form id="formulario" action="" class="" method="get" accept-charset="utf-8" enctype="multipart/form-data">
   <?php if ($search_form->isCSRFProtected()) : ?>
     <?php echo $search_form['_csrf_token']->render(); ?>
   <?php endif; ?>
@@ -17,7 +17,7 @@
     </a>
   </dd>
     
-  <div align="center"><button type="submit" title="Buscar hoteles" name="search_button" value="list">Buscar</button></div>
+  <div align="center"><button type="submit" title="Buscar hoteles">Buscar</button></div>
     <div id="b_calendarPopup" class="b_popup">
         <div id="b_calendarInner" class="b_popupInner"> </div>
     </div>

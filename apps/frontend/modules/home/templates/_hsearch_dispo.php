@@ -1,4 +1,4 @@
-<form id="formularioHotel"  action="" method="post">
+<form id="formularioHotel"  action="" method="get">
   <?php if ($form_dis->isCSRFProtected()) : ?>
     <?php echo $form_dis['_csrf_token']->render(); ?>
   <?php endif; ?>

@@ -4,6 +4,7 @@ calendar=new Object();
 tr=new Object();
 tr.nextMonth="Mes siguiente";
 tr.prevMonth="Mes anterior";
+tr.closeCalendar="X";
 var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var days=['Lu','Ma','Mi','Ju','Vi','Sa','Do'];
 function showCalendar(img,cal,dt,frm,m,y,d){
@@ -144,7 +145,7 @@ if(((i)%7==0)&&(i<36)){
   t+='</tr><tr class="b_calDays">';
 }
 }
-t+='</tr></table>';
+t+='</tr><tr class="b_calClose"><td colspan="7"><a href="javascript:closeCal();">'+tr.closeCalendar+'</a></td></tr></table>';
 document.getElementById("b_calendarInner").innerHTML=t;
 }
 function prevMonth(y,m){
