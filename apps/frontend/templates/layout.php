@@ -7,7 +7,7 @@
     <?php //include_title() ?>
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
-   
+
   </head>
   <body>
     <div class="cabecera">
@@ -22,8 +22,8 @@
       </div>
     </div>
     <div id="dialog-modal" title="Mensaje de error en fechas" style="display: none;">
-	<p>La fecha de salida debe ser mayor que la de entrada.</p>
-</div>
+      <p>La fecha de salida debe ser mayor que la de entrada.</p>
+    </div>
     <?php echo $sf_content ?>
 
     <div class="pie">

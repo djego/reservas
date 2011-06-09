@@ -90,7 +90,7 @@ class adHotelTable extends Doctrine_Table {
     unset($facility['all']);
 //      print_r($facility);die();
     $q = $this->createQuery('h');
-    $q->select('h.*, d.description as description, (h.latitude - '.$la.') as algo');
+    $q->select('h.*, d.description as description, SQRT(POW((h.latitude - '.$la.'),2) + POW((h.longitude - '.$lo.'),2)) + as algo');
     $q->leftJoin('h.HotelDescs as d');
     $q->where('h.latitude > '.($la - $lad));
     $q->andWhere('h.latitude < '.($la + $lad));
@@ -114,12 +114,12 @@ class adHotelTable extends Doctrine_Table {
     }
     substr($faci_cad,0,-4)?$q->andWhere(substr($faci_cad,0,-4)):'';
 //    echo $order;die();
-    if($order == 'nea') $q->orderBy('algo DESC');
+    if($order == 'nea') $q->orderBy('algo ASC');
     elseif($order == 'pop') $q->orderBy('h.review_nr DESC');
     elseif($order == 'opi') $q->orderBy('h.ranking DESC');
     elseif($order == 'est') $q->orderBy('h.class_and DESC');
     elseif($order == 'pre') $q->orderBy('h.minrate ASC');
-    else $q->orderBy('algo DESC');
+    else $q->orderBy('algo ASC');
 //      echo $q->getSqlQuery(); die();
     return $q;
   }
