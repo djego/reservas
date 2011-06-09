@@ -1,4 +1,4 @@
-document.onmouseup = onmouseoutclose;
+//document.onmouseup = onmouseoutclose;
 var filaMonth;
 calendar=new Object();
 tr=new Object();
@@ -67,10 +67,11 @@ function buildCal(y,m,d){
   }
 t+='<td colspan="7">';
 if(filaMonth==0){
-  t+='&nbsp;&lt;&nbsp;';
+  t+='&laquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+  
 }
 else{
-  t+='<a href="javascript:prevMonth('+y+','+m+');" title="'+tr.prevMonth+'">&nbsp;&lt;&nbsp;</a>';
+  t+='<a href="javascript:prevMonth('+y+','+m+');" title="'+tr.prevMonth+'">&laquo;&nbsp;</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 }
 t+='&nbsp;<select name="ym" onchange="goMonth(this.options[this.selectedIndex].value)">';
 var mn=td.getMonth()+1;
@@ -89,10 +90,10 @@ for(n=0;n<=10;n++){
 }
 t+=' </select>&nbsp;';
 if(filaMonth==10){
-  t+='&nbsp;&gt;&nbsp;';
+  t+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;';
 }
 else{
-  t+='<a href="javascript:nextMonth('+y+','+m+');" title="'+tr.nextMonth+'">&nbsp;&gt;&nbsp;</a>';
+  t+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:nextMonth('+y+','+m+');" title="'+tr.nextMonth+'">&nbsp;&raquo;</a>';
 }
 t+='</td></tr>';
 t+='<tr class="b_calDayNames">';
@@ -203,6 +204,7 @@ function checkDateOrder(frm,ci_day,ci_month_year,co_day,co_month_year){
     }
   }
 }
+/*
 function onmouseoutclose(e){
 //  console.log($(e.target).parents('#b_calendarPopup').length);
   if(typeof calendar.cal == 'undefined'){
@@ -212,4 +214,4 @@ function onmouseoutclose(e){
     calendar.cal.style.display='none';
   }
   
-}
+}*/

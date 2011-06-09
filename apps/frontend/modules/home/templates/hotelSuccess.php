@@ -37,7 +37,9 @@
             <h3>Buscar disponibilidad en <?php echo $hotel['name'] ?></h3>
           </dl>
           <dl class="refine">
-            <?php include_partial('search_dispo', array('search_form' => $search_form)) ?>
+           <form id="formulario" action="" class="" method="get" accept-charset="utf-8" enctype="multipart/form-data">
+            <?php include_partial('search_dispo',array('search_form' => $search_form)) ?>
+            </form>
           </dl>
           <br clear="all" />
           <h3 class="puntosdeinteres">Ubicaci&oacute;n del hotel</h3>
@@ -204,7 +206,7 @@
                           </td>
                         </tr>
                         <?php
-                        $blk = substr($room['block_text'] . '', 13);
+                        $blk = substr($room['block_text'] . '', 12);
                         $blk2 = str_replace(']]>', '', html_entity_decode($blk));
                         $block_text = str_replace('div', 'p', $blk2);
                         ?>

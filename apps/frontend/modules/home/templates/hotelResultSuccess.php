@@ -35,8 +35,9 @@
             <h3>Buscar disponibilidad</h3>
           </dl>
           <dl class="refine">
+            <form id="formulario" action="" class="" method="get" accept-charset="utf-8" enctype="multipart/form-data">
             <?php include_partial('search_dispo',array('search_form' => $search_form)) ?>
-
+            </form>
           </dl>
 
           <br clear="all" />
@@ -205,7 +206,7 @@
                           </select>
                         </td>
                       </tr>
-                      <?php $blk =  substr($room['block_text'].'',13);
+                      <?php $blk =  substr($room['block_text'].'',12);
                             $blk2 = str_replace(']]>', '', html_entity_decode($blk));
                             $block_text = str_replace('div', 'p', $blk2);
                       ?>

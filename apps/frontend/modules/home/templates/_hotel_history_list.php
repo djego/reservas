@@ -1,10 +1,9 @@
 <br clear="all" />
-<?php if(count($histo_hotel) > 1): ?>
+<?php if(count($histo_hotel) > 0): ?>
 <div class="ventajas">&Uacute;ltimos hoteles visitados</div>
 <?php endif; ?>
 <div class="seccion_hoteles_cercanos">
   <?php foreach ($histo_hotel as $hotel):?>
-  <?php if($hotel['id'] != $hs['id']):?>
   <div class="hotel-cercano">
     <div class="hotel-cercano-foto">
       <a href="<?php echo url_for('hotel_details',array('id' => $hotel['id'],'slug'=>'paris', 'slugh' => $hotel['slug'])) ?>">
@@ -16,7 +15,6 @@
     <br>
     <em><?php echo $hotel['address']; ?></em>
   </div>
-  <?php endif; ?>
   <?php endforeach;?>
 
 </div>

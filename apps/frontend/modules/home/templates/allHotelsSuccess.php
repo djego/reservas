@@ -35,7 +35,10 @@
             <h3>Buscar hoteles en Par&iacute;s</h3>
           </dl>
           <dl class="refine">
-            <?php include_partial('search_dispo', array('search_form' => $search_form)) ?>
+            <form id="formulario" action="<?php echo url_for('hotels_result') ?>" class="" method="get" accept-charset="utf-8" enctype="multipart/form-data">
+            <?php include_partial('search_dispo',array('search_form' => $search_form)) ?>
+            </form>
+            
             <br clear="all" />
             <?php include_partial('search_pro', array('search_form' => $search_form, 'star_sesion' => $star_sesion, 'facil_session' => $facil_session, 'num_hotels' => $num_hotels)) ?>
           </dl>
@@ -43,7 +46,7 @@
 
           <?php include_partial('destinos', array('lst_destiny' => $lst_destiny)); ?>
 
-          <?php include_partial('hotel_history', array('histo_hotel' => $sf_user->getHotelHistory())) ?>
+          <?php include_partial('hotel_history_list', array('histo_hotel' => $sf_user->getHotelHistory())) ?>
 
           <br clear="all" />
           <div class="ventajas">Tus reservas en ParisHoteles.net</div>
