@@ -89,8 +89,24 @@ class adHotelTable extends Doctrine_Table {
   public function getHotelsTour($la, $lo, $lad, $lod, $order = '', $star = array(), $facility = array()) {
     unset($facility['all']);
 //      print_r($facility);die();
+//    $ca = 'SQRT(POW((h.latitude - '.$la.'),2) + POW((h.longitude - '.$lo.'),2))';
+
+    $lat1 = 'radians(h.latitude)';
+    $long1 = 'radians(h.longitude)';
+    //Point 2 cords
+    $lat2 = 'radians('.$la.')';
+    $long2 = 'radians('.$lo.')';
+    //Haversine Formula
+    $dlong = $long2 .' - '.$long1;
+    $dlat = $lat2.' - '.$lat1;
+    $sinlat = 'SIN(('.$dlat.')/2)';
+    $sinlong = 'SIN(('.$dlong.')/2)';
+    
+    $a = '('.$sinlat.' * '.$sinlat.') + COS('.$lat1.') * COS('.$lat2.') *('.$sinlong.' * '.$sinlong.')';
+    $c =  'ASIN(SQRT('.$a.'))';
+    
     $q = $this->createQuery('h');
-    $q->select('h.*, d.description as description, SQRT(POW((h.latitude - '.$la.'),2) + POW((h.longitude - '.$lo.'),2)) + as algo');
+    $q->select('h.*, d.description as description, '.$c.' as algo');
     $q->leftJoin('h.HotelDescs as d');
     $q->where('h.latitude > '.($la - $lad));
     $q->andWhere('h.latitude < '.($la + $lad));

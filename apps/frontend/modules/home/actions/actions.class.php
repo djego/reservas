@@ -102,6 +102,7 @@ class homeActions extends sfActions {
   }
 
   public function executeHotelsResult(sfWebRequest $request) {
+    
 
     if ($request->getParameter('un_date')) {
       $this->redirect('all_hotel');
@@ -152,33 +153,30 @@ class homeActions extends sfActions {
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
     $ar_dispo_hotels = $this->pager->getResults()->toArray();
-    
+
     $curr = $this->getUser()->getAttribute('currency');
-    $ar_rooms=array();
-    foreach ($ar_dispo_hotels as $dispo_hotel){
+    $ar_rooms = array();
+    foreach ($ar_dispo_hotels as $dispo_hotel) {
       $parame = "languagecode=es&arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&hotel_ids=" . $dispo_hotel['id'];
       $ar_rooms = $this->data->fetchRcp('bookings.getBlockAvailability', $parame);
-        $ar_new_rooms=array();
-        foreach ($ar_rooms[0]['block'] as $blok) {
-          $blok['min_price'][0]['currency'] = $curr['moneda'];
-          $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2);
-          $blok['rack_rate'][0]['currency'] = $curr['moneda'];
-          $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2);
-
-          $ar_new_rooms[] = $blok;
-        }
-        $ar_rooms[0]['block'] = $ar_new_rooms;
-      
-      
+      $ar_new_rooms = array();
+      $ar_price = array();
+      foreach ($ar_rooms[0]['block'] as $blok) {
+        $blok['min_price'][0]['currency'] = $curr['moneda'];
+        $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', ' ');
+        $blok['rack_rate'][0]['currency'] = $curr['moneda'];
+        $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', ' ');
+        $ar_price[] = $blok['min_price'][0]['price'];
+        $ar_new_rooms[] = $blok;
+      }
+      $ar_rooms[0]['block'] = $ar_new_rooms;
       $dispo_hotel['detail_rooms'] = $ar_rooms[0];
-      
-      
-      $ar_ultimate_hotels[] = $dispo_hotel;
+      $dispo_hotel['preciobajo'] = min($ar_price);
+      $ar_ultimate_hotels[$dispo_hotel['preciobajo']] = $dispo_hotel;
     }
-    
-//    print_r($ar_ultimate_hotels);die();
+    ksort($ar_ultimate_hotels);
     $this->lst_hotel = $ar_ultimate_hotels;
-    
+
     $this->num_hotels = Doctrine::getTable('adHotel')->getNumHotels($this->facil_session, $ar);
 
     if ($request->isMethod('post')) {
@@ -260,13 +258,13 @@ class homeActions extends sfActions {
         $curr = $this->getUser()->getAttribute('currency');
         foreach ($ar_rooms[0]['block'] as $blok) {
           $blok['min_price'][0]['currency'] = $curr['moneda'];
-          $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2);
+          $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', ' ');
           $blok['rack_rate'][0]['currency'] = $curr['moneda'];
-          $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2);
+          $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', ' ');
 
           foreach ($blok['incremental_price'] as $inc) {
             $inc['currency'] = $curr['moneda'];
-            $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2);
+            $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2, '.', ' ');
             $car[] = $inc;
           }
           $blok['incremental_price'] = $car;
@@ -325,13 +323,13 @@ class homeActions extends sfActions {
     $curr = $this->getUser()->getAttribute('currency');
     foreach ($ar_rooms[0]['block'] as $blok) {
       $blok['min_price'][0]['currency'] = $curr['moneda'];
-      $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2);
+      $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', ' ');
       $blok['rack_rate'][0]['currency'] = $curr['moneda'];
-      $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2);
+      $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', ' ');
 
       foreach ($blok['incremental_price'] as $inc) {
         $inc['currency'] = $curr['moneda'];
-        $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2);
+        $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2, '.', ' ');
         $car[] = $inc;
       }
       $blok['incremental_price'] = $car;
