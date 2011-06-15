@@ -11,9 +11,9 @@
 #turismo:
 #  url: /turismo-andorra
 #  param: { module: home, action: turismo }
-#excursiones:
-#  url: /excursiones-actividades
-#  param: { module: home, action: excursiones }
+audioguias:
+  url: /audioguias-de-paris/
+  param: { module: home, action: audioGuia }
 # pages dinamics
 change_currency:
   url: /cambiando-moneda

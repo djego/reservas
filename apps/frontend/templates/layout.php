@@ -21,7 +21,7 @@
 
       </div>
     </div>
-    <div id="dialog-modal" title="Mensaje de error en fechas" style="display: none;">
+	<div id="dialog-modal" title="Mensaje de error en fechas" style="display: none;">
       <p>La fecha de salida debe ser mayor que la de entrada.</p>
     </div>
     <?php echo $sf_content ?>

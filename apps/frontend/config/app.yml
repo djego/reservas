@@ -8,5 +8,7 @@ all:
   aid: 334634
   dis_la: 0.008
   dis_lo: 0.008
+  city_id: -1456928
+  city_un: fr
 
 

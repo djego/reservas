@@ -127,7 +127,7 @@ class homeActions extends sfActions {
     $this->filter = new orderForm($session_order);
     $fecha_entrada = Utils::changeFormatDate($ar_session['fecha-inicio']);
     $fecha_salida = Utils::changeFormatDate($ar_session['fecha-final']);
-    $param = "arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&city_ids=-1456928";
+    $param = "arrival_date=" . $fecha_entrada . "&departure_date=" . $fecha_salida . "&city_ids=".sfConfig::get('app_city_id');
     $lst_hoteles_ok = $this->data->fetchRcp('bookings.getHotelAvailability', $param);
     $this->fecha_entrada = $fecha_entrada;
     $this->fecha_salida = $fecha_salida;
@@ -148,7 +148,7 @@ class homeActions extends sfActions {
     // FIn de destinos cercanos
 
     $this->pager = new sfDoctrinePager('adHotel', sfConfig::get('app_max_hotels'));
-    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2('-1456928', $ar, $this->star_sesion, $this->facil_session, $session_order['order']);
+    $query = Doctrine::getTable('adHotel')->getHotelsCityResult2(sfConfig::get('app_city_id'), $ar, $this->star_sesion, $this->facil_session, $session_order['order']);
     $this->pager->setQuery($query);
     $this->pager->setPage($request->getParameter('p', 1));
     $this->pager->init();
@@ -163,9 +163,9 @@ class homeActions extends sfActions {
       $ar_price = array();
       foreach ($ar_rooms[0]['block'] as $blok) {
         $blok['min_price'][0]['currency'] = $curr['moneda'];
-        $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', ' ');
+        $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', '');
         $blok['rack_rate'][0]['currency'] = $curr['moneda'];
-        $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', ' ');
+        $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', '');
         $ar_price[] = $blok['min_price'][0]['price'];
         $ar_new_rooms[] = $blok;
       }
@@ -258,13 +258,13 @@ class homeActions extends sfActions {
         $curr = $this->getUser()->getAttribute('currency');
         foreach ($ar_rooms[0]['block'] as $blok) {
           $blok['min_price'][0]['currency'] = $curr['moneda'];
-          $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', ' ');
+          $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', '');
           $blok['rack_rate'][0]['currency'] = $curr['moneda'];
-          $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', ' ');
+          $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', '');
 
           foreach ($blok['incremental_price'] as $inc) {
             $inc['currency'] = $curr['moneda'];
-            $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2, '.', ' ');
+            $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2, '.', '');
             $car[] = $inc;
           }
           $blok['incremental_price'] = $car;
@@ -323,13 +323,13 @@ class homeActions extends sfActions {
     $curr = $this->getUser()->getAttribute('currency');
     foreach ($ar_rooms[0]['block'] as $blok) {
       $blok['min_price'][0]['currency'] = $curr['moneda'];
-      $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', ' ');
+      $blok['min_price'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['min_price'][0]['price']), 2, '.', '');
       $blok['rack_rate'][0]['currency'] = $curr['moneda'];
-      $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', ' ');
+      $blok['rack_rate'][0]['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $blok['rack_rate'][0]['price']), 2, '.', '');
 
       foreach ($blok['incremental_price'] as $inc) {
         $inc['currency'] = $curr['moneda'];
-        $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2, '.', ' ');
+        $inc['price'] = number_format($this->cx->Convert("EUR", $curr['moneda'], $inc['price']), 2, '.', '');
         $car[] = $inc;
       }
       $blok['incremental_price'] = $car;
@@ -471,6 +471,25 @@ class homeActions extends sfActions {
     $facil_filter['all'] = '';
     $this->getUser()->setAttribute('facil_session', $facil_filter);
     $this->redirect($request->getReferer());
+  }
+  
+  public function executeAudioGuia(sfWebRequest $request) {
+    $this->ar_slug_city = $this->getArraySlugCity();
+    $this->search_form = new searchHotelForm(appFrontend::fechasiniciales());
+    $this->star_sesion = $this->getUser()->getAttribute('star_session');
+    $this->facil_session = $this->getUser()->getAttribute('facil_session');
+//    print_r($this->star_sesion);
+    $this->filter = new orderForm($this->getUser()->getAttribute('order'));
+    $this->form_currency = new currencyForm($this->getUser()->getAttribute('currency'));
+    $this->num_hotels = Doctrine::getTable('adHotel')->getNumHotels($this->facil_session);
+    
+    // Destinos cercanos
+    $destiny = Doctrine::getTable('tourRoom')->findAll()->toArray();
+    $ar_lst = array();
+    foreach ($destiny as $des) {
+      $ar_lst[$des['type']][] = $des;
+    }
+    $this->lst_destiny = $ar_lst;
   }
 
 }

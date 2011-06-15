@@ -93,14 +93,14 @@
             <div class="listados-hoteles">
               <div class="listados-hoteles-foto">
                 <a title="<?php echo $hotel['name']; ?>" href="<?php echo url_for('hotel_details', array('id' => $hotel['id'], 'slug' => $slug_city, 'slugh' => $hotel['slug'])) ?>">
-                  <img src="<?php echo $hotel['medium_photo']; ?>" width="140" height="105"> </a>
+                  <img src="<?php echo $hotel['medium_photo']; ?>" width="140" height="105"/> </a>
               </div>
               <div class="listados-hoteles-info">
                 <div class="listados-hoteles-superior">
                   <div class="listados-hoteles-precio"><b>valoraci&oacute;n</b> <span><?php echo $hotel['ranking']; ?></span><br />
                     <?php echo $hotel['review_nr']; ?> opiniones<br />
-                    <a title="opiniones hotel"
-                       onclick="window.open('http://www.booking.com/reviewlist.es.html?tmpl=reviewlistpopup;pagename=<?php echo Utils::nameurl($hotel['url']) ?>;hrwt=1;cc1=fr;target_aid=<?php echo $aid ?>;aid=<?php echo $aid ?>','popup1','left=100,top=100,width=600,height=700,scrollbars=yes');">ver
+                    <a title="opiniones hotel" href="javascript:void(0)"
+                       onclick="window.open('http://www.booking.com/reviewlist.es.html?tmpl=reviewlistpopup;pagename=<?php echo Utils::nameurl($hotel['url']) ?>;hrwt=1;cc1=<?php echo sfConfig::get('app_city_un')?>;target_aid=<?php echo $aid ?>;aid=<?php echo $aid ?>','popup1','left=100,top=100,width=600,height=700,scrollbars=yes');">ver
                       &uacute;ltimas</a><br />
                     <br />
                     <a title="<?php echo $hotel['name']; ?>"
@@ -114,7 +114,7 @@
                     <?php if ($hotel['class_and']): ?><img src="<?php echo sfConfig::get('app_s_img') . $hotel['class_and'] ?>-hotel-estrellas.png" alt="<?php echo $hotel['class_and'] ?> estrellas" /><?php endif; ?>  (<?php echo ($distancia * 1000) . ' m'; ?>)<br />
                     <em><?php echo $hotel['address']; ?>, <?php echo $hotel['city']; ?></em>
                     - <span>
-                      <a title="ver mapa" href="" onclick="window.open('<?php echo url_for('mapa') ?>?la=<?php echo $la ?>&lo=<?php echo $lo ?>&ciudad=<?php echo $city ?>&hotel=<?php echo $name ?>','d_mapa','width=700,height=600,scrollbars=yes')">ver mapa</a>
+                      <a title="ver mapa" href="javascript:void(0)" onclick="window.open('<?php echo url_for('mapa') ?>?la=<?php echo $la ?>&lo=<?php echo $lo ?>&ciudad=<?php echo $city ?>&hotel=<?php echo $name ?>','d_mapa','width=700,height=600,scrollbars=yes')">ver mapa</a>
                     </span>
                   </div>
                   <?php if ($hotel['description']): ?>
