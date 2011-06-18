@@ -6,6 +6,5 @@ all:
   nro_hoteles: 7
   nro_max_cities: 25
   host_name: http://localhost/reservas/web
-  dis_la: 0.02
-  dis_lo: 0.02
+
   root_dir: web/

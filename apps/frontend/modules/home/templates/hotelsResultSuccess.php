@@ -174,7 +174,7 @@
       }
       ?>
                           <td class="colDispo">
-                            <a class="<?php echo $class ?>" href="" title="<?php echo $text ?>"><?php echo $text ?></a>
+                            <a class="<?php echo $class ?>" href="<?php echo url_for('hotel_details_result', array('id' => $hotel['id'], 'slug' => 'paris', 'slugh' => $hotel['slug'])) ?><?php echo $url_search ?>" title="<?php echo $text ?>"><?php echo $text ?></a>
                           </td>
                           <td class="hPrecio">
       <?php if ($room['min_price'][0]['price'] < $room['rack_rate'][0]['price']): ?>

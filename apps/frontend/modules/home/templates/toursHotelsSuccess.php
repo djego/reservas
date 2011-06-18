@@ -68,7 +68,7 @@
 
         <div class="listados-drcha">
           <h1 class="titulo-listados">Hoteles en París </h1>
-          <span style="float: left;"><b> Hoteles cerca de <?php echo $tours->name; ?>  <?php echo $pager->getNbResults() ?> </b>
+          <span style="float: left;"><b><?php echo $pager->getNbResults() ?> Hoteles cerca de <?php echo $tours->name; ?> </b>
             <?php if ($pager->haveToPaginate()): ?>  Mostrando <?php echo $pager->getFirstIndice() ?> - <?php echo $pager->getLastIndice() ?>  <?php endif; ?> |
             Ordenar resultados por:&nbsp;</span>
           <form action="" method="post">
